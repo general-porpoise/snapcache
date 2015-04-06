@@ -4,7 +4,10 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('snapcache', ['ionic'])
+angular.module('snapcache', [
+  'ionic',
+  'snapcache.auth'
+  ])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -59,12 +62,8 @@ angular.module('snapcache', ['ionic'])
 
   .state('auth', {
     url: "/auth",
-    views: {
-      'menuContent': {
-        templateUrl: "js/auth/auth.html",
-        controller: 'AuthCtrl'
-      }
-    }
+    templateUrl: "js/auth/auth.html",
+    controller: 'AuthCtrl'
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth');
