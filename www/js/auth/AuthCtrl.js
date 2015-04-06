@@ -3,7 +3,6 @@ angular.module('snapcache.auth', [])
 
 .controller('AuthCtrl', function($scope) {
 
-  $scope.title = "Login";
   $scope.isLogin = true;
 
   $scope.loginData = {
