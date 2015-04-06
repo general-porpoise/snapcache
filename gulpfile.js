@@ -6,6 +6,7 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var run = require('gulp-run');
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -48,3 +49,7 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+gulp.task('docco-toc', function() {
+  run('docco-toc www/js/{,**/}*.js -o docs/').exec();
+})
