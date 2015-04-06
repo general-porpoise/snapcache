@@ -1,0 +1,25 @@
+<ion-view view-title="Auth">
+  
+  <ion-header-bar>
+    <h1 class="title">{{ isLogin ? "Login" : "Signin" }}</h1>
+  </ion-header-bar>
+  
+  <ion-content>
+    <form ng-submit="submit()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">Username</span>
+          <input type="text" ng-model="loginData.username">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" ng-model="loginData.password">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">{{ isLogin ? "Log in" : "Sign in" }}</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+
+</ion-view>
