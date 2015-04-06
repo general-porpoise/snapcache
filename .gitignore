@@ -5,3 +5,10 @@ node_modules/
 platforms/
 plugins/
 docs/
+
+# Ignoring files from Gulp CSS Pre-processor
+www/css/ionic.app.css
+www/css/ionic.app.min.css
+
+# Ignoring files from bower install
+www/lib
