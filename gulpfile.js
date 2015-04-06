@@ -7,12 +7,13 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 var run = require('gulp-run');
+var karma = require('karma').server;
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
 
-gulp.task('default', ['sass']);
+gulp.task('default', ['sass', 'test']);
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -52,4 +53,19 @@ gulp.task('git-check', function(done) {
 
 gulp.task('docco-toc', function() {
   run('docco-toc www/js/{,**/}*.js -o docs/').exec();
-})
+});
+
+// Run test once and exit
+gulp.task('test', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+// Watch for file changes and re-run tests on each change
+gulp.task('tdd', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js'
+  }, done);
+});
