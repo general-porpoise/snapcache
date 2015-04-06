@@ -1,1 +1,7 @@
 /* Empty. Add your own CSS if you like */
+
+.btn-auth {
+  font-size: 1.1em;
+  position: relative;
+  top: -8px;
+}
