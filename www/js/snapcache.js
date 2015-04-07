@@ -9,7 +9,8 @@ angular.module('snapcache', [
   'snapcache.auth',
   'snapcache.menu',
   'snapcache.create',
-  'snapcache.map'
+  'snapcache.map',
+  'snapcache.services.firebase'
   ])
 
 .run(function($ionicPlatform) {
