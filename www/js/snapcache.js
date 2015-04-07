@@ -63,7 +63,7 @@ angular.module('snapcache', [
   .state('auth', {
     url: "/auth",
     templateUrl: "js/auth/auth.html",
-    controller: 'AuthCtrl'
+    controller: 'AuthCtrl as actrl'
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth');
