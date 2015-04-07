@@ -45,7 +45,8 @@ angular.module('snapcache', [
     url: "/inbox",
     views: {
       'menuContent': {
-        templateUrl: "js/inbox/inbox.html"
+        templateUrl: "js/inbox/inbox.html",
+        controller: "InboxCtrl as inctrl"
       }
     }
   })

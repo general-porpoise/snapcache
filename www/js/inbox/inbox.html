@@ -1,0 +1,19 @@
+<ion-view>
+  <ion-content>
+    <!-- option 1: ion-list directive -->
+    <ion-list type="list-inset">
+      <ion-item ng-repeat="item in inctrl.items">
+        <!-- <img class="item-thumbnail" src="{{ item.thumbnail }}"> -->
+        <span class="item-title">{{ item.title }}</span>
+        <span class="item-description">{{ item.description }}</span>
+        <span class="item-createdBy">{{ item.createdBy }}</span>
+      </ion-item>
+    </ion-list>
+
+    <!-- option 2: regular HTML element as ion list -->
+    <div class="list">
+      
+    </div>
+
+  </ion-content>
+</ion-view>
