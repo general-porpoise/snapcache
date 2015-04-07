@@ -15,6 +15,17 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      // dependencies
+      'www/lib/angular/angular.min.js',
+      'www/lib/angular-animate/angular-animate.min.js',
+      'www/lib/angular-sanitize/angular-sanitize.min.js',
+      'www/lib/angular-ui-router/release/angular-ui-router.min.js',
+      'www/lib/ionic/js/ionic.min.js',
+      'www/lib/ionic/js/ionic-angular.min.js',
+
+      'node_modules/angular-mocks/angular-mocks.js',
+
+      // app code & spec files
       'www/js/**/*.js'
     ],
 
@@ -60,6 +71,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: true
   });
 };
