@@ -1,7 +1,7 @@
 // Authentication controller
 angular.module('snapcache.auth', [])
 
-.controller('AuthCtrl', function() {
+.controller('AuthCtrl', function($location) {
 
   var self = this;
 
@@ -28,11 +28,21 @@ angular.module('snapcache.auth', [])
   // Use Authentication service to login user
   self.login = function() {
     console.log('Logging in');
+
+    // TODO: login user
+
+    // redirect to inbox after successful login
+    $location.path('/app/inbox');
   };
 
   // Use Authentication service to sign user up
   self.signup = function() {
     console.log('Signing up');
+    
+    // TODO: signup user
+
+    // login user afte successful signup
+    self.login();
   };
 
   // Toggles status of user (new vs. returning)
