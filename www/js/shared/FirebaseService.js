@@ -1,4 +1,8 @@
-var firebaseServices = angular.module('snapcache.services.firebase', []);
+var firebaseServices = angular.module('snapcache.services.firebase', [])
+  // Saving these as values that can be injected into factories/controllers
+  // for use throughout the application.
+  .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')
+  .value('userSession', {});
 
 firebaseServices.factory('Caches', function($http){
 
@@ -17,9 +21,9 @@ firebaseServices.factory('Caches', function($http){
 
 });
 
-firebaseServices.factory('FirebaseAuth', function() {
+firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession) {
 
-  var usersRef = new Firebase("https://brilliant-heat-4193.firebaseio.com/users");
+  var usersRef = new Firebase(FIREBASE_REF).child('users');
 
   return {
     login: login
@@ -41,8 +45,7 @@ firebaseServices.factory('FirebaseAuth', function() {
           // If the user is present in the database, return the user object. Otherwise
           // create a new user in the database with uid as unique key
           if (userObj) {
-            console.log('the user object is', userObj);
-            // TODO: Need to save the user object so it is accessible in our app
+            userSession = userObj;
           } else {
             // Template for a new user
             var newUserObj = {
@@ -52,8 +55,9 @@ firebaseServices.factory('FirebaseAuth', function() {
             // Setting the new user object in Firebase
             usersRef.child(authData.uid).set(newUserObj);
             console.log('new user added to the database');
-            // TODO: Need to save the user object so that it is accessible in our app
+            userSession = newUserObj;
           }
+          console.log('the user session is', userSession);
         });
       }
     }, {
