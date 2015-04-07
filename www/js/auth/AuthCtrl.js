@@ -1,7 +1,7 @@
 // Authentication controller
 angular.module('snapcache.auth', [])
 
-.controller('AuthCtrl', function($location) {
+.controller('AuthCtrl', function($location, FirebaseAuth) {
 
   var self = this;
 
@@ -30,6 +30,7 @@ angular.module('snapcache.auth', [])
     console.log('Logging in');
 
     // TODO: login user
+    FirebaseAuth.login()
 
     // redirect to inbox after successful login
     $location.path('/app/inbox');
