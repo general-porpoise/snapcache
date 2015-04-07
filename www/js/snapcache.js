@@ -7,7 +7,8 @@
 angular.module('snapcache', [
   'ionic',
   'snapcache.auth',
-  'snapcache.menu'
+  'snapcache.menu',
+  'snapcache.create'
   ])
 
 .run(function($ionicPlatform) {

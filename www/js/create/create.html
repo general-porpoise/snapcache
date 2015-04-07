@@ -1,0 +1,45 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">New Snapcache</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeCreate()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-controller="CreateCtrl as cctrl">
+    <form ng-submit="cctrl.submitNewCache()">
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Recipient</span>
+          <input type="text" ng-model="cctrl.properties.recipient" placeholder='Recipient'>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Title</span>
+          <input type="text" ng-model="cctrl.properties.title" placeholder='Title'>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Message</span>
+          <input type="text" ng-model="cctrl.properties.message" placeholder='Message'>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Location</span>
+          <input type="text" ng-model="cctrl.properties.location" placeholder='Location'>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Drop Date</span>
+          <input type="text" ng-model="cctrl.properties.dropdate" placeholder='Drop Date'>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Availability Window</span>
+          <input type="text" ng-model="cctrl.properties.window" placeholder='Availability Window'>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Lifespan</span>
+          <input type="text" ng-model="cctrl.properties.lifespan" placeholder='Lifespan'>
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Create Snapcache</button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>
