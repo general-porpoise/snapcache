@@ -36,6 +36,7 @@ firebaseServices.factory('FirebaseAuth', function() {
         // See if the returned uid is present in database
         var queryResult = usersRef.child(authData.uid).once('value', function(snapshot){
           var userObj = snapshot.val();
+          var fbData = authData.facebook;
 
           // If the user is present in the database, return the user object. Otherwise
           // create a new user in the database with uid as unique key
@@ -43,12 +44,12 @@ firebaseServices.factory('FirebaseAuth', function() {
             console.log('the user object is', userObj);
             // TODO: Need to save the user object so it is accessible in our app
           } else {
-
             // Template for a new user
             var newUserObj = {
-              message: "Yay!!!"
+              displayName: fbData.displayName,
+              profilePicture: fbData.cachedUserProfile.picture.data.url,
             };
-            
+            // Setting the new user object in Firebase
             usersRef.child(authData.uid).set(newUserObj);
             console.log('new user added to the database');
             // TODO: Need to save the user object so that it is accessible in our app
