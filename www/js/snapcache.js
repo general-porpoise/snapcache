@@ -6,7 +6,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('snapcache', [
   'ionic',
-  'snapcache.auth'
+  'snapcache.auth',
+  'snapcache.menu'
   ])
 
 .run(function($ionicPlatform) {
@@ -30,7 +31,7 @@ angular.module('snapcache', [
     url: "/app",
     abstract: true,
     templateUrl: "js/sidemenu/menu.html",
-    controller: 'AppCtrl'
+    controller: 'MenuCtrl'
   })
 
   .state('app.inbox', {
