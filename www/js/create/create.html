@@ -10,31 +10,40 @@
       <div class="list">
         <label class="item item-input item-stacked-label">
           <span class="input-label">Recipient</span>
-          <input type="text" ng-model="cctrl.properties.recipient" placeholder='Recipient'>
+          <input type="text" ng-model="cctrl.properties.recipient" placeholder='Jane Doe'>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Title</span>
-          <input type="text" ng-model="cctrl.properties.title" placeholder='Title'>
+          <input type="text" ng-model="cctrl.properties.title" placeholder='Birthday message'>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Message</span>
-          <input type="text" ng-model="cctrl.properties.message" placeholder='Message'>
+          <input type="text" ng-model="cctrl.properties.message" placeholder='Happy Birthday Jane!'>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Location</span>
-          <input type="text" ng-model="cctrl.properties.location" placeholder='Location'>
+          <i ng-click="getLocation()" class="padding icon ion-ios-location-outline"></i>
+          <input id="location-input" type="text" ng-model="cctrl.properties.location" placeholder='944 Market St #8, San Francisco, CA'>
         </label>
         <label class="item item-input item-stacked-label">
           <span class="input-label">Drop Date</span>
-          <input type="text" ng-model="cctrl.properties.dropdate" placeholder='Drop Date'>
+          <input type="date" ng-model="cctrl.properties.dropdate">
         </label>
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">Availability Window</span>
-          <input type="text" ng-model="cctrl.properties.window" placeholder='Availability Window'>
+        <label class="item ">
+          <div class="item-content">Availability Window</div>
+          <div class="range range-positive">
+              <i class="icon ion-ios-minus-empty"></i>
+              <input type="range" name="volume" min="0" max="100" value="33"  >
+              <i class="icon ion-ios-plus-empty"></i>
+          </div>
         </label>
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">Lifespan</span>
-          <input type="text" ng-model="cctrl.properties.lifespan" placeholder='Lifespan'>
+        <label class="item ">
+          <div class="item-content">Lifespan</div>
+          <div class="range range-positive">
+              <i class="icon ion-ios-minus-empty"></i>
+              <input type="range" name="volume" min="0" max="100" value="33"  >
+              <i class="icon ion-ios-plus-empty"></i>
+          </div>
         </label>
         <label class="item">
           <button class="button button-block button-positive" type="submit">Create Snapcache</button>

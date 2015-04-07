@@ -11,4 +11,8 @@ angular.module('snapcache.create', [])
     console.log('New cache submitted');
   };
 
+  self.getLocation = function() {
+    // TODO: get location from map modal
+  }
+
 });
