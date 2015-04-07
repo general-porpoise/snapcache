@@ -42,7 +42,7 @@ firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession) {
         console.log("Authenticated successfully with payload:", authData);
 
         // See if the returned uid is present in database
-        var queryResult = usersRef.child(authData.uid).once('value', function(snapshot){
+        usersRef.child(authData.uid).once('value', function(snapshot){
           var userObj = snapshot.val();
           var fbData = authData.facebook;
 
