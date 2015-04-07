@@ -4,7 +4,8 @@ var firebaseServices = angular.module('snapcache.services.firebase', [])
   .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')
   .value('userSession', {});
 
-firebaseServices.factory('Caches', function($http){
+firebaseServices.factory('Caches', function(FIREBASE_REF){
+  var cachesRef = new Firebase(FIREBASE_REF).child('caches');
 
   return {
     getAll: getAll,
@@ -15,8 +16,11 @@ firebaseServices.factory('Caches', function($http){
     console.log('Get all caches!');
   }
 
-  function create() {
-    console.log('Create a cache!');
+  // `create()` will take in an object of cache parameters and send that to Firebase
+  function create(cacheParams) {
+    cachesRef.push({
+      message: "Did this work?"
+    });
   }
 
 });
