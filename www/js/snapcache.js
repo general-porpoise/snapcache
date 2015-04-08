@@ -8,6 +8,7 @@ angular.module('snapcache', [
   'ionic',
   'snapcache.auth',
   'snapcache.menu',
+  'snapcache.inbox',
   'snapcache.create',
   'snapcache.map',
   'snapcache.services.caches',
