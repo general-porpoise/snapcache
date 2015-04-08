@@ -4,12 +4,12 @@ var firebaseServices = angular.module('snapcache.services.firebase', [])
   .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')
   .value('userSession', {});
 
-firebaseServices.factory('Caches', function(FIREBASE_REF){
+firebaseServices.factory('Caches', function(FIREBASE_REF, userSession){
   var cachesRef = new Firebase(FIREBASE_REF).child('caches');
   var usersRef = new Firebase(FIREBASE_REF).child('users');
 
   return {
-    getAll: getAll,
+    getReceived: getReceived,
     create: create
   }
 
@@ -17,8 +17,17 @@ firebaseServices.factory('Caches', function(FIREBASE_REF){
     console.log('Get all caches!');
   }
 
+  // `getReceived()` will simply get the current user's received caches from Firebase.
+  // This current version does not do any type of geographic or temporal filtering,
+  // but that will be added in the future.
+  //
+  // TODO: Add temporal and geographic filtering
+  function getReceived(id) {
+
+  }
+
   // `create()` will take in an object of cache parameters and send that to Firebase.
-  // In addition, it will add the associated cache id to the necessary users 
+  // In addition, it will add the associated cache id to the necessary users
   // (contributors and recipients).
   function create(cacheParams) {
     var newCacheRef = cachesRef.push(cacheParams);
@@ -26,25 +35,33 @@ firebaseServices.factory('Caches', function(FIREBASE_REF){
     var cacheID = newCacheRef.key();
 
     // Add the new cache's id to the contributing users inboxes.
-    var contribUsers = cacheParams.contributors;
-    for (var userID in contribUsers) {
+    var contributors = cacheParams.contributors;
+    for (var userID in contributors) {
       var cache = {}
       cache[cacheID] = true;
-      usersRef.child(userID).child('inbox').set(cache);
+      usersRef.child(userID).child('contributableCaches').set(cache);
+    }
+
+    // Add the new cache's id to recipients receivedCaches in Firebase
+    var recipients = cacheParams.recipients;
+    for (var userID in recipients) {
+      var cache ={};
+      cache[cacheID] = true;
+      usersRef.child(userID).child('receivedCaches').set(cache);
     }
   }
 });
 
-firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession) {
+firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession, Caches) {
 
   var usersRef = new Firebase(FIREBASE_REF).child('users');
 
   return {
     login: login
-  }
+  };
 
   function login() {
-    // Authenticate using Facebook 
+    // Authenticate using Facebook
     usersRef.authWithOAuthPopup("facebook", function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
@@ -61,7 +78,7 @@ firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession) {
           if (userObj) {
             userSession = userObj;
           } else {
-            // Template for a new user
+            // Setting the template for a new user
             var newUserObj = {
               displayName: fbData.displayName,
               profilePicture: fbData.cachedUserProfile.picture.data.url,
@@ -72,6 +89,7 @@ firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession) {
             userSession = newUserObj;
           }
           console.log('the user session is', userSession);
+          Caches.getReceived(authData.uid);
         });
       }
     }, {
@@ -79,6 +97,6 @@ firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession) {
       // to the user's lists of friends in the future
       scope: "user_friends"
     });
-    
+
   }
 });
