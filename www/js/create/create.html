@@ -28,22 +28,23 @@
         <label class="item item-input item-stacked-label">
           <span class="input-label">Drop Date</span>
           <input type="date" ng-model="createCtrl.properties.dropdate">
+          <input type="time" ng-model="createCtrl.properties.droptime">
         </label>
 
         <label class="item ">
-          <div class="item-content">Availability Window</div>
+          <div class="item-content">Availability Window &nbsp;&nbsp;<span class="positive">{{ createCtrl.properties.window }}</span></div>
           <div class="range range-positive">
               <i class="icon ion-ios-minus-empty"></i>
-              <input type="range" name="volume" min="0" max="100" value="33"  >
+              <input type="range" name="volume" min="0" max="100" value="33" ng-model="createCtrl.properties.window">
               <i class="icon ion-ios-plus-empty"></i>
           </div>
         </label>
 
         <label class="item ">
-          <div class="item-content">Lifespan</div>
+          <div class="item-content">Lifespan &nbsp;&nbsp;<span class="positive">{{ createCtrl.properties.lifespan }}</span></div>
           <div class="range range-positive">
               <i class="icon ion-ios-minus-empty"></i>
-              <input type="range" name="volume" min="0" max="100" value="33"  >
+              <input type="range" name="volume" min="0" max="100" value="33" ng-model="createCtrl.properties.lifespan">
               <i class="icon ion-ios-plus-empty"></i>
           </div>
         </label>
