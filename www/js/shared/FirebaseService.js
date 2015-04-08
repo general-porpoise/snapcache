@@ -22,8 +22,16 @@ firebaseServices.factory('Caches', function(FIREBASE_REF, userSession){
   // but that will be added in the future.
   //
   // TODO: Add temporal and geographic filtering
-  function getReceived(id) {
-
+  function getReceived(id, callback) {
+    usersRef.child(id).once('value', function(snapshot){
+      var userData = snapshot.val();
+      var receivedCaches = userData.receivedCaches;
+      if (receivedCaches) {
+        callback(receivedCaches);
+      } else {
+        callback('no caches available');
+      }
+    });
   }
 
   // `create()` will take in an object of cache parameters and send that to Firebase.
@@ -89,7 +97,9 @@ firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession, Cac
             userSession = newUserObj;
           }
           console.log('the user session is', userSession);
-          Caches.getReceived(authData.uid);
+          Caches.getReceived(authData.uid, function(caches){
+            console.log('result of getReceived()', caches);
+          });
         });
       }
     }, {
