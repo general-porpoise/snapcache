@@ -1,7 +1,7 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal) {
+.controller('CreateCtrl', function($scope, $ionicModal, $timeout) {
   
   var self = this;
   self.properties = {};
@@ -20,6 +20,7 @@ angular.module('snapcache.create', [])
 
   // Triggered in the map modal to close it
   self.closeMap = function() {
+    self.render = false;
     self.mapModal.hide();
   };
 
@@ -65,5 +66,23 @@ angular.module('snapcache.create', [])
       };
     });
   };
+
+  self.update = function() {
+    $timeout(function() {
+      var container = document.querySelector('.pac-container');
+      container.setAttribute('data-tap-disabled', 'true');
+      container.onclick = function() {
+        document.getElementById('autocomplete').blur();
+      }
+      var placeNodes = document.querySelectorAll('.pac-item');
+      console.log('place nodes:', placeNodes);
+      for(var i = 0; i < placeNodes.length; i++) {
+        console.log(placeNodes[i]);
+        placeNodes[i].addEventListener('click', function() {
+          console.log('clicked');
+        });        
+      }
+    }, 400);
+  }
 
 });
