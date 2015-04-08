@@ -5,3 +5,20 @@
   position: relative;
   top: -8px;
 }
+
+#location-input {
+  width: 90%;
+}
+
+.range-container {
+  display: block;
+}
+
+.scroll {
+  height: 100%;
+}
+ 
+#map {
+  width: 100%;
+  height: 100%;
+}

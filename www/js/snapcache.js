@@ -51,15 +51,6 @@ angular.module('snapcache', [
       }
     }
   })
-    .state('app.create', {
-      url: "/create",
-      views: {
-        'menuContent': {
-          templateUrl: "js/create/create.html",
-          controller: 'CreateCtrl'
-        }
-      }
-    })
 
   .state('auth', {
     url: "/auth",
