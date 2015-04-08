@@ -31,20 +31,12 @@ angular.module('snapcache.services.auth', [])
           if (userObj) {
             userSession.uid = authData.uid;
             usersRef.child(authData.uid).child('data').set(authData);
+            console.log('user already exists in database');
           } else {
             // Setting the new user object in Firebase
             usersRef.child(authData.uid).child('data').set(authData);
             console.log('new user added to the database');
           }
-
-          // Load the current user's received and contributable caches
-          // TODO: Figure out if we want to keep this here or not
-          Caches.getReceived(authData.uid, function(caches){
-            console.log('result of getReceived()', caches);
-          });
-          Caches.getContributable(authData.uid, function(caches){
-            console.log('result of getContributable()', caches);
-          });
 
           // Attempting to use promises
           if (authData.uid) {
