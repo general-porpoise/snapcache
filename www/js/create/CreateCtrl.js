@@ -1,10 +1,16 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, userSession) {
+.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, UserFriends) {
 
   var self = this;
   self.properties = {};
+
+  // Search through the current list of users in Firebase
+  // TODO: Will want to only include the user's friends
+  self.search = function() {
+    UserFriends.searchFriends(self.properties.recipient);
+  };
 
   self.submitNewCache = function() {
     console.log('New cache submitted');
