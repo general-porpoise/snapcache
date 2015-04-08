@@ -38,7 +38,7 @@ angular.module('snapcache', [
     url: "/app",
     abstract: true,
     templateUrl: "js/sidemenu/menu.html",
-    controller: 'MenuCtrl'
+    controller: 'MenuCtrl as menuCtrl'
   })
 
   .state('app.inbox', {

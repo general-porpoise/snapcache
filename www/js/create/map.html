@@ -1,11 +1,14 @@
-<ion-modal-view>
+<ion-modal-view ng-controller="MapCtrl as mapCtrl">
   <ion-header-bar>
     <h1 class="title">Select Drop Location</h1>
     <div class="buttons">
-      <button class="button button-clear" ng-click="closeMap()">Done</button>
+      <button class="button button-clear" ng-click="createCtrl.closeMap()">Done</button>
     </div>
   </ion-header-bar>
-  <ion-content ng-controller="MapCtrl">
-    <h1>Second modal!</h1>
+  <ion-content>
+    <label class="item item-input">
+      <input id="map-search" type="text" placeholder='Search'>
+    </label>
+    <div id="map" data-tap-disabled="false"></div>
   </ion-content>
 </ion-modal-view>
