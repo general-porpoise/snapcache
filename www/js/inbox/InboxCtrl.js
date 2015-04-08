@@ -1,50 +1,57 @@
-// Inbox controller
+// Inbox module
 angular.module('snapcache.inbox', [])
 
-.controller('InboxCtrl', function () {
-  var self = this;
-  self.caches = [];
+// Custom filter for applying moment.js to create a countdown
+.filter('countdown', function () {
+  return function (dateString) {
+    return moment(dateString).fromNow(true);
+  };
+})
 
-  // temporarily hard-coded data, until Firebase service is up
+// Inbox controller
+.controller('InboxCtrl', function (userSession) {
+  var self = this;
+  self.caches = {};
+
+  // temporarily hard-coded data, until Firebase service is up, create feature is working, and GeoFire service sets a timestamp for when a cache becomes available (pops) to the user.
   self.items = [
     {
       createdAt: new Date(2015,01,31),
-      availDate: new Date(2015,04,07),
+      availDate: new Date(2015,03,07),
       availDuration: 172800000,
-      title: 'It\'s your birthday!'
+      title: 'Surprise...',
+      poppedAt: new Date(2015,03,08,12,28,0),
+      // the expiresAt value will need to be calculated by the GeoFire service at time of pop:
+      expiresAt: new Date(2015,03,09,09,0,0) 
     },
     {
       createdAt: new Date(2015,02,31),
-      availDate: new Date(2015,04,31),
+      availDate: new Date(2015,03,31),
       availDuration: 172800000,
-      title: 'Super Fred'
+      title: 'April Freds!',
+      poppedAt: new Date(2015,03,08,15,48,0),
+      expiresAt: new Date(2015,03,12,0,0,0)
+    },
+    {
+      title: 'Thinking of you',
+      expiresAt: new Date(2015,03,15,12,0,0)
     }
   ];
 
+  // Retrieve list of incoming caches for logged-in user and store them for
+  // use by ng-repeat in view.
   self.displayCaches = function () {
-    // access list of incoming caches for logged in user
-    //   - using userid stored in a .value on main app?
-    //   - using method on Firebase Factory or Inbox Factory?
-    //     This method will get a subset of all caches, based on cache IDs
-    //     stored as incoming caches for that user
-    // Caches.getReceived();
-    // on success:
-    //   save this list to a property on this controller, for use with ng-repeat?
-    // on error:
-    //   console.error for debugging
+    Caches.getReceived(userSession.uid).then(
+      function (receivedCaches) {
+        self.caches = receivedCaches;
+      },
+      function (error) {
+        console.error('displayCaches erorr', error);
+      });
   };
 
   self.showCacheDetail = function () {
     // on selection of a particular cache in the list, show that cache's details
     // in a modal?
   };
-
-  // need to have a countdown showing. This may be a filter on the main
-  // app file. Moment.js plus Countdown.js plus moment-countdown??
-
-  // show days left if above x days
-  // show hours, minutes if above
-  // show seconds if below x minutes
-
-  // moment.duration(x).humanize()
 });

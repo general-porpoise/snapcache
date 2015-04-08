@@ -22,3 +22,14 @@
   width: 100%;
   height: 100%;
 }
+
+.item-title {
+  font-size: 0.75em;
+  position: relative;
+  top: -0.5em;
+}
+
+.item-countdown {
+  font-size: 1.5em;
+  text-align: center;
+}

@@ -11,7 +11,7 @@
         <span class="item-title">{{ item.title }}</span>
         <!-- <span class="item-description">{{ item.description }}</span> -->
         <!-- <span class="item-createdBy">{{ item.createdBy }}</span> -->
-        <div class="item-countdown">{{ item.availDuration }}</div>
+        <div class="item-countdown">{{ item.expiresAt | countdown }}</div>
         <div class="item-location">{{ item.testLocation }}</div>
       </ion-item>
     </ion-list>

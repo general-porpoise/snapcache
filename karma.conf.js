@@ -22,6 +22,7 @@ module.exports = function(config) {
       'www/lib/angular-ui-router/release/angular-ui-router.min.js',
       'www/lib/ionic/js/ionic.min.js',
       'www/lib/ionic/js/ionic-angular.min.js',
+      'www/lib/moment/moment.js',
 
       'node_modules/angular-mocks/angular-mocks.js',
 
