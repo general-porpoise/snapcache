@@ -4,6 +4,9 @@ var firebaseServices = angular.module('snapcache.services.firebase', [])
   .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')
   .value('userSession', {});
 
+// Caches is a factory that gives functionality associated with getting
+// a users caches (but contributable and received ones), and creating
+// new ones.
 firebaseServices.factory('Caches', function(FIREBASE_REF, userSession){
   var cachesRef = new Firebase(FIREBASE_REF).child('caches');
   var usersRef = new Firebase(FIREBASE_REF).child('users');
@@ -14,7 +17,7 @@ firebaseServices.factory('Caches', function(FIREBASE_REF, userSession){
     create: create
   };
 
-  // 'getContributable()' will get the current user's caches that they can
+  // `getContributable()` will get the current user's caches that they can
   // contribute to from Firebase.
   function getContributable(id, callback) {
     usersRef.child(id).once('value', function(snapshot){
@@ -71,6 +74,9 @@ firebaseServices.factory('Caches', function(FIREBASE_REF, userSession){
   }
 });
 
+// FirebaseAuth contains functionality associated with logging the user into
+// their Facebook account. Support for additional accounts (Google, Twitter, etc.) could be
+// implemented here.
 firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession, Caches) {
 
   var usersRef = new Firebase(FIREBASE_REF).child('users');
