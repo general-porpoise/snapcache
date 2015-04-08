@@ -9,8 +9,13 @@ angular.module('snapcache', [
   'snapcache.auth',
   'snapcache.menu',
   'snapcache.create',
-  'snapcache.map'
+  'snapcache.map',
+  'snapcache.services.caches',
+  'snapcache.services.auth'
   ])
+
+.value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')
+.value('userSession', {})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
