@@ -9,12 +9,23 @@ firebaseServices.factory('Caches', function(FIREBASE_REF, userSession){
   var usersRef = new Firebase(FIREBASE_REF).child('users');
 
   return {
+    getContributable: getContributable,
     getReceived: getReceived,
     create: create
-  }
+  };
 
-  function getAll() {
-    console.log('Get all caches!');
+  // 'getContributable()' will get the current user's caches that they can
+  // contribute to from Firebase.
+  function getContributable(id, callback) {
+    usersRef.child(id).once('value', function(snapshot){
+      var userData = snapshot.val();
+      var contributableCaches = userData.contributableCaches;
+      if (contributableCaches) {
+        callback(contributableCaches);
+      } else {
+        callback('no caches available');
+      }
+    });
   }
 
   // `getReceived()` will simply get the current user's received caches from Firebase.
@@ -97,8 +108,13 @@ firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession, Cac
             userSession = newUserObj;
           }
           console.log('the user session is', userSession);
+
+          // Load the current user's received and contributable caches
           Caches.getReceived(authData.uid, function(caches){
             console.log('result of getReceived()', caches);
+          });
+          Caches.getContributable(authData.uid, function(caches){
+            console.log('result of getContributable()', caches);
           });
         });
       }
