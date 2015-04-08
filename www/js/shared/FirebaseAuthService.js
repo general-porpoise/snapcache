@@ -25,18 +25,15 @@ angular.module('snapcache.services.auth', [])
           var userObj = snapshot.val();
           var fbData = authData.facebook;
 
-          // If the user is present in the database, return the user object. Otherwise
-          // create a new user in the database with uid as unique key
+          // If the user is present in the database, return the user object after
+          // updating with any new Facebook data. Otherwise create a new user in the
+          //  database with uid as unique key.
           if (userObj) {
             userSession = userObj; // TODO: just store the uid
+            usersRef.child(authData.uid).child('data').set(authData);
           } else {
-            // Setting the template for a new user
-            var newUserObj = {
-              displayName: fbData.displayName,
-              profilePicture: fbData.cachedUserProfile.picture.data.url,
-            };
             // Setting the new user object in Firebase
-            usersRef.child(authData.uid).set(newUserObj);
+            usersRef.child(authData.uid).set(authData);
             console.log('new user added to the database');
             userSession = newUserObj;
           }
@@ -54,7 +51,7 @@ angular.module('snapcache.services.auth', [])
     }, {
       // This causes Facebook to give us a token that will grant access
       // to the user's lists of friends in the future
-      scope: "user_friends"
+      scope: "user_friends, email"
     });
   }
 });
