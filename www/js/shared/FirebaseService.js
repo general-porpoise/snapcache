@@ -6,6 +6,7 @@ var firebaseServices = angular.module('snapcache.services.firebase', [])
 
 firebaseServices.factory('Caches', function(FIREBASE_REF){
   var cachesRef = new Firebase(FIREBASE_REF).child('caches');
+  var usersRef = new Firebase(FIREBASE_REF).child('users');
 
   return {
     getAll: getAll,
@@ -16,13 +17,22 @@ firebaseServices.factory('Caches', function(FIREBASE_REF){
     console.log('Get all caches!');
   }
 
-  // `create()` will take in an object of cache parameters and send that to Firebase
+  // `create()` will take in an object of cache parameters and send that to Firebase.
+  // In addition, it will add the associated cache id to the necessary users 
+  // (contributors and recipients).
   function create(cacheParams) {
-    cachesRef.push({
-      message: "Did this work?"
-    });
-  }
+    var newCacheRef = cachesRef.push(cacheParams);
+    // Get the ID that Firebase will safe the cache at.
+    var cacheID = newCacheRef.key();
 
+    // Add the new cache's id to the contributing users inboxes.
+    var contribUsers = cacheParams.contributors;
+    for (var userID in contribUsers) {
+      var cache = {}
+      cache[cacheID] = true;
+      usersRef.child(userID).child('inbox').set(cache);
+    }
+  }
 });
 
 firebaseServices.factory('FirebaseAuth', function(FIREBASE_REF, userSession) {
