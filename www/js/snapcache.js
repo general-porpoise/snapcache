@@ -8,6 +8,7 @@ angular.module('snapcache', [
   'ionic',
   'snapcache.auth',
   'snapcache.menu',
+  'snapcache.inbox',
   'snapcache.create',
   'snapcache.map',
   'snapcache.services.caches',
@@ -45,7 +46,8 @@ angular.module('snapcache', [
     url: "/inbox",
     views: {
       'menuContent': {
-        templateUrl: "js/inbox/inbox.html"
+        templateUrl: "js/inbox/inbox.html",
+        controller: "InboxCtrl as inctrl"
       }
     }
   })

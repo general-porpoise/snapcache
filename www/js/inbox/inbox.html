@@ -1,0 +1,20 @@
+<ion-view view-title="Inbox">
+  <ion-header-bar>
+    <h1 class="title">Inbox</h1>
+  </ion-header-bar>
+
+  <ion-content>
+  
+    <ion-list type="card">
+      <ion-item ng-repeat="item in inctrl.items">
+        <!-- <img class="item-thumbnail" src="{{ item.thumbnail }}"> -->
+        <span class="item-title">{{ item.title }}</span>
+        <!-- <span class="item-description">{{ item.description }}</span> -->
+        <!-- <span class="item-createdBy">{{ item.createdBy }}</span> -->
+        <div class="item-countdown">{{ item.expiresAt | countdown }}</div>
+        <div class="item-location">{{ item.testLocation }}</div>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>
