@@ -67,6 +67,7 @@ angular.module('snapcache.create', [])
     });
   };
 
+  // Not used at the moment, potential fix for map search box issue
   self.update = function() {
     $timeout(function() {
       var container = document.querySelector('.pac-container');
