@@ -4,7 +4,7 @@
 //
 angular.module('snapcache.services.auth', [])
 
-.factory('FirebaseAuth', function(FIREBASE_REF, userSession, Caches) {
+.factory('FirebaseAuth', function($q, FIREBASE_REF, userSession, Caches) {
 
   var usersRef = new Firebase(FIREBASE_REF).child('users');
 
@@ -13,6 +13,7 @@ angular.module('snapcache.services.auth', [])
   };
 
   function login() {
+    var deferred = $q.defer();
     // Authenticate using Facebook
     usersRef.authWithOAuthPopup("facebook", function(error, authData) {
       if (error) {
@@ -23,29 +24,36 @@ angular.module('snapcache.services.auth', [])
         // See if the returned uid is present in database
         usersRef.child(authData.uid).once('value', function(snapshot){
           var userObj = snapshot.val();
-          var fbData = authData.facebook;
+          console.log('the auth data is:', authData);
 
           // If the user is present in the database, return the user object after
           // updating with any new Facebook data. Otherwise create a new user in the
           //  database with uid as unique key.
           if (userObj) {
-            userSession = userObj; // TODO: just store the uid
+            userSession.uid = authData.uid;
             usersRef.child(authData.uid).child('data').set(authData);
           } else {
+
             // Setting the new user object in Firebase
             usersRef.child(authData.uid).set(authData);
             console.log('new user added to the database');
-            userSession = newUserObj;
           }
-          console.log('the user session is', userSession);
 
           // Load the current user's received and contributable caches
+          // TODO: Figure out if we want to keep this here or not
           Caches.getReceived(authData.uid, function(caches){
             console.log('result of getReceived()', caches);
           });
           Caches.getContributable(authData.uid, function(caches){
             console.log('result of getContributable()', caches);
           });
+
+          // Attempting to use promises
+          if (authData.uid) {
+            deferred.resolve(authData.uid);
+          } else {
+            deferred.reject('woops!');
+          }
         });
       }
     }, {
@@ -53,5 +61,6 @@ angular.module('snapcache.services.auth', [])
       // to the user's lists of friends in the future
       scope: "user_friends, email"
     });
+    return deferred.promise;
   }
 });
