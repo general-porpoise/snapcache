@@ -7,8 +7,7 @@
 angular.module('snapcache', [
   'ionic',
   'snapcache.auth',
-  'snapcache.menu',
-  'snapcache.create'
+  'snapcache.menu'
   ])
 
 .run(function($ionicPlatform) {
@@ -52,15 +51,6 @@ angular.module('snapcache', [
       }
     }
   })
-    .state('app.create', {
-      url: "/create",
-      views: {
-        'menuContent': {
-          templateUrl: "js/create/create.html",
-          controller: 'CreateCtrl'
-        }
-      }
-    })
 
   .state('auth', {
     url: "/auth",

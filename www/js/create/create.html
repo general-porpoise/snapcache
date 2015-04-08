@@ -1,34 +1,35 @@
 <ion-modal-view>
   <ion-header-bar>
     <h1 class="title">New Snapcache</h1>
-    <div class="buttons">
+    <div class="bar bar-header">
+      <button class="button button-clear icon ion-map" ng-click="map()"></button>
+      <h1 class="title">New Snapcache</h1>
       <button class="button button-clear" ng-click="closeCreate()">Close</button>
     </div>
   </ion-header-bar>
-  <ion-content ng-controller="CreateCtrl as cctrl">
-    <form ng-submit="cctrl.submitNewCache()">
+  <ion-content>
+    <form ng-submit="submitNewCache()">
       <div class="list">
         <label class="item item-input item-stacked-label">
           <span class="input-label">Recipient</span>
-          <input type="text" ng-model="cctrl.properties.recipient" placeholder='Jane Doe'>
+          <input type="text" ng-model="properties.recipient" placeholder='Jane Doe'>
         </label>
+
         <label class="item item-input item-stacked-label">
           <span class="input-label">Title</span>
-          <input type="text" ng-model="cctrl.properties.title" placeholder='Birthday message'>
+          <input type="text" ng-model="properties.title" placeholder='Birthday message'>
         </label>
+
         <label class="item item-input item-stacked-label">
           <span class="input-label">Message</span>
-          <input type="text" ng-model="cctrl.properties.message" placeholder='Happy Birthday Jane!'>
+          <input type="text" ng-model="properties.message" placeholder='Happy Birthday Jane!'>
         </label>
-        <label class="item item-input item-stacked-label">
-          <span class="input-label">Location</span>
-          <i ng-click="cctrl.map()" class="padding icon ion-ios-location-outline"></i>
-          <input id="location-input" type="text" ng-model="cctrl.properties.location" placeholder='944 Market St #8, San Francisco, CA'>
-        </label>
+
         <label class="item item-input item-stacked-label">
           <span class="input-label">Drop Date</span>
-          <input type="date" ng-model="cctrl.properties.dropdate">
+          <input type="date" ng-model="properties.dropdate">
         </label>
+
         <label class="item ">
           <div class="item-content">Availability Window</div>
           <div class="range range-positive">
@@ -37,6 +38,7 @@
               <i class="icon ion-ios-plus-empty"></i>
           </div>
         </label>
+
         <label class="item ">
           <div class="item-content">Lifespan</div>
           <div class="range range-positive">
@@ -45,6 +47,7 @@
               <i class="icon ion-ios-plus-empty"></i>
           </div>
         </label>
+
         <label class="item">
           <button class="button button-block button-positive" type="submit">Create Snapcache</button>
         </label>

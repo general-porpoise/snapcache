@@ -6,12 +6,6 @@
   top: -8px;
 }
 
-.ion-ios-location-outline {
-  font-size: 2em;
-  position: absolute;
-  right: .5em;
-}
-
 #location-input {
   width: 90%;
 }

@@ -1,32 +1,30 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($ionicModal) {
+.controller('CreateCtrl', function($scope, $ionicModal) {
 
-  var self = this;
+  $scope.properties = {};
 
-  self.properties = {};
-
-  self.submitNewCache = function() {
+  $scope.submitNewCache = function() {
     console.log('New cache submitted');
   };
 
   // Create the map modal that we will use later
   $ionicModal.fromTemplateUrl('js/create/map.html', {
-    scope: self
+    scope: $scope
   }).then(function(modal) {
-    self.modal = modal;
+    $scope.modal = modal;
   });
 
   // Triggered in the map modal to close it
-  self.closeMap = function() {
-    self.modal.hide();
+  $scope.closeMap = function() {
+    $scope.modal.hide();
   };
 
   // Open the map modal
-  self.map = function() {
+  $scope.map = function() {
     console.log('getting location');
-    self.modal.show();
+    $scope.modal.show();
   };
 
 });
