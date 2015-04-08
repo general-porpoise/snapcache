@@ -24,7 +24,6 @@ angular.module('snapcache.services.auth', [])
         // See if the returned uid is present in database
         usersRef.child(authData.uid).once('value', function(snapshot){
           var userObj = snapshot.val();
-          console.log('the auth data is:', authData);
 
           // If the user is present in the database, return the user object after
           // updating with any new Facebook data. Otherwise create a new user in the
@@ -33,9 +32,8 @@ angular.module('snapcache.services.auth', [])
             userSession.uid = authData.uid;
             usersRef.child(authData.uid).child('data').set(authData);
           } else {
-
             // Setting the new user object in Firebase
-            usersRef.child(authData.uid).set(authData);
+            usersRef.child(authData.uid).child('data').set(authData);
             console.log('new user added to the database');
           }
 
