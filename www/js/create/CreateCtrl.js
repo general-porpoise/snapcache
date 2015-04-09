@@ -1,15 +1,17 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, UserFriends) {
+.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
 
   var self = this;
   self.properties = {};
 
-  // Search through the current list of users in Firebase
-  // TODO: Will want to only include the user's friends
+  // Allow the user to search through the list of their friends
+  // TODO: Currently userSession.friends is hard-coded and we will want to
+  //       use live data.
   self.search = function() {
-    UserFriends.searchFriends(self.properties.recipient);
+    self.potentialRecipients = UserFriends.search(self.properties.recipient);
+    console.log('result of friend search', self.potentialRecipients);
   };
 
   self.submitNewCache = function() {
