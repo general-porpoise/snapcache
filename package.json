@@ -21,5 +21,7 @@
     "karma-jasmine": "^0.3.5",
     "shelljs": "^0.3.0"
   },
-  "cordovaPlugins": []
+  "cordovaPlugins": [
+    "org.apache.cordova.inappbrowser"
+  ]
 }
