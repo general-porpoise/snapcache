@@ -12,13 +12,15 @@ angular.module('snapcache', [
   'snapcache.create',
   'snapcache.map',
   'snapcache.services.caches',
-  'snapcache.services.auth'
+  'snapcache.services.auth',
+  'snapcache.services.geofire',
+  'snapcache.inbox'
   ])
 
 .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')
 .value('userSession', {uid: ''})
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, userSession) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
