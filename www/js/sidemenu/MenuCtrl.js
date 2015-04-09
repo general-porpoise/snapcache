@@ -5,21 +5,21 @@ angular.module('snapcache.menu', [])
 
   var self = this;
 
-  // Create the create modal that we will use later
-  $ionicModal.fromTemplateUrl('js/create/create.html', {
-    scope: $scope
-  }).then(function(modal) {
-    self.createModal = modal;
-  });
 
   // Triggered in the create modal to close it
   self.closeCreate = function() {
-    self.createModal.hide();
+    self.createModal.remove();
   };
 
   // Open the create modal
   self.create = function() {
-    self.createModal.show();
+    // Create and then show the create modal
+    $ionicModal.fromTemplateUrl('js/create/create.html', {
+      scope: $scope
+    }).then(function(modal) {
+      self.createModal = modal;
+      self.createModal.show();
+    });
   };
 
   var watchID;
