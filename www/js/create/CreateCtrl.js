@@ -13,6 +13,12 @@ angular.module('snapcache.create', [])
     // this created cache with in Firebase.)
     self.properties.contributors = {};
     self.properties.contributors[userSession.uid] = true;
+    // Set cache location as property to be stored
+    self.properties.coordinates = {
+      latitude: userSession.position.coords.latitude,
+      longitude: userSession.position.coords.longitude
+    };
+
     Caches.create(self.properties);
   };
 
@@ -38,6 +44,7 @@ angular.module('snapcache.create', [])
     }
   };
 
+  // not currently used
   self.initializeMap = function() {
     var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
 
@@ -89,6 +96,6 @@ angular.module('snapcache.create', [])
         });
       }
     }, 400);
-  }
+  };
 
 });
