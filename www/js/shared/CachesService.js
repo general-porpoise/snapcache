@@ -15,7 +15,8 @@ angular.module('snapcache.services.caches', [])
 
   // `getContributable()` will get the current user's caches that they can
   // contribute to from Firebase.
-  function getContributable(id) {
+  function getContributable() {
+    var id = userSession.uid;
     var deferred = $q.defer();
     usersRef.child(id).once('value', function(snapshot){
       var userData = snapshot.val();
@@ -36,7 +37,8 @@ angular.module('snapcache.services.caches', [])
   // but that will be added in the future.
   //
   // TODO: Add temporal and geographic filtering
-  function getReceived(id) {
+  function getReceived() {
+    var id = userSession.uid;
     var deferred = $q.defer();
     usersRef.child(id).once('value', function(snapshot){
       var userData = snapshot.val();

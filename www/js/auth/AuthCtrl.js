@@ -1,7 +1,7 @@
 // Authentication controller
 angular.module('snapcache.auth', [])
 
-.controller('AuthCtrl', function($location, FirebaseAuth) {
+.controller('AuthCtrl', function($location, FirebaseAuth, userSession) {
 
   var self = this;
 
@@ -23,14 +23,16 @@ angular.module('snapcache.auth', [])
     } else {
       self.signup();
     }
-  }
+  };
 
   // Use Authentication service to login user
   self.login = function() {
     console.log('Logging in');
 
-    // TODO: login user
     FirebaseAuth.login().then(function(uid){
+      // Setting the user's id so that it can be accessed anywhere that
+      // the value "userSession" is injected.
+      userSession.uid = uid;
       console.log('the users id is:', uid);
 
       // Redirect to inbox after successful login

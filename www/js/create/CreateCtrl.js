@@ -1,15 +1,20 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal, $timeout) {
-  
+.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, userSession) {
+
   var self = this;
   self.properties = {};
 
   self.submitNewCache = function() {
     console.log('New cache submitted');
-  };
 
+    // Adding the user's id so that we can know what user(s) to associate
+    // this created cache with in Firebase.)
+    self.properties.contributors = {};
+    self.properties.contributors[userSession.uid] = true;
+    Caches.create(self.properties);
+  };
 
   // Create the map modal that we will use later
   $ionicModal.fromTemplateUrl('js/create/map.html', {
@@ -81,7 +86,7 @@ angular.module('snapcache.create', [])
         console.log(placeNodes[i]);
         placeNodes[i].addEventListener('click', function() {
           console.log('clicked');
-        });        
+        });
       }
     }, 400);
   }

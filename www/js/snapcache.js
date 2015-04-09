@@ -16,7 +16,7 @@ angular.module('snapcache', [
   ])
 
 .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')
-.value('userSession', {})
+.value('userSession', {uid: ''})
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
