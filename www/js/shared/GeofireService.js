@@ -24,7 +24,8 @@ angular.module('snapcache.services.geofire', [])
       // set geofire query listener on each
       geoQuery.on('key_entered', function(key, location, distance) {
         // query listener (key-entered) response:
-        // TODO: check if key refers to user
+        // check if key refers to user, do nothing if not
+        if (key !== userSession.uid) return;
         var now = Date.now();
         var availDate = caches[id].availDate;
         var lifespan = caches[id].lifespan;
@@ -32,10 +33,10 @@ angular.module('snapcache.services.geofire', [])
         if (now > availDate &&
            (now + lifespan) < (availDate + lifespan &&
             !caches[id].discovered)) {
-          // alert user to discovered cache
+          // TODO: alert user to discovered cache
           // set cache state to discovered
           Caches.discoverCache(id);
-          // add cache to inbox
+          // TODO: add cache to inbox
         }
       });
     }
