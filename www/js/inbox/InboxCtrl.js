@@ -1,13 +1,6 @@
 // Inbox module
 angular.module('snapcache.inbox', [])
 
-// Custom filter for applying moment.js to create a countdown
-.filter('countdown', function () {
-  return function (dateString) {
-    return moment(dateString).fromNow(true);
-  };
-})
-
 // Inbox controller
 .controller('InboxCtrl', function (userSession) {
   var self = this;

@@ -70,4 +70,11 @@ angular.module('snapcache', [
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/auth');
+})
+
+// Custom filter for applying moment.js to create a countdown
+.filter('countdown', function () {
+  return function (dateString) {
+    return moment(dateString).fromNow(true);
+  };
 });
