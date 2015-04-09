@@ -13,7 +13,7 @@ angular.module('snapcache.menu', [])
 
   // Open the create modal
   self.create = function() {
-    // Create the create modal that we will use later
+    // Create and then show the create modal
     $ionicModal.fromTemplateUrl('js/create/create.html', {
       scope: $scope
     }).then(function(modal) {
