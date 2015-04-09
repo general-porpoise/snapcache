@@ -2,9 +2,10 @@
 angular.module('snapcache.inbox', [])
 
 // Inbox controller
-.controller('InboxCtrl', function (userSession) {
+.controller('InboxCtrl', function (Caches) {
   var self = this;
   self.caches = {};
+  console.log('InboxCtrl loaded');
 
   // temporarily hard-coded data, until Firebase service is up, create feature is working, and GeoFire service sets a timestamp for when a cache becomes available (pops) to the user.
   self.items = [
@@ -34,8 +35,10 @@ angular.module('snapcache.inbox', [])
   // Retrieve list of incoming caches for logged-in user and store them for
   // use by ng-repeat in view.
   self.displayCaches = function () {
-    Caches.getReceived(userSession.uid).then(
+    console.log('displayCaches');
+    Caches.getReceived().then(
       function (receivedCaches) {
+        console.log('receivedCaches in displayCaches', receivedCaches);
         self.caches = receivedCaches;
       },
       function (error) {
@@ -43,9 +46,5 @@ angular.module('snapcache.inbox', [])
       });
   };
 
-  self.showCacheDetail = function () {
-    // on selection of a particular cache in the list, show that cache's details
-    // in a modal?
-  };
-
+  self.displayCaches();
 });

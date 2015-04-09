@@ -40,6 +40,7 @@ angular.module('snapcache.services.caches', [])
   // TODO: Add temporal and geographic filtering
   function getReceived() {
     var id = userSession.uid;
+    console.log('getReceived id', userSession);
     var deferred = $q.defer();
     usersRef.child(id).once('value', function(snapshot){
       var userData = snapshot.val();

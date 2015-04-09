@@ -6,13 +6,13 @@
   <ion-content>
   
     <ion-list type="card">
-      <ion-item ng-repeat="item in inctrl.items">
-        <!-- <img class="item-thumbnail" src="{{ item.thumbnail }}"> -->
-        <span class="item-title">{{ item.title }}</span>
-        <!-- <span class="item-description">{{ item.description }}</span> -->
-        <!-- <span class="item-createdBy">{{ item.createdBy }}</span> -->
-        <div class="item-countdown">{{ item.expiresAt | countdown }}</div>
-        <div class="item-location">{{ item.testLocation }}</div>
+      <ion-item ng-repeat="cache in inctrl.caches">
+        <!-- <img class="cache-thumbnail" src="{{ cache.thumbnail }}"> -->
+        <span class="cache-title">{{ cache.title }}</span>
+        <!-- <span class="cache-description">{{ cache.description }}</span> -->
+        <!-- <span class="cache-createdBy">{{ cache.createdBy }}</span> -->
+        <div class="cache-countdown">{{ cache.expiresAt | countdown }}</div>
+        <div class="cache-location">{{ cache.testLocation }}</div>
       </ion-item>
     </ion-list>
 
