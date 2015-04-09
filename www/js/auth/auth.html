@@ -1,26 +1,31 @@
 <ion-view view-title="Auth">
   
   <ion-header-bar>
-    <h1 class="title">{{ actrl.isLogin ? "Login" : "Signup" }}</h1>
+    <!-- <h1 class="title">{{ actrl.isLogin ? "Login" : "Signup" }}</h1> -->
+    <h1 class="title">Welcome</h1>
+
   </ion-header-bar>
   
   <ion-content>
     <form ng-submit="actrl.submit()">
       <div class="list">
-        <label class="item item-input item-floating-label">
+<!--         <label class="item item-input item-floating-label">
           <span class="input-label">Username</span>
           <input type="text" ng-model="actrl.loginData.username" placeholder="Username">
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Password</span>
           <input type="password" ng-model="actrl.loginData.password" placeholder="Password">
-        </label>
-        <label class="item">
+        </label> -->
+        <!-- <label class="item">
           <button class="button button-block button-positive" type="submit">{{ actrl.isLogin ? "Log in" : "Sign up" }}</button>
+        </label> -->
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">Sign in with Facebook</button>
         </label>
       </div>
     </form>
-    <button class='btn-auth button button-full button-clear button-dark' ng-click='actrl.toggleLogin()'>{{ actrl.isLogin ? 'Sign up for Snapcache' : 'Sign in to Snapcache' }}</button>
+<!--     <button class='btn-auth button button-full button-clear button-dark' ng-click='actrl.toggleLogin()'>{{ actrl.isLogin ? 'Sign up for Snapcache' : 'Sign in to Snapcache' }}</button> -->
   </ion-content>
 
 </ion-view>
