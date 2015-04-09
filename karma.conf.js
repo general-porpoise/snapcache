@@ -23,7 +23,7 @@ module.exports = function(config) {
       'www/lib/ionic/js/ionic.min.js',
       'www/lib/ionic/js/ionic-angular.min.js',
       'www/lib/moment/moment.js',
-
+      'www/lib/firebase/firebase.js',
       'node_modules/angular-mocks/angular-mocks.js',
 
       // app code & spec files
