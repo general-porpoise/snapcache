@@ -11,7 +11,7 @@
   <ion-content>
 
     <ion-list>
-      <ion-item ng-repeat="friend in createCtrl.potentialRecipients">
+      <ion-item ng-repeat="friend in createCtrl.potentialRecipients" ng-click="createCtrl.addRecipient(friend)">
         {{ friend.name }}
       </ion-item>
     </ion-list>
@@ -21,7 +21,7 @@
 
         <label class="item item-input item-stacked-label">
           <span class="input-label">Recipient</span>
-          <input type="text" ng-change="createCtrl.search()" ng-model="createCtrl.properties.recipient" placeholder='Jane Doe'>
+          <input type="text" ng-change="createCtrl.search()" ng-model="createCtrl.recipient" placeholder='Jane Doe'>
         </label>
 
         <label class="item item-input item-stacked-label">
