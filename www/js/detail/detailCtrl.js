@@ -16,7 +16,8 @@ angular.module('snapcache.detail', [])
   // shows the cache detail modal view
   self.showDetail = function(cacheID) {
     Caches.getCacheDetail(cacheID).then(
-      function () {
+      function (cacheData) {
+        self.cache = cacheData;
         self.modal.show();
       },
       function (error) {
