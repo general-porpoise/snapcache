@@ -32,7 +32,7 @@ angular.module('snapcache.menu', [])
       self.position = pos;
       console.log(userSession.uid);
       // get human-readable location (address)
-      self.getAddress();
+      // self.getAddress();
       Geofire.geofire.set(userSession.uid, [
         pos.coords.latitude,
         pos.coords.longitude
