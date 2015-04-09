@@ -1,7 +1,7 @@
 // Authentication controller
 angular.module('snapcache.auth', [])
 
-.controller('AuthCtrl', function($location, FirebaseAuth, userSession) {
+.controller('AuthCtrl', function($location, $ionicLoading, FirebaseAuth, userSession) {
 
   var self = this;
 
@@ -25,15 +25,32 @@ angular.module('snapcache.auth', [])
     }
   };
 
+  // Shows loading message
+  self.showLoading = function() {
+    $ionicLoading.show({
+      template: 'Logging in...'
+    });
+  };
+
+  // Hides loading message
+  self.hideLoading = function(){
+    $ionicLoading.hide();
+  };
+
   // Use Authentication service to login user
   self.login = function() {
     console.log('Logging in');
+    // show loading message while logging in
+    self.showLoading();
 
     FirebaseAuth.login().then(function(uid){
       // Setting the user's id so that it can be accessed anywhere that
       // the value "userSession" is injected.
       userSession.uid = uid;
       console.log('the users id is:', uid);
+
+      // Hide loading message when firebase returns
+      self.hideLoading();
 
       // Redirect to inbox after successful login
       $location.path('/app/inbox');
