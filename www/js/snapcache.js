@@ -12,7 +12,9 @@ angular.module('snapcache', [
   'snapcache.create',
   'snapcache.map',
   'snapcache.services.caches',
-  'snapcache.services.auth'
+  'snapcache.services.auth',
+  'snapcache.services.geofire',
+  'snapcache.inbox'
   ])
 
 .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')

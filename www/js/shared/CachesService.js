@@ -10,7 +10,8 @@ angular.module('snapcache.services.caches', [])
   return {
     getContributable: getContributable,
     getReceived: getReceived,
-    create: create
+    create: create,
+    discoverCache: discoverCache
   };
 
   // `getContributable()` will get the current user's caches that they can
@@ -77,5 +78,10 @@ angular.module('snapcache.services.caches', [])
       cache[cacheID] = true;
       usersRef.child(userID).child('receivedCaches').set(cache);
     }
+  }
+
+  // toggles the discover flag on the indicated cache (in Firebase)
+  function discoverCache(cacheID) {
+    cachesRef.child(cacheID + '/discovered').set(true);
   }
 });
