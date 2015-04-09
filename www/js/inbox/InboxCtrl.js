@@ -54,4 +54,5 @@ angular.module('snapcache.inbox', [])
     // on selection of a particular cache in the list, show that cache's details
     // in a modal?
   };
+
 });

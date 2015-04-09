@@ -8,23 +8,6 @@ angular.module('snapcache.services.geofire', [])
 
   // userSession object contains user's "uid" for the current session
 
-  // watch user's position, store in userSession and update GeoFire
-  navigator.geolocation.watchPosition(function(pos) {
-    console.log('current position:', pos);
-    userSession.position = pos;
-    geofire.set(userSession.uid, [
-      pos.coords.latitude,
-      pos.coords.longitude
-    ]).then(function() {
-      console.log("Key set in GeoFire");
-    }, function(error) {
-      console.log("Error: " + error);
-    });
-  });
-
-  // TODO: Function to remove user from Geofire
-
-
   var setListeners = function(caches) {
     if (userSession.uid === undefined) {
       console.log('User is not logged in');
@@ -59,7 +42,8 @@ angular.module('snapcache.services.geofire', [])
   };
 
   return {
-    setListeners: setListeners
+    setListeners: setListeners,
+    geofire: geofire
   };
 
 });
