@@ -89,6 +89,6 @@ angular.module('snapcache.create', [])
         });
       }
     }, 400);
-  }
+  };
 
 });
