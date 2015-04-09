@@ -8,7 +8,7 @@
     </div>
   </ion-header-bar>
   <ion-content>
-    <form ng-submit="createCtrl.submitNewCache()">
+    <form ng-submit="createCtrl.submitNewCache(); menuCtrl.closeCreate();">
       <div class="list">
         <label class="item item-input item-stacked-label">
           <span class="input-label">Recipient</span>
