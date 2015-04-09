@@ -3,9 +3,27 @@
 // a user is in the vicinity of
 angular.module('snapcache.services.geofire', [])
 
-.factory('Geofire', function(userSession, Caches) {
+.factory('Geofire', function(FIREBASE_REF, userSession, Caches) {
+  var geofire = new GeoFire(new Firebase(FIREBASE_REF + 'geofire/'));
 
   // userSession object contains user's "uid" for the current session
+
+  // watch user's position, store in userSession and update GeoFire
+  navigator.geolocation.watchPosition(function(pos) {
+    console.log('current position:', pos);
+    userSession.position = pos;
+    geofire.set(userSession.uid, [
+      pos.coords.latitude,
+      pos.coords.longitude
+    ]).then(function() {
+      console.log("Key set in GeoFire");
+    }, function(error) {
+      console.log("Error: " + error);
+    });
+  });
+
+  // TODO: Function to remove user from Geofire
+
 
   var setListeners = function(caches) {
     if (userSession.uid === undefined) {
