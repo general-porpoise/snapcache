@@ -68,7 +68,7 @@ angular.module('snapcache.services.caches', [])
     for (var userID in contributors) {
       var cache = {};
       cache[cacheID] = true;
-      usersRef.child(userID).child('contributableCaches').set(cache);
+      usersRef.child(userID).child('contributableCaches').update(cache);
     }
 
     // Add the new cache's id to recipients receivedCaches in Firebase
@@ -76,7 +76,7 @@ angular.module('snapcache.services.caches', [])
     for (var userID in recipients) {
       var cache ={};
       cache[cacheID] = true;
-      usersRef.child(userID).child('receivedCaches').set(cache);
+      usersRef.child(userID).child('receivedCaches').update(cache);
     }
   }
 
