@@ -31,4 +31,8 @@ describe('Detail Controller', function () {
     expect(ctrl).toEqual(jasmine.anything());
   });
 
+  it('should have a cache property', function () {
+    expect(ctrl.cache).toBeDefined();
+  });
+
 });
