@@ -1,13 +1,18 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches) {
+.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, userSession) {
 
   var self = this;
   self.properties = {};
 
   self.submitNewCache = function() {
     console.log('New cache submitted');
+
+    // Adding the user's id so that we can know what user(s) to associate
+    // this created cache with in Firebase.)
+    self.properties.contributors = {};
+    self.properties.contributors[userSession.uid] = true;
     Caches.create(self.properties);
   };
 
