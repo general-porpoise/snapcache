@@ -15,10 +15,10 @@ angular.module('snapcache.create', [])
     // 40710 is the least common multiple between
     // 59 (minutes), 23 (hours), and 30 (days)
     var val;
-    if (value <= 40710) { // 230
+    if (value < 40710) { // 230
       val = Math.floor((value / 690) + 1);
       return pluralize(val, 'minute');
-    } else if (value <= 81420) {
+    } else if (value < 81420) {
       val = Math.floor(((value - 40710) / 1770) + 1);
       return pluralize(val, 'hour');
     } else {
@@ -47,6 +47,10 @@ angular.module('snapcache.create', [])
   var self = this;
   self.properties = {};
 
+  // Set sane defaults for slider values (1 hour)
+  self.window_slider = 40710;
+  self.lifespan_slider = 40710;
+
   // `convertDateTime()` will take the user provided input and convert it to
   // milliseconds. To do this, it also has to know what date the user selected.
   // Only once the user has selected a date does the time box open up.
@@ -62,6 +66,7 @@ angular.module('snapcache.create', [])
   // `search()` allows the the user to search through the list of their friends.
   // Due to the way that the Facebook Friends API works, this list will only
   // include friends that have also authorized the Snapcache app.
+  // Allow the user to search through the list of their friends
   self.search = function() {
     self.potentialRecipients = UserFriends.search(self.recipient);
     console.log('result of friend search', self.potentialRecipients);
