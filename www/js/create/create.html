@@ -41,19 +41,19 @@
         </label>
 
         <label class="item ">
-          <div class="item-content">Availability Window &nbsp;&nbsp;<span class="positive">{{ createCtrl.properties.window }}</span></div>
+          <div class="item-content">Availability Window &nbsp;&nbsp;<span class="positive">{{ createCtrl.window_slider | defaultRange }}</span></div>
           <div class="range range-positive">
             <i class="icon ion-ios-minus-empty"></i>
-            <input type="range" name="volume" min="0" max="100" value="33" ng-model="createCtrl.properties.window">
+            <input type="range" name="volume" min="0" max="122130" value="40710" ng-model="createCtrl.window_slider">
             <i class="icon ion-ios-plus-empty"></i>
           </div>
         </label>
 
         <label class="item ">
-          <div class="item-content">Lifespan &nbsp;&nbsp;<span class="positive">{{ createCtrl.properties.lifespan }}</span></div>
+          <div class="item-content">Lifespan &nbsp;&nbsp;<span class="positive">{{ createCtrl.lifespan_slider | defaultRange }}</span></div>
           <div class="range range-positive">
             <i class="icon ion-ios-minus-empty"></i>
-            <input type="range" name="volume" min="0" max="100" value="33" ng-model="createCtrl.properties.lifespan">
+            <input type="range" name="volume" min="0" max="122130" value="40710" ng-model="createCtrl.lifespan_slider">
             <i class="icon ion-ios-plus-empty"></i>
           </div>
         </label>

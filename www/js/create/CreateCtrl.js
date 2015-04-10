@@ -1,10 +1,55 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
+// Converts a value from the slider to a readable format
+.filter('defaultRange', function() {
+  var pluralize = function(value, unit) {
+    if (value === 1) {
+      return '' + value + ' ' + unit;
+    } else {
+      return '' + value + ' ' + unit + 's';
+    }
+  };
+
+  return function(value) {
+    // 40710 is the least common multiple between
+    // 59 (minutes), 23 (hours), and 30 (days)
+    var val;
+    if (value < 40710) { // 230
+      val = Math.floor((value / 690) + 1);
+      return pluralize(val, 'minute');
+    } else if (value < 81420) {
+      val = Math.floor(((value - 40710) / 1770) + 1);
+      return pluralize(val, 'hour');
+    } else {
+      val = Math.ceil((value - 81420) / 1357);
+      return pluralize(val, 'day');
+    }
+  };
+})
+
+// Converts a result of the defaultRange filter to milliseconds
+.filter('toMilliseconds', function() {
+  return function(rangeValue) {
+    var value = parseInt(rangeValue);
+    if (rangeValue.indexOf('min') > -1) {
+      return 60000 * value;
+    } else if (rangeValue.indexOf('hour') > -1) {
+      return 3600000 * value;
+    } else {
+      return 86400000 * value;
+    }
+  }
+})
+
+.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
 
   var self = this;
   self.properties = {};
+
+  // Set sane defaults for slider values (1 hour)
+  self.window_slider = 40710;
+  self.lifespan_slider = 40710;
 
   // `convertDateTime()` will take the user provided input and convert it to
   // milliseconds. To do this, it also has to know what date the user selected.
@@ -21,6 +66,7 @@ angular.module('snapcache.create', [])
   // `search()` allows the the user to search through the list of their friends.
   // Due to the way that the Facebook Friends API works, this list will only
   // include friends that have also authorized the Snapcache app.
+  // Allow the user to search through the list of their friends
   self.search = function() {
     self.potentialRecipients = UserFriends.search(self.recipient);
     console.log('result of friend search', self.potentialRecipients);
@@ -54,6 +100,9 @@ angular.module('snapcache.create', [])
     };
     // Store human-readable location in database
     self.properties.readable_location = userSession.readable_location;
+    // get milliseconds for time range sliders
+    self.properties.window = $filter('toMilliseconds')($filter('defaultRange')(self.window_slider));
+    self.properties.lifespan = $filter('toMilliseconds')($filter('defaultRange')(self.lifespan_slider));
 
     Caches.create(self.properties);
   };
