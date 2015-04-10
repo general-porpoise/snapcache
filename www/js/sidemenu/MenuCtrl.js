@@ -1,7 +1,7 @@
 // Menu Controller
 angular.module('snapcache.menu', [])
 
-.controller('MenuCtrl', function($scope, $ionicModal, userSession, Geofire) {
+.controller('MenuCtrl', function($scope, $ionicModal, $ionicPlatform, userSession, Geofire) {
 
   var self = this;
   self.position;
@@ -22,18 +22,51 @@ angular.module('snapcache.menu', [])
     });
   };
 
+  // ID for our user tracker
   var watchID;
+
+  var inForeground = true;
 
   // watch user's position, store in userSession and update GeoFire
   $scope.$on('$ionicView.beforeEnter', function() {
+    if (watchID === undefined) {
+      self.watchPosition();
+    }
+  });
+
+  // remove user from geofire when we leave the inbox view
+  $scope.$on('$ionicView.beforeLeave', function() {
+    if (watchID !== undefined) {
+      self.removeWatch();
+    }
+  });
+
+  // Signal when app brought to foreground
+  $ionicPlatform.ready(function() {
+    document.addEventListener('resume', function() {
+      console.log('Geocoding will resume');
+      inForeground = true;
+    }, false);
+  });
+
+  // Signal when app sent to background
+  $ionicPlatform.ready(function() {
+    document.addEventListener('pause', function() {
+      console.log('Geocoding paused while in background');
+      inForeground = false;
+    }, false);
+  });
+
+  // Sets up a listener which responds to changes in the user's position
+  self.watchPosition = function() {
     watchID = navigator.geolocation.watchPosition(function(pos) {
       console.log('current position:', pos);
       userSession.position = pos;
       self.position = pos;
       console.log(userSession.uid);
-      // get human-readable location (address), throttled
-      // to 1 request per 20 seconds
-      if (Date.now() > self.geocodingTimeout) {
+      // get human-readable location (address), throttled to 1
+      // request per 20 seconds and only runs app when in foreground
+      if (inForeground && Date.now() > self.geocodingTimeout) {
         self.getAddress();
       }
       Geofire.geofire.set(userSession.uid, [
@@ -45,16 +78,17 @@ angular.module('snapcache.menu', [])
         console.log("Error: " + error);
       });
     });
-  });
+  };
 
-  // remove user from geofire when we leave the inbox view
-  $scope.$on('$ionicView.beforeLeave', function() {
+  // Removes user position-change event listener
+  self.removeWatch = function() {
     console.log('clearing watch for user position');
     // stop watching user's position
     navigator.geolocation.clearWatch(watchID);
+    watchID = undefined;
     // remove user from geofire
     Geofire.geofire.remove(userSession.uid);
-  });
+  };
 
   // Timeout used to throttle geocoding requests
   self.geocodingTimeout = Date.now();
