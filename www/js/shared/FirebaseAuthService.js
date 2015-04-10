@@ -4,7 +4,7 @@
 //
 angular.module('snapcache.services.auth', [])
 
-.factory('FirebaseAuth', function($q, FIREBASE_REF, userSession, Caches) {
+.factory('FirebaseAuth', function($q, $http, FIREBASE_REF, userSession, Caches) {
 
   var usersRef = new Firebase(FIREBASE_REF).child('users');
 
@@ -30,29 +30,33 @@ angular.module('snapcache.services.auth', [])
     usersRef.onAuth(function(authData) {
       console.log("Authenticated successfully with payload:", authData);
 
-      // See if the returned uid is present in database
+      // We will update or add to Firebase based on the users uid returned
+      // from the authData object.
       usersRef.child(authData.uid).once('value', function(snapshot){
-        var userObj = snapshot.val();
+        // Storing certain information on userSession for access anywhere in app.
+        userSession.uid = authData.uid;
 
-        // If the user is present in the database, return the user object after
-        // updating with any new Facebook data. Otherwise create a new user in the
-        //  database with uid as unique key.
-        if (userObj) {
-          userSession.uid = authData.uid;
-          usersRef.child(authData.uid).child('data').set(authData);
-          console.log('user already exists in database');
-        } else {
-          // Setting the new user object in Firebase
-          usersRef.child(authData.uid).child('data').set(authData);
-          console.log('new user added to the database');
-        }
+        // No matter if the user is new or existing, we just need to update
+        // their data property (if they are new, their entire tree will be created).
+        usersRef.child(authData.uid).child('data').set(authData);
 
-        // Attempting to use promises
-        if (authData.uid) {
-          deferred.resolve(authData.uid);
-        } else {
-          deferred.reject('woops!');
-        }
+        //Get the user's friends and save to userSession object
+        var fbId = authData.facebook.id;
+        var fbToken = authData.facebook.accessToken;
+        $http.get('https://graph.facebook.com/v2.3/' + fbId + '/friends?access_token=' + fbToken)
+          // If we get a response back from Facebook, then we will resolve our promise with the
+          // knowledge that the the user's friends are on the userSession object.
+          .success(function(response){
+            userSession.friends = response.data;
+            console.log('your facebook friend data is', userSession.friends);
+            deferred.resolve();
+          })
+          // If we don't get a response, then we will reject our promise.
+          .error(function(){
+            console.log('error!');
+            deferred.reject();
+          });
+
       });
     });
 
