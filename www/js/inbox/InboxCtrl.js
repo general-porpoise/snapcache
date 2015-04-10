@@ -2,11 +2,11 @@
 angular.module('snapcache.inbox', [])
 
 // Inbox controller
-.controller('InboxCtrl', function (Caches, userSession) {
+.controller('InboxCtrl', function (Caches, userSession, $scope, $ionicModal) {
   var self = this;
   self.caches = {};
 
-  // Retrieve list of incoming caches for logged-in user and store them for
+  // Retrieves list of incoming caches for logged-in user and stores them for
   // use by ng-repeat in view.
   self.displayCaches = function () {
     Caches.getReceived().then(
@@ -28,8 +28,30 @@ angular.module('snapcache.inbox', [])
       });
   };
 
-  self.setCurrentCache = function (cache) {
+  // Displays detail view once the cache information has been stored.
+  self.displayDetails = function (cache) {
     userSession.currentCache = cache;
+    self.showDetail();
+  };
+
+  // Shows the cache detail modal view
+  self.showDetail = function() {
+    // Creates the detail modal based on the specified template
+    $ionicModal.fromTemplateUrl('js/detail/detail.html', {
+      scope: $scope
+    }).then(function(modal) {
+      console.log('modal created here');
+      self.detailModal = modal;
+
+      // Display the created modal
+      self.detailModal.show();
+    });
+  };
+
+  // Closes the cache detail modal view, and removes it to prevent memory leaks.
+  self.closeDetail = function() {
+    self.detailModal.hide();
+    self.detailModal.remove();
   };
 
   self.displayCaches();
