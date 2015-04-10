@@ -40,6 +40,8 @@ angular.module('snapcache.create', [])
       latitude: userSession.position.coords.latitude,
       longitude: userSession.position.coords.longitude
     };
+    // Store human-readable location in database
+    self.properties.readable_location = userSession.readable_location;
 
     Caches.create(self.properties);
   };
