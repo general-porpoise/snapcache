@@ -11,10 +11,21 @@ angular.module('snapcache.inbox', [])
   self.displayCaches = function () {
     Caches.getReceived().then(
       function (receivedCaches) {
-        self.caches = receivedCaches;
+        console.log('receivedCaches', receivedCaches);
+        // For each cache in receivedCaches, get the details
+        for (var key in receivedCaches) {
+          // The following async function call has to be wrapped in an anonymous function to localize "key" to another name ("cacheID"). See [this page](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript) for more information.
+          (function (cacheID) {
+            Caches.getCacheDetailsForDiscovered(cacheID).then(
+              function (cache) {
+                self.caches[cacheID] = cache;
+              });
+          })(key);
+        }
+        console.log('self.caches', self.caches);
       },
       function (error) {
-        console.error('displayCaches erorr', error);
+        console.error('displayCaches error', error);
       });
   };
 
