@@ -22,10 +22,10 @@ angular.module('snapcache.create', [])
     // Collapse the list of potential recipients once the user clicks
     // on the friend they are sending the cache to.
     self.potentialRecipients = [];
-    
-    // Attach the friend uid to the object that will be sent over to Firebase
+
+    // Attach the friend's id to the object that will be sent over to Firebase
     self.properties.recipients = {};
-    self.properties.recipients[friend.uid] = true;
+    self.properties.recipients['facebook:' + friend.id] = true;
   };
 
   self.submitNewCache = function() {

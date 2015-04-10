@@ -4,7 +4,7 @@
 //
 angular.module('snapcache.services.auth', [])
 
-.factory('FirebaseAuth', function($q, FIREBASE_REF, userSession, Caches) {
+.factory('FirebaseAuth', function($q, $http, FIREBASE_REF, userSession, Caches) {
 
   var usersRef = new Firebase(FIREBASE_REF).child('users');
 
@@ -32,11 +32,24 @@ angular.module('snapcache.services.auth', [])
 
       // See if the returned uid is present in database
       usersRef.child(authData.uid).once('value', function(snapshot){
+        // Storing certain information on userSession for access anywhere in app.
+        userSession.uid = authData.uid;
 
         // No matter if the user is new or existing, we just need to update
         // their data property (if they are new, their entire tree will be created).
-        userSession.uid = authData.uid;
         usersRef.child(authData.uid).child('data').set(authData);
+
+        // Want to get the users friends and save to userSession object
+        var fbId = authData.facebook.id;
+        var fbToken = authData.facebook.accessToken;
+        $http.get('https://graph.facebook.com/v2.3/' + fbId + '/friends?access_token=' + fbToken)
+          .success(function(response){
+            userSession.friends = response.data;
+            console.log('your facebook friend data is', userSession.friends);
+          })
+          .error(function(){
+            console.log('error!');
+          });
 
         // Attempting to use promises
         if (authData.uid) {
