@@ -36,8 +36,8 @@
 
         <label class="item item-input item-stacked-label">
           <span class="input-label">Drop Date</span>
-          <input type="date" ng-model="createCtrl.properties.dropdate">
-          <input type="time" ng-model="createCtrl.properties.droptime">
+          <input type="date" value="{{createCtrl.datetime.dropdate}}" ng-model="createCtrl.datetime.dropdate" required>
+          <input type="time" ng-if="createCtrl.datetime.dropdate" ng-change="createCtrl.convertDateTime()" value="{{createCtrl.datetime.droptime}}" ng-model="createCtrl.datetime.droptime" required>
         </label>
 
         <label class="item ">
