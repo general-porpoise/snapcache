@@ -15,6 +15,17 @@ angular.module('snapcache.services.auth', [])
   function login() {
     var deferred = $q.defer();
 
+    // Authenticate using Facebook
+    usersRef.authWithOAuthRedirect("facebook", function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      }
+    }, {
+      // This causes Facebook to give us a token that will grant access
+      // to the user's lists of friends in the future
+      scope: "user_friends, email"
+    });
+
     // Listen for changes in Auth state of app
     usersRef.onAuth(function(authData) {
       console.log("Authenticated successfully with payload:", authData);
@@ -45,16 +56,6 @@ angular.module('snapcache.services.auth', [])
       });
     });
 
-    // Authenticate using Facebook
-    usersRef.authWithOAuthRedirect("facebook", function(error, authData) {
-      if (error) {
-        console.log("Login Failed!", error);
-      }
-    }, {
-      // This causes Facebook to give us a token that will grant access
-      // to the user's lists of friends in the future
-      scope: "user_friends, email"
-    });
     return deferred.promise;
   }
 });
