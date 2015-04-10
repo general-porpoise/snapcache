@@ -1,7 +1,7 @@
 // Authentication controller
 angular.module('snapcache.auth', [])
 
-.controller('AuthCtrl', function($location, $ionicLoading, FirebaseAuth, userSession) {
+.controller('AuthCtrl', function($location, $ionicLoading, FirebaseAuth, userSession, $state) {
 
   var self = this;
 
@@ -61,7 +61,8 @@ angular.module('snapcache.auth', [])
       self.hideLoading();
 
       // Redirect to inbox after successful login
-      $location.path('/app/inbox');
+      // $location.path('/app/inbox');
+      $state.go('app.inbox');
     });
   };
 
