@@ -47,6 +47,14 @@ angular.module('snapcache.auth', [])
       // Setting the user's id so that it can be accessed anywhere that
       // the value "userSession" is injected.
       userSession.uid = uid;
+
+      // TODO: Currently hard-coding the user's friends. We will probably want to get this
+      // list in FirebaseAuthService when the user logs in
+      userSession.friends = [
+        {name: 'Conor Flannigan', uid: 'facebook:10204075896841208'},
+        {name: 'Anneke Floor', uid: 'facebook:10206286278296373'}
+      ];
+
       console.log('the users id is:', uid);
 
       // Hide loading message when firebase returns

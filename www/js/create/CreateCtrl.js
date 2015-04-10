@@ -1,10 +1,32 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, userSession) {
+.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
 
   var self = this;
   self.properties = {};
+
+  // Allow the user to search through the list of their friends
+  // TODO: Currently userSession.friends is hard-coded and we will want to
+  //       use live data.
+  self.search = function() {
+    self.potentialRecipients = UserFriends.search(self.recipient);
+    console.log('result of friend search', self.potentialRecipients);
+  };
+
+  // `addRecipient()` will take the friend that the user clicked
+  // on and populate the recipient field, along with filling the recipient
+  // property on the the object sent to Firebase.
+  self.addRecipient = function(friend) {
+    self.recipient = friend.name;
+    // Collapse the list of potential recipients once the user clicks
+    // on the friend they are sending the cache to.
+    self.potentialRecipients = [];
+    
+    // Attach the friend uid to the object that will be sent over to Firebase
+    self.properties.recipients = {};
+    self.properties.recipients[friend.uid] = true;
+  };
 
   self.submitNewCache = function() {
     console.log('New cache submitted');
