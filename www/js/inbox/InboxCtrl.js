@@ -2,7 +2,7 @@
 angular.module('snapcache.inbox', [])
 
 // Inbox controller
-.controller('InboxCtrl', function (Caches) {
+.controller('InboxCtrl', function (Caches, userSession) {
   var self = this;
   self.caches = {};
 
@@ -22,11 +22,14 @@ angular.module('snapcache.inbox', [])
               });
           })(key);
         }
-        console.log('self.caches', self.caches);
       },
       function (error) {
         console.error('displayCaches error', error);
       });
+  };
+
+  self.setCurrentCache = function (cache) {
+    userSession.currentCache = cache;
   };
 
   self.displayCaches();
