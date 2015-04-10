@@ -32,20 +32,11 @@ angular.module('snapcache.services.auth', [])
 
       // See if the returned uid is present in database
       usersRef.child(authData.uid).once('value', function(snapshot){
-        var userObj = snapshot.val();
 
-        // If the user is present in the database, return the user object after
-        // updating with any new Facebook data. Otherwise create a new user in the
-        //  database with uid as unique key.
-        if (userObj) {
-          userSession.uid = authData.uid;
-          usersRef.child(authData.uid).child('data').set(authData);
-          console.log('user already exists in database');
-        } else {
-          // Setting the new user object in Firebase
-          usersRef.child(authData.uid).child('data').set(authData);
-          console.log('new user added to the database');
-        }
+        // No matter if the user is new or existing, we just need to update
+        // their data property (if they are new, their entire tree will be created).
+        userSession.uid = authData.uid;
+        usersRef.child(authData.uid).child('data').set(authData);
 
         // Attempting to use promises
         if (authData.uid) {
