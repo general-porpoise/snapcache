@@ -6,9 +6,21 @@ angular.module('snapcache.create', [])
   var self = this;
   self.properties = {};
 
-  // Allow the user to search through the list of their friends
-  // TODO: Currently userSession.friends is hard-coded and we will want to
-  //       use live data.
+  // `convertDateTime()` will take the user provided input and convert it to
+  // milliseconds. To do this, it also has to know what date the user selected.
+  // Only once the user has selected a date does the time box open up.
+  self.convertDateTime = function() {
+    var dateMS = self.datetime.dropdate.getTime();
+    var timeMS = self.datetime.droptime.getTime();
+    // Offset is due to the fact that we are calculating it for PST.
+    var offset = 8 * 60 * 60 * 1000;
+    self.properties.droptime = dateMS + timeMS - offset;
+    console.log('time in ms from 1970 is', self.properties.droptime);
+  };
+
+  // `search()` allows the the user to search through the list of their friends.
+  // Due to the way that the Facebook Friends API works, this list will only
+  // include friends that have also authorized the Snapcache app.
   self.search = function() {
     self.potentialRecipients = UserFriends.search(self.recipient);
     console.log('result of friend search', self.potentialRecipients);
