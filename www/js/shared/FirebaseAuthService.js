@@ -30,7 +30,8 @@ angular.module('snapcache.services.auth', [])
     usersRef.onAuth(function(authData) {
       console.log("Authenticated successfully with payload:", authData);
 
-      // See if the returned uid is present in database
+      // We will update or add to Firebase based on the users uid returned
+      // from the authData object.
       usersRef.child(authData.uid).once('value', function(snapshot){
         // Storing certain information on userSession for access anywhere in app.
         userSession.uid = authData.uid;
@@ -39,24 +40,23 @@ angular.module('snapcache.services.auth', [])
         // their data property (if they are new, their entire tree will be created).
         usersRef.child(authData.uid).child('data').set(authData);
 
-        // Want to get the users friends and save to userSession object
+        //Get the user's friends and save to userSession object
         var fbId = authData.facebook.id;
         var fbToken = authData.facebook.accessToken;
         $http.get('https://graph.facebook.com/v2.3/' + fbId + '/friends?access_token=' + fbToken)
+          // If we get a response back from Facebook, then we will resolve our promise with the
+          // knowledge that the the user's friends are on the userSession object.
           .success(function(response){
             userSession.friends = response.data;
             console.log('your facebook friend data is', userSession.friends);
+            deferred.resolve();
           })
+          // If we don't get a response, then we will reject our promise.
           .error(function(){
             console.log('error!');
+            deferred.reject();
           });
 
-        // Attempting to use promises
-        if (authData.uid) {
-          deferred.resolve(authData.uid);
-        } else {
-          deferred.reject('woops!');
-        }
       });
     });
 
