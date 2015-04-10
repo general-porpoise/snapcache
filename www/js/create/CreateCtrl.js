@@ -1,7 +1,48 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-.controller('CreateCtrl', function($scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
+// Converts a value from the slider to a readable format
+.filter('defaultRange', function() {
+  var pluralize = function(value, unit) {
+    if (value === 1) {
+      return '' + value + ' ' + unit;
+    } else {
+      return '' + value + ' ' + unit + 's';
+    }
+  };
+
+  return function(value) {
+    // 40710 is the least common multiple between
+    // 59 (minutes), 23 (hours), and 30 (days)
+    var val;
+    if (value <= 40710) { // 230
+      val = Math.floor((value / 690) + 1);
+      return pluralize(val, 'minute');
+    } else if (value <= 81420) {
+      val = Math.floor(((value - 40710) / 1770) + 1);
+      return pluralize(val, 'hour');
+    } else {
+      val = Math.ceil((value - 81420) / 1357);
+      return pluralize(val, 'day');
+    }
+  };
+})
+
+// Converts a result of the defaultRange filter to milliseconds
+.filter('toMilliseconds', function() {
+  return function(rangeValue) {
+    var value = parseInt(rangeValue);
+    if (rangeValue.indexOf('min') > -1) {
+      return 60000 * value;
+    } else if (rangeValue.indexOf('hour') > -1) {
+      return 3600000 * value;
+    } else {
+      return 86400000 * value;
+    }
+  }
+})
+
+.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
 
   var self = this;
   self.properties = {};
@@ -54,6 +95,9 @@ angular.module('snapcache.create', [])
     };
     // Store human-readable location in database
     self.properties.readable_location = userSession.readable_location;
+    // get milliseconds for time range sliders
+    self.properties.window = $filter('toMilliseconds')($filter('defaultRange')(self.window_slider));
+    self.properties.lifespan = $filter('toMilliseconds')($filter('defaultRange')(self.lifespan_slider));
 
     Caches.create(self.properties);
   };
