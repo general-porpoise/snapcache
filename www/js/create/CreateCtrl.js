@@ -55,6 +55,9 @@ angular.module('snapcache.create', [])
   self.window_slider = 40710;
   self.lifespan_slider = 40710;
 
+  // Cache will have the `discovered` property set to false
+  self.properties.discovered = false;
+
   // `convertDateTime()` will take the user provided input and convert it to
   // milliseconds. To do this, it also has to know what date the user selected.
   // Only once the user has selected a date does the time box open up.
