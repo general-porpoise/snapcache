@@ -22,6 +22,16 @@ angular.module('snapcache.inbox', [])
               function (cache) {
                 self.caches.push(cache);
               });
+
+            // Set up firebase listeners to populate inbox list with newly
+            // discovered caches
+            Caches.ifCacheDiscovered(cacheID, function(cache) {
+              // Add new cache to list for display
+              if (!self.caches.hasOwnProperty(cacheID)) {
+                console.log('Cache added to inbox!');
+                self.caches[cacheID] = cache;
+              }
+            });
           })(key);
         }
       },
@@ -29,6 +39,8 @@ angular.module('snapcache.inbox', [])
         console.error('displayCaches error', error);
       });
   };
+
+
 
   // Displays detail view once the cache information has been stored.
   self.displayDetails = function (cache) {
