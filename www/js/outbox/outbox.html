@@ -6,7 +6,7 @@
   <ion-content>
   
     <ion-list type="card">
-      <ion-item ng-repeat="cache in outctrl.caches" ng-click="outctrl.displayDetails(cache)">
+      <ion-item ng-repeat="cache in outctrl.caches | orderBy: 'expiresAt'" ng-click="outctrl.displayDetails(cache)">
         <span class="cache-title">{{ cache.title }}</span>
         <div class="cache-countdown">{{ cache.expiresAt | countdown }}</div>
         <div class="cache-location">{{ cache.coordinates }}</div>
