@@ -1,0 +1,17 @@
+<ion-view view-title="Outbox">
+  <ion-header-bar>
+    <h1 class="title">Outbox</h1>
+  </ion-header-bar>
+
+  <ion-content>
+  
+    <ion-list type="card">
+      <ion-item ng-repeat="cache in outctrl.caches" ng-click="outctrl.displayDetails(cache)">
+        <span class="cache-title">{{ cache.title }}</span>
+        <div class="cache-countdown">{{ cache.expiresAt | countdown }}</div>
+        <div class="cache-location">{{ cache.coordinates }}</div>
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>

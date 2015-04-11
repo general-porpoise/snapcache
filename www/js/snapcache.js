@@ -9,6 +9,7 @@ angular.module('snapcache', [
   'snapcache.auth',
   'snapcache.menu',
   'snapcache.inbox',
+  'snapcache.outbox',
   'snapcache.create',
   'snapcache.detail',
   'snapcache.map',
@@ -59,7 +60,8 @@ angular.module('snapcache', [
     url: "/outbox",
     views: {
       'menuContent': {
-        templateUrl: "js/outbox/outbox.html"
+        templateUrl: "js/outbox/outbox.html",
+        controller: "OutboxCtrl as outctrl"
       }
     }
   })
