@@ -25,12 +25,8 @@ angular.module('snapcache.inbox', [])
 
             // Set up firebase listeners to populate inbox list with newly
             // discovered caches
-            Caches.ifCacheDiscovered(cacheID, function(cache) {
-              // Add new cache to list for display
-              if (!self.caches.hasOwnProperty(cacheID)) {
-                console.log('Cache added to inbox!');
-                self.caches[cacheID] = cache;
-              }
+            Caches.onCacheDiscovered(cacheID, function(cache) {
+              self.caches.push(cache);
             });
           })(key);
         }
