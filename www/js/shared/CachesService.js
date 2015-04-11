@@ -114,6 +114,7 @@ angular.module('snapcache.services.caches', [])
 
   // toggles the discover flag on the indicated cache (in Firebase)
   function discoverCache(cacheID) {
-    cachesRef.child(cacheID + '/discovered').set(true);
+    console.log('cacheID:', cacheID);
+    cachesRef.child(cacheID).child('discovered').set(true);
   }
 });
