@@ -48,8 +48,15 @@ angular.module('snapcache.create', [])
   self.properties = {};
   self.datetime = {};
 
-  // Set default for the initial drop date
-  self.datetime.dropdate = new Date();
+  // Set default value for initial dropdate.
+  // NOTE: We need this to be at 12am on today because the user still has to
+  //       enter a time, which will be offset from the default date.
+  // Below is a hackish way to get a date object that represents today at 12am.
+  var currTime = new Date(Date.now());
+  self.datetime.dropdate = new Date(
+    (currTime.getMonth() + 1) + "/" +
+    currTime.getDate() + "/" +
+    currTime.getFullYear());
 
   // Set sane defaults for slider values (1 hour)
   self.window_slider = 40710;
