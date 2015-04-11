@@ -39,13 +39,17 @@ angular.module('snapcache.create', [])
     } else {
       return 86400000 * value;
     }
-  }
+  };
 })
 
 .controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
 
   var self = this;
   self.properties = {};
+  self.datetime = {};
+
+  // Set default for the initial drop date
+  self.datetime.dropdate = new Date();
 
   // Set sane defaults for slider values (1 hour)
   self.window_slider = 40710;
