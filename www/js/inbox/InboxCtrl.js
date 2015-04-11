@@ -4,7 +4,7 @@ angular.module('snapcache.inbox', [])
 // Inbox controller
 .controller('InboxCtrl', function (Caches, userSession, $scope, $ionicModal, Geofire) {
   var self = this;
-  self.caches = {};
+  self.caches = [];
 
   // Retrieves list of incoming caches for logged-in user and stores them for
   // use by ng-repeat in view.
@@ -20,7 +20,7 @@ angular.module('snapcache.inbox', [])
           (function (cacheID) {
             Caches.getCacheDetailsForDiscovered(cacheID).then(
               function (cache) {
-                self.caches[cacheID] = cache;
+                self.caches.push(cache);
               });
           })(key);
         }
