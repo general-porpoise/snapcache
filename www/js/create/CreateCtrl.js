@@ -39,7 +39,7 @@ angular.module('snapcache.create', [])
     } else {
       return 86400000 * value;
     }
-  }
+  };
 })
 
 .controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
