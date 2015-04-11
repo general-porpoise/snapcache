@@ -3,7 +3,7 @@ angular.module('snapcache.outbox', [])
 
 .controller('OutboxCtrl', function (Caches) {
   var self = this;
-  self.caches = {};
+  self.caches = [];
 
   self.displayCaches = function () {
     Caches.getContributable().then(
@@ -13,7 +13,7 @@ angular.module('snapcache.outbox', [])
           (function (cacheID) {
             Caches.getCacheDetails(cacheID).then(
               function (cache) {
-                self.caches[cacheID] = cache;
+                self.caches.push(cache);
               });
           })(key);
         }
