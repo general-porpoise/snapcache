@@ -36,13 +36,16 @@ angular.module('snapcache.services.geofire', [])
           var now = Date.now();
           var droptime = cacheObj.droptime;
           var lifespan = cacheObj.lifespan;
+          console.log('now:', now);
+          console.log('droptime:', droptime);
+          console.log('droptime+lifespan:', droptime+lifespan);
           // check if cache is available to be discovered
           if (now > droptime &&
              (now < (droptime + lifespan)) &&
               !cacheObj.discovered) {
             // set cache state to discovered
             Caches.discoverCache(id);
-            alert('new cache discovered!');
+            alert('new cache discovered!' + cacheObj.discovered);
           }
         });
       });
