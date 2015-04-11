@@ -16,7 +16,7 @@ angular.module('snapcache.services.auth', [])
     var deferred = $q.defer();
 
     // Authenticate using Facebook
-    usersRef.authWithOAuthRedirect("facebook", function(error, authData) {
+    usersRef.authWithOAuthPopup("facebook", function(error, authData) {
       if (error) {
         console.log("Login Failed!", error);
       }
