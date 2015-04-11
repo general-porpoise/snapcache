@@ -101,18 +101,4 @@ angular.module('snapcache.services.caches', [])
   function discoverCache(cacheID) {
     cachesRef.child(cacheID + '/discovered').set(true);
   }
-
-  // retrieves a specific cache's details from the collection
-  function getCacheDetail(cacheID) {
-    var deferred = $q.defer();
-    cachesRef.child(cacheID).once('value', function (snapshot) {
-      var cache = snapshot.val();
-      if (cache) {
-        deferred.resolve(cache);
-      } else {
-        deferred.reject({});
-      }
-    });
-    return deferred.promise;
-  }
 });
