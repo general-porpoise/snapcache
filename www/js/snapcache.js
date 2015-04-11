@@ -10,6 +10,7 @@ angular.module('snapcache', [
   'snapcache.menu',
   'snapcache.inbox',
   'snapcache.create',
+  'snapcache.detail',
   'snapcache.map',
   'snapcache.services.caches',
   'snapcache.services.auth',
