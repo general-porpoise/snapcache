@@ -10,6 +10,7 @@ angular.module('snapcache.services.caches', [])
   return {
     getContributable: getContributable,
     getReceived: getReceived,
+    getCacheDetails: getCacheDetails,
     getCacheDetailsForDiscovered: getCacheDetailsForDiscovered,
     create: create,
     discoverCache: discoverCache
@@ -50,6 +51,20 @@ angular.module('snapcache.services.caches', [])
       } else {
         // If the user has no received caches, the promise will return an
         // empty object.
+        deferred.reject({});
+      }
+    });
+    return deferred.promise;
+  }
+
+  // retrieves a specific cache's details from the collection
+  function getCacheDetails(cacheID) {
+    var deferred = $q.defer();
+    cachesRef.child(cacheID).once('value', function (snapshot) {
+      var cacheData = snapshot.val();
+      if (cacheData) {
+        deferred.resolve(cacheData);
+      } else {
         deferred.reject({});
       }
     });
