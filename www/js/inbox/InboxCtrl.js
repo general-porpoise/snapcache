@@ -2,7 +2,7 @@
 angular.module('snapcache.inbox', [])
 
 // Inbox controller
-.controller('InboxCtrl', function (Caches, userSession, $scope, $ionicModal) {
+.controller('InboxCtrl', function (Caches, userSession, $scope, $ionicModal, Geofire) {
   var self = this;
   self.caches = {};
 
@@ -12,6 +12,8 @@ angular.module('snapcache.inbox', [])
     Caches.getReceived().then(
       function (receivedCaches) {
         console.log('receivedCaches', receivedCaches);
+        // Set listeners on received caches
+        Geofire.setListeners(receivedCaches);
         // For each cache in receivedCaches, get the details
         for (var key in receivedCaches) {
           // The following async function call has to be wrapped in an anonymous function to localize "key" to another name ("cacheID"). See [this page](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript) for more information.
