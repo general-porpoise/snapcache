@@ -14,7 +14,8 @@ angular.module('snapcache.services.caches', [])
     getCacheDetailsForDiscovered: getCacheDetailsForDiscovered,
     onCacheDiscovered: onCacheDiscovered,
     create: create,
-    discoverCache: discoverCache
+    discoverCache: discoverCache,
+    removeCache: removeCache
   };
 
   // `getContributable()` will get the current user's caches that they can
@@ -63,10 +64,18 @@ angular.module('snapcache.services.caches', [])
     var deferred = $q.defer();
     cachesRef.child(cacheID).once('value', function (snapshot) {
       var cacheData = snapshot.val();
-      if (cacheData) {
-        deferred.resolve(cacheData);
+
+      // if the cache hasn't expired, set the promise's resolve to return it.
+      if ( !isExpired(cacheData) ) {
+        if (cacheData) {
+          deferred.resolve(cacheData);
+        } else {
+          deferred.reject({});
+        }
+      // if the cache *has* expired, remove it
       } else {
-        deferred.reject({});
+        console.log('EXPIRED cache! Remove:', cacheID);
+        removeCache(cacheID, cacheData);
       }
     });
     return deferred.promise;
@@ -74,15 +83,23 @@ angular.module('snapcache.services.caches', [])
 
   // 'getCacheDetailsForDiscovered()' will take in a cache ID and retrieve that cache object if the cache has been discovered.
   function getCacheDetailsForDiscovered(cacheID) {
+    // console.log('in getCacheDetailsForDiscovered', cacheID);
     var deferred = $q.defer();
     cachesRef.child(cacheID).once('value', function (snapshot) {
       var cacheData = snapshot.val();
       var discovered = cacheData.discovered;
 
-      if (discovered) {
-        deferred.resolve(cacheData);
+      // if the cache hasn't expired, and has been discovered, set the promise's resolve to return it.
+      if ( !isExpired(cacheData) ) {
+        if (discovered) {
+          deferred.resolve(cacheData);
+        } else {
+          deferred.reject();
+        }
+      // if the cache *has* expired, remove it
       } else {
-        deferred.reject(); // what to return if not discovered
+        // console.log('EXPIRED cache! Remove:', cacheID);
+        removeCache(cacheID, cacheData);
       }
     });
     return deferred.promise;
@@ -138,5 +155,32 @@ angular.module('snapcache.services.caches', [])
         discRef.set(true);
       }
     });
+  }
+
+  // 'removeCache' removes the cache ref from the contributors and recipients associated with it, and then removes the cache itself from Firebase.
+  function removeCache(cacheID, cacheData) {
+    // console.log('in removeCache', cacheData);
+    var recipients = cacheData.recipients;
+    var contributors = cacheData.contributors;
+
+    for (var recipient in recipients) {
+      // console.log('recipient', recipient);
+      usersRef.child(recipient).child('receivedCaches').child(cacheID).remove();
+    }
+    for (var contributor in contributors) {
+      // console.log('contributor', contributor);
+      usersRef.child(contributor).child('contributableCaches').child(cacheID).remove();
+    }
+    cachesRef.child(cacheID).remove();
+  }
+  
+  // 'isExpired' checks to see if the cache is past its expiry date/time
+  function isExpired(cache) {
+    var now = Date.now();
+    if (cache.expiresAt <= now) {
+      return true;
+    } else {
+      return false;
+    }
   }
 });
