@@ -107,7 +107,8 @@ angular.module('snapcache.services.caches', [])
 
   // Set listener on cache if not discovered, execute
   // callback when cache flagged as discovered in Firebase
-  function onCacheDiscovered(cacheID, callback) {
+  function onCacheDiscovered(cacheID) {
+    var deferred = $q.defer();
     var cacheRef = cachesRef.child(cacheID);
     // set up listener on firebase ref
     cacheRef.on('child_changed', function(childSnapshot) {
@@ -115,10 +116,11 @@ angular.module('snapcache.services.caches', [])
       if (childSnapshot.key() === 'discovered' && isDiscovered) {
         console.log(cacheID + ' has been discovered!');
         cacheRef.once('value', function(cacheSnapshot) {
-          callback(cacheSnapshot.val());
+          deferred.resolve(cacheSnapshot.val());
         });
       }
     });
+    return deferred.promise;
   }
 
   // `create()` will take in an object of cache parameters and send that to Firebase.

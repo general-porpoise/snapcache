@@ -26,7 +26,7 @@ angular.module('snapcache.inbox', [])
 
             // Set up firebase listeners to populate inbox list with newly
             // discovered caches
-            Caches.onCacheDiscovered(cacheID, function(cache) {
+            Caches.onCacheDiscovered(cacheID).then(function(cache) {
               console.log('pushing discovered cache to inbox');
               self.caches.push(cache);
             });
@@ -44,7 +44,7 @@ angular.module('snapcache.inbox', [])
     console.log('Setting new geofire listener');
     console.log('key is', childSnapshot.key());
     Geofire.setListener(childSnapshot.key());
-    Caches.onCacheDiscovered(childSnapshot.key(), function(cache) {
+    Caches.onCacheDiscovered(childSnapshot.key()).then(function(cache) {
       console.log('pushing discovered cache to inbox');
       self.caches.push(cache);
     });
