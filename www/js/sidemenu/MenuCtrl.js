@@ -69,6 +69,9 @@ angular.module('snapcache.menu', [])
       if (inForeground && Date.now() > self.geocodingTimeout) {
         self.getAddress();
       }
+      // remove key in order to satisfy the 'key entered' event
+      // (when key already inside radius)
+      Geofire.geofire.remove(userSession.uid);
       Geofire.geofire.set(userSession.uid, [
         pos.coords.latitude,
         pos.coords.longitude
