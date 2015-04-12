@@ -151,6 +151,8 @@ angular.module('snapcache.services.caches', [])
     console.log('cacheID:', cacheID);
     var discRef = cachesRef.child(cacheID).child('discovered');
     discRef.once('value', function(snapshot) {
+      console.log('key:', snapshot.key());
+      console.log('discovered:', snapshot.val());
       if (snapshot.val() === false) {
         discRef.set(true);
       }

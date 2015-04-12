@@ -33,27 +33,69 @@ angular.module('snapcache.services.geofire', [])
           // check if key refers to user, do nothing if not
           if (key !== userSession.uid) return;
           console.log('user key:', key);
-          var now = Date.now();
-          var droptime = cacheObj.droptime;
-          var lifespan = cacheObj.lifespan;
-          console.log('now:', now);
-          console.log('droptime:', droptime);
-          console.log('droptime+lifespan:', droptime+lifespan);
-          // check if cache is available to be discovered
-          if (now > droptime &&
-             (now < (droptime + lifespan)) &&
-              !cacheObj.discovered) {
-            // set cache state to discovered
-            Caches.discoverCache(id);
-            alert('new cache discovered!' + cacheObj.discovered);
-          }
+
+          cachesRef.child(id).child('discovered').once('value', function(freshSnapshot) {
+            var isDiscovered = freshSnapshot.val();
+
+            var now = Date.now();
+            var droptime = cacheObj.droptime;
+            var lifespan = cacheObj.lifespan;
+            console.log('now:', now);
+            console.log('droptime:', droptime);
+            console.log('droptime+lifespan:', droptime+lifespan);
+            console.log('discovered:', isDiscovered);
+            // check if cache is available to be discovered
+            if ((now > droptime) &&
+               (now < (droptime + lifespan)) &&
+               (!isDiscovered)) {
+              // set cache state to discovered
+              Caches.discoverCache(id);
+              console.log('new cache discovered!');
+            }
+          });
         });
       });
     }
   };
 
+  var setListener = function(cacheID) {
+    console.log('in setListener');
+    cachesRef.child(cacheID).once('value', function(snapshot) {
+      var cacheObj = snapshot.val();
+      var geoQuery = geofire.query({
+        center: [cacheObj.coordinates.latitude, cacheObj.coordinates.longitude],
+        radius: 1.62
+      });
+      geoQuery.on('key_entered', function(key, location, distance) {
+        if (key !== userSession.uid) return;
+          console.log('user key:', key);
+
+          cachesRef.child(cacheID).child('discovered').once('value', function(freshSnapshot) {
+            var isDiscovered = freshSnapshot.val();
+
+            var now = Date.now();
+            var droptime = cacheObj.droptime;
+            var lifespan = cacheObj.lifespan;
+            console.log('now:', now);
+            console.log('droptime:', droptime);
+            console.log('droptime+lifespan:', droptime+lifespan);
+            console.log('discovered:', isDiscovered);
+            // check if cache is available to be discovered
+            if ((now > droptime) &&
+               (now < (droptime + lifespan)) &&
+               (!isDiscovered)) {
+              // set cache state to discovered
+              Caches.discoverCache(cacheID);
+              console.log('new cache discovered!');
+            }
+          });
+      });
+    })
+  };
+
   return {
     setListeners: setListeners,
+    setListener: setListener,
     geofire: geofire
   };
 

@@ -2,13 +2,14 @@
 angular.module('snapcache.inbox', [])
 
 // Inbox controller
-.controller('InboxCtrl', function (Caches, userSession, $scope, $ionicModal, Geofire) {
+.controller('InboxCtrl', function (FIREBASE_REF, Caches, userSession, $scope, $ionicModal, Geofire) {
   var self = this;
   self.caches = [];
 
   // Retrieves list of incoming caches for logged-in user and stores them for
   // use by ng-repeat in view.
   self.displayCaches = function () {
+    console.log('displaying caches...');
     Caches.getReceived().then(
       function (receivedCaches) {
         console.log('receivedCaches', receivedCaches);
@@ -26,6 +27,7 @@ angular.module('snapcache.inbox', [])
             // Set up firebase listeners to populate inbox list with newly
             // discovered caches
             Caches.onCacheDiscovered(cacheID, function(cache) {
+              console.log('pushing discovered cache to inbox');
               self.caches.push(cache);
             });
           })(key);
@@ -36,7 +38,17 @@ angular.module('snapcache.inbox', [])
       });
   };
 
-
+  // listen for new received caches
+  var receivedRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('receivedCaches');
+  receivedRef.on('child_added', function(childSnapshot) {
+    console.log('Setting new geofire listener');
+    console.log('key is', childSnapshot.key());
+    Geofire.setListener(childSnapshot.key());
+    Caches.onCacheDiscovered(childSnapshot.key(), function(cache) {
+      console.log('pushing discovered cache to inbox');
+      self.caches.push(cache);
+    });
+  });
 
   // Displays detail view once the cache information has been stored.
   self.displayDetails = function (cache) {
