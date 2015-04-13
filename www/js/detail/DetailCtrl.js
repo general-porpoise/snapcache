@@ -5,5 +5,6 @@ angular.module('snapcache.detail', [])
 .controller('DetailCtrl', function (userSession) {
   var self = this;
   self.cache = userSession.currentCache;
+  console.log('detail created from', self.cache.controller);
 
 });
