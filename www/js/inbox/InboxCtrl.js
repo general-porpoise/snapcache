@@ -53,6 +53,7 @@ angular.module('snapcache.inbox', [])
   // Displays detail view once the cache information has been stored.
   self.displayDetails = function (cache) {
     userSession.currentCache = cache;
+    userSession.currentCache.controller = 'inctrl';
     self.showDetail();
   };
 
@@ -62,7 +63,6 @@ angular.module('snapcache.inbox', [])
     $ionicModal.fromTemplateUrl('js/detail/detail.html', {
       scope: $scope
     }).then(function(modal) {
-      console.log('modal created here');
       self.detailModal = modal;
 
       // Display the created modal
@@ -72,7 +72,6 @@ angular.module('snapcache.inbox', [])
 
   // Closes the cache detail modal view, and removes it to prevent memory leaks.
   self.closeDetail = function() {
-    self.detailModal.hide();
     self.detailModal.remove();
   };
 

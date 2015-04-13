@@ -1,7 +1,7 @@
 // Outbox module
 angular.module('snapcache.outbox', [])
 
-.controller('OutboxCtrl', function (Caches) {
+.controller('OutboxCtrl', function (Caches, userSession, $scope, $ionicModal) {
   var self = this;
   self.caches = [];
 
@@ -22,6 +22,32 @@ angular.module('snapcache.outbox', [])
         console.error('Outbox displayCaches error', error);
       });
   };
+
+  // Displays detail view once the cache information has been stored.
+  self.displayDetails = function (cache) {
+    userSession.currentCache = cache;
+    userSession.currentCache.controller = 'outctrl';
+    self.showDetail();
+  };
+
+  // Shows the cache detail modal view
+  self.showDetail = function() {
+    // Creates the detail modal based on the specified template
+    $ionicModal.fromTemplateUrl('js/detail/detail.html', {
+      scope: $scope
+    }).then(function(modal) {
+      self.detailModal = modal;
+
+      // Display the created modal
+      self.detailModal.show();
+    });
+  };
+
+  // Closes the cache detail modal view, and removes it to prevent memory leaks.
+  self.closeDetail = function() {
+    self.detailModal.remove();
+  };
+
 
   self.displayCaches();
 });
