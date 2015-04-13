@@ -148,15 +148,25 @@ angular.module('snapcache.services.caches', [])
     }
   }
 
-  // toggles the discover flag on the indicated cache (in Firebase)
+  // Toggles the discover flag on the indicated cache (in Firebase) and will
+  // set the expiresAt property.
   function discoverCache(cacheID) {
     console.log('cacheID:', cacheID);
-    var discRef = cachesRef.child(cacheID).child('discovered');
-    discRef.once('value', function(snapshot) {
-      console.log('key:', snapshot.key());
-      console.log('discovered:', snapshot.val());
-      if (snapshot.val() === false) {
-        discRef.set(true);
+    var cacheRef = cachesRef.child(cacheID);
+
+    // Get the cache from Firebase
+    cacheRef.once('value', function(snapshot) {
+      var cache = snapshot.val();
+      if (cache.discovered === false) {
+        // Set discovered to true if hasn't already been discovered
+        console.log('cache:', cacheID,'has been discovered');
+        cacheRef.child('discovered').set(true);
+
+        // Calculate and set the expiresAt property
+        var now = Date.now();
+        var lifespan = cache.lifespan;
+        var expiresAt = now + lifespan;
+        cacheRef.child('expiresAt').set(expiresAt);
       }
     });
   }
@@ -177,7 +187,7 @@ angular.module('snapcache.services.caches', [])
     }
     cachesRef.child(cacheID).remove();
   }
-  
+
   // 'isExpired' checks to see if the cache is past its expiry date/time
   function isExpired(cache) {
     var now = Date.now();
