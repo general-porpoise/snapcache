@@ -67,10 +67,6 @@ angular.module('snapcache.services.auth', [])
 
   function nativeLogin() {
     var deferred = $q.defer();
-    if (!ionic.Platform.isAndroid() && !ionic.Platform.isIOS()) {
-      facebookConnectPlugin.browserInit(800556536702390);
-      // version is optional. It refers to the version of API you may want to use.
-    }
     facebookConnectPlugin.login(['email', 'user_friends'], function(status) {
       facebookConnectPlugin.getAccessToken(function(token) {
         // Authenticate with Facebook using an existing OAuth 2.0 access token
