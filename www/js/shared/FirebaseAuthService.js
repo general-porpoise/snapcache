@@ -66,11 +66,12 @@ angular.module('snapcache.services.auth', [])
   }
 
   function nativeLogin() {
-    if (window.cordova.platformId == "browser") {
+    var deferred = $q.defer();
+    if (!ionic.Platform.isAndroid() && !ionic.Platform.isIOS()) {
       facebookConnectPlugin.browserInit(800556536702390);
       // version is optional. It refers to the version of API you may want to use.
     }
-    facebookConnectPlugin.login(['public_info'], function(status) {
+    facebookConnectPlugin.login(['email', 'user_friends'], function(status) {
       facebookConnectPlugin.getAccessToken(function(token) {
         // Authenticate with Facebook using an existing OAuth 2.0 access token
         firebaseRef.authWithOAuthToken("facebook", token, function(error, authData) {
@@ -79,34 +80,34 @@ angular.module('snapcache.services.auth', [])
           } else {
             console.log('Authenticated successfully with through native payload:', authData);
 
-            // // We will update or add to Firebase based on the users uid returned
-            // // from the authData object.
-            // usersRef.child(authData.uid).once('value', function(snapshot){
-            //   // Storing certain information on userSession for access anywhere in app.
-            //   userSession.uid = authData.uid;
+            // We will update or add to Firebase based on the users uid returned
+            // from the authData object.
+            usersRef.child(authData.uid).once('value', function(snapshot){
+              // Storing certain information on userSession for access anywhere in app.
+              userSession.uid = authData.uid;
 
-            //   // No matter if the user is new or existing, we just need to update
-            //   // their data property (if they are new, their entire tree will be created).
-            //   usersRef.child(authData.uid).child('data').set(authData);
+              // No matter if the user is new or existing, we just need to update
+              // their data property (if they are new, their entire tree will be created).
+              usersRef.child(authData.uid).child('data').set(authData);
 
-            //   //Get the user's friends and save to userSession object
-            //   var fbId = authData.facebook.id;
-            //   var fbToken = authData.facebook.accessToken;
-            //   $http.get('https://graph.facebook.com/v2.3/' + fbId + '/friends?access_token=' + fbToken)
-            //     // If we get a response back from Facebook, then we will resolve our promise with the
-            //     // knowledge that the the user's friends are on the userSession object.
-            //     .success(function(response){
-            //       userSession.friends = response.data;
-            //       console.log('your facebook friend data is', userSession.friends);
-            //       deferred.resolve();
-            //     })
-            //     // If we don't get a response, then we will reject our promise.
-            //     .error(function(){
-            //       console.log('error!');
-            //       deferred.reject();
-            //     });
+              //Get the user's friends and save to userSession object
+              var fbId = authData.facebook.id;
+              var fbToken = authData.facebook.accessToken;
+              $http.get('https://graph.facebook.com/v2.3/' + fbId + '/friends?access_token=' + fbToken)
+                // If we get a response back from Facebook, then we will resolve our promise with the
+                // knowledge that the the user's friends are on the userSession object.
+                .success(function(response){
+                  userSession.friends = response.data;
+                  console.log('your facebook friend data is', userSession.friends);
+                  deferred.resolve();
+                })
+                // If we don't get a response, then we will reject our promise.
+                .error(function(){
+                  console.log('error!');
+                  deferred.reject();
+                });
 
-            // });
+            });
           }
         });
       }, function(error) {
@@ -115,5 +116,6 @@ angular.module('snapcache.services.auth', [])
     }, function(error) {
       console.log('An error occurred logging the user in', error);
     });
+    return deferred.promise;
   }
 });
