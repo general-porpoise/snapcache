@@ -43,15 +43,28 @@ angular.module('snapcache.auth', [])
     // show loading message while logging in
     self.showLoading();
 
-    FirebaseAuth.login().then(function(){
+    // Run firebase auth with redirect in browser
+    if (!ionic.Platform.isAndroid() && !ionic.Platform.isIOS()) {
+      FirebaseAuth.login().then(function(){
 
-      // Hide loading message when firebase returns
-      self.hideLoading();
+        // Hide loading message when firebase returns
+        self.hideLoading();
 
-      // Redirect to inbox after successful login
-      // $location.path('/app/inbox');
-      $state.go('app.inbox');
-    });
+        // Redirect to inbox after successful login
+        // $location.path('/app/inbox');
+        $state.go('app.inbox');
+      });
+    } else { // Run cordova facebook connect plugin on mobile
+      FirebaseAuth.nativeLogin().then(function(){
+
+        // Hide loading message when firebase returns
+        self.hideLoading();
+
+        // Redirect to inbox after successful login
+        // $location.path('/app/inbox');
+        $state.go('app.inbox');
+      });
+    }
   };
 
   // Use Authentication service to sign user up
