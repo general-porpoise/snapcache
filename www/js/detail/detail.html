@@ -10,7 +10,7 @@
   </ion-header-bar>
   <ion-content>
     <div class="detail-message">{{ dctrl.cache.message }}</div>
-    <div class="detail-countdown">{{ dctrl.cache.expiresAt | countdown }}</div>
+    <div class="detail-countdown" am-time-ago="{{ dctrl.cache.expiresAt }}"></div>
     <div class="detail-location">{{ dctrl.cache.readable_location }}</div>
 
   </ion-content>
