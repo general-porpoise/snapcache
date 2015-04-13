@@ -9,6 +9,7 @@
     "angularfire": "~1.0.0",
     "moment": "~2.10.0",
     "lodash": "~3.6.0",
-    "geofire": "~3.2.2"
+    "geofire": "~3.2.2",
+    "angular-moment": "~0.10.0"
   }
 }
