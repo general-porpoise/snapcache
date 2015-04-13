@@ -1,7 +1,29 @@
 // Create Controller
 angular.module('snapcache.create', [])
 
-// Converts a value from the slider to a readable format
+// Converts a value from the radius slider to a readable format
+.filter('radiusRange', function() {
+  var pluralize = function(value, unit) {
+    if (value === 1) {
+      return '' + value + ' ' + unit;
+    } else {
+      return '' + value + ' ' + unit + 's';
+    }
+  };
+  // The user can select from 25 - 5280 in feet, or 1 to 5 miles.
+  return function(value) {
+    var val;
+    if (value < 5280) {
+      val = 25 * Math.floor(value / 25);
+      return '' + val + ' ' + 'feet';
+    } else {
+      val = Math.floor(value / 2640) - 1;
+      return pluralize(val, 'mile');
+    }
+  };
+})
+
+// Converts a value from the time sliders to a readable format
 .filter('defaultRange', function() {
   var pluralize = function(value, unit) {
     if (value === 1) {
@@ -24,6 +46,18 @@ angular.module('snapcache.create', [])
     } else {
       val = Math.ceil((value - 81420) / 1357);
       return pluralize(val, 'day');
+    }
+  };
+})
+
+// Converts a result of the radiusRange filter to kilometers
+.filter('toKilometers', function() {
+  return function(radiusValue) {
+    var value = parseInt(radiusValue);
+    if (radiusValue.indexOf('feet') > -1) {
+      return (value / 5280) * 1.60934;
+    } else {
+      return value * 1.60934;
     }
   };
 })
@@ -61,6 +95,9 @@ angular.module('snapcache.create', [])
   // Set sane defaults for slider values (1 hour)
   self.window_slider = 40710;
   self.lifespan_slider = 40710;
+
+  // Default value for cache radius will be 1 mile
+  self.radius_slider = 5280;
 
   // Cache will have the `discovered` property set to false
   self.properties.discovered = false;
@@ -117,6 +154,8 @@ angular.module('snapcache.create', [])
     // get milliseconds for time range sliders
     self.properties.window = $filter('toMilliseconds')($filter('defaultRange')(self.window_slider));
     self.properties.lifespan = $filter('toMilliseconds')($filter('defaultRange')(self.lifespan_slider));
+    // Get kilometers for cache range
+    self.properties.radius = $filter('toKilometers')($filter('radiusRange')(self.radius_slider));
 
     Caches.create(self.properties);
   };

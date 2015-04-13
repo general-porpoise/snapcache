@@ -23,8 +23,8 @@ angular.module('snapcache.services.geofire', [])
         var cacheObj = snapshot.val();
         var geoQuery = geofire.query({
           center: [cacheObj.coordinates.latitude, cacheObj.coordinates.longitude],
-          //radius: cacheObj.radius //kilometers
-          radius: 1.62
+          radius: cacheObj.radius //kilometers
+          // radius: 1.62
         });
         // set geofire query listener on each
         geoQuery.on('key_entered', function(key, location, distance) {
