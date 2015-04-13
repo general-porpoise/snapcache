@@ -22,6 +22,9 @@
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
-    "org.apache.cordova.inappbrowser"
-  ]
+    "org.apache.cordova.inappbrowser",
+    "org.apache.cordova.geolocation",
+    "com.phonegap.plugins.facebookconnect"
+  ],
+  "cordovaPlatforms": []
 }
