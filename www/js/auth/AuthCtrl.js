@@ -43,15 +43,17 @@ angular.module('snapcache.auth', [])
     // show loading message while logging in
     self.showLoading();
 
-    FirebaseAuth.login().then(function(){
+    FirebaseAuth.nativeLogin();
 
-      // Hide loading message when firebase returns
-      self.hideLoading();
+    // FirebaseAuth.login().then(function(){
 
-      // Redirect to inbox after successful login
-      // $location.path('/app/inbox');
-      $state.go('app.inbox');
-    });
+    //   // Hide loading message when firebase returns
+    //   self.hideLoading();
+
+    //   // Redirect to inbox after successful login
+    //   // $location.path('/app/inbox');
+    //   $state.go('app.inbox');
+    // });
   };
 
   // Use Authentication service to sign user up
