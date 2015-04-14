@@ -145,10 +145,10 @@ angular.module('snapcache.create', [])
     self.properties.contributors = {};
     self.properties.contributors[userSession.uid] = true;
     // Set cache location as property to be stored
-    self.properties.coordinates = {
-      latitude: userSession.position.coords.latitude,
-      longitude: userSession.position.coords.longitude
-    };
+    // self.properties.coordinates = {
+    //   latitude: userSession.position.coords.latitude,
+    //   longitude: userSession.position.coords.longitude
+    // };
     // Store human-readable location in database
     self.properties.readable_location = userSession.readable_location;
     // get milliseconds for time range sliders
@@ -182,7 +182,7 @@ angular.module('snapcache.create', [])
     }
   };
 
-  // not currently used
+  // Main function that sets up the map and adds in event handling
   self.initializeMap = function() {
     var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
 
@@ -196,44 +196,85 @@ angular.module('snapcache.create', [])
 
     navigator.geolocation.getCurrentPosition(function(pos) {
       console.log(pos);
-      map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-      var myLocation = new google.maps.Marker({
-        position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
-        map: map,
-        title: "My Location"
-      });
+      var latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+      map.setCenter(latLng);
+      self.placeMarker(latLng);
     });
 
     self.map = map;
 
-    var search = new google.maps.places.SearchBox(document.getElementById("map-search"), {});
-    google.maps.event.addListener(search, 'places_changed', function() {
-      var places = search.getPlaces();
-      console.log("places changed:", places);
-      self.properties.coordinates = {
-        latitude: places[0].geometry.location.k,
-        longitude: places[0].geometry.location.D
-      };
+    // Add event listener for mousedown event
+    google.maps.event.addListener(self.map, 'mousedown', function(event){
+      console.log('detected a mouse down event!');
+
+      // If the user has not already initiated a mousedown event, create
+      // a function that will run in 1 second, placing the marker at the
+      // desired location. This is done so that the user will have to do a
+      // long click in order to place a marker somewhere.
+      if (angular.isUndefined(self.placeMarkerPromise)) {
+        self.placeMarkerPromise = $timeout(function() {
+          console.log('marker placed at', event.latLng);
+          self.placeMarker(event.latLng);
+        }, 1000);
+      }
+    });
+
+    // Add event listener for mouseup event
+    google.maps.event.addListener(self.map, 'mouseup', function(){
+      console.log('detected a mouse up event');
+      self.placeMarkerCancel();
+    });
+
+    // Add event listener for dragstart event
+    google.maps.event.addListener(self.map, 'dragstart', function(){
+      console.log('detected a drag event');
+      self.placeMarkerCancel();
     });
   };
 
-  // Not used at the moment, potential fix for map search box issue
-  self.update = function() {
-    $timeout(function() {
-      var container = document.querySelector('.pac-container');
-      container.setAttribute('data-tap-disabled', 'true');
-      container.onclick = function() {
-        document.getElementById('autocomplete').blur();
-      }
-      var placeNodes = document.querySelectorAll('.pac-item');
-      console.log('place nodes:', placeNodes);
-      for(var i = 0; i < placeNodes.length; i++) {
-        console.log(placeNodes[i]);
-        placeNodes[i].addEventListener('click', function() {
-          console.log('clicked');
-        });
-      }
-    }, 400);
+  // `placeMarker()` will remove the current marker and create a new one
+  // at the user provided latLng.
+  self.placeMarker = function(latLng) {
+    console.log('latLng is', latLng);
+    self.removeMarker();
+    self.marker = new google.maps.Marker({
+      animation: google.maps.Animation.DROP,
+      draggable: true,
+      map: self.map,
+      position: latLng
+    });
+
+    delete self.placeMarkerPromise;
+
+    // Updating any data that the scope needs to know about due to the
+    // fact we are doing this from within an asynchronous call.
+    $scope.$apply(function() {
+      self.properties.coordinates = {
+        latitude: latLng.k,
+        longitude: latLng.D
+      };
+      console.log('the markers pos is:', self.properties.coordinates);
+    });
   };
 
+  // `placeMarkerCancel()` will remove the function that is scheduled to
+  // run (due to a user initiated event, such as lifting their mouse,
+  // or dragging).
+  self.placeMarkerCancel = function() {
+    if (angular.isUndefined(self.placeMarkerPromise)) {
+      return;
+    }
+    // Cancel the scheduled code
+    $timeout.cancel(self.placeMarkerPromise);
+    delete self.placeMarkerPromise;
+  };
+
+  // `removeMarker()` will remove the marker so that it is no longer
+  // on the map.
+  self.removeMarker = function() {
+    if (angular.isDefined(self.marker)) {
+      self.marker.setMap(null);
+      delete self.marker;
+    }
+  };
 });
