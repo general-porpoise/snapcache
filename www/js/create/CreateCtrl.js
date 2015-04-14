@@ -206,34 +206,29 @@ angular.module('snapcache.create', [])
 
     self.map = map;
 
-    var search = new google.maps.places.SearchBox(document.getElementById("map-search"), {});
-    google.maps.event.addListener(search, 'places_changed', function() {
-      var places = search.getPlaces();
-      console.log("places changed:", places);
-      self.properties.coordinates = {
-        latitude: places[0].geometry.location.k,
-        longitude: places[0].geometry.location.D
-      };
+    // Add event listener for mousedown event
+    google.maps.event.addListener(self.map, 'mousedown', function(event){
+      console.log('detected a mouse down event!');
+
+      // If the user has not already initiated a mousedown event, create
+      // a function that will run in 1 second, placing the marker at the
+      // desired location. This is done so that the user will have to do a
+      // long click in order to place a marker somewhere.
+      if (angular.isUndefined(self.placeMarkerPromise)) {
+        self.placeMarkerPromise = $timeout(function() {
+          console.log('marker placed at', event.latLng);
+        }, 1000);
+      }
+    });
+
+    // Add event listener for mouseup event
+    google.maps.event.addListener(self.map, 'mouseup', function(){
+      console.log('detected a mouse up event');
+    });
+
+    // Add event listener for dragstart event
+    google.maps.event.addListener(self.map, 'dragstart', function(){
+      console.log('detected a drag event');
     });
   };
-
-  // Not used at the moment, potential fix for map search box issue
-  self.update = function() {
-    $timeout(function() {
-      var container = document.querySelector('.pac-container');
-      container.setAttribute('data-tap-disabled', 'true');
-      container.onclick = function() {
-        document.getElementById('autocomplete').blur();
-      }
-      var placeNodes = document.querySelectorAll('.pac-item');
-      console.log('place nodes:', placeNodes);
-      for(var i = 0; i < placeNodes.length; i++) {
-        console.log(placeNodes[i]);
-        placeNodes[i].addEventListener('click', function() {
-          console.log('clicked');
-        });
-      }
-    }, 400);
-  };
-
 });
