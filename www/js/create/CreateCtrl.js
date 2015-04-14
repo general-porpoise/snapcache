@@ -167,6 +167,15 @@ angular.module('snapcache.create', [])
     self.mapModal = modal;
   });
 
+  // Create an event listener that will remove the map modal whenever
+  // the user creates or closes the Create Cache view.
+  //
+  // NOTE: It must be done this way since the closing of the Create Cache view
+  // occurs in a parent scope, which has no knowledge of the mapModal.
+  $scope.$on('closeCreate', function(){
+    self.mapModal.remove();
+  });
+
   // Triggered in the map modal to close it
   self.closeMap = function() {
     self.render = false;
