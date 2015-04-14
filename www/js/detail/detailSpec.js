@@ -1,9 +1,8 @@
 describe('Detail Controller', function () {
   // declare variables
+  var userSession;
   var $rootScope;
   var $scope;
-  var $ionicModal;
-  var Caches;
   var $controller;
   var ctrl;
 
@@ -12,9 +11,9 @@ describe('Detail Controller', function () {
 
   beforeEach(inject(function($injector) {
     // mock out our dependencies
+    userSession = $injector.get('userSession');
+    userSession.currentCache = {};
     $rootScope = $injector.get('$rootScope');
-    $ionicModal = $injector.get('$ionicModal');
-    Caches = $injector.get('Caches');
 
     // create controller for testing
     $controller = $injector.get('$controller');
