@@ -1,4 +1,4 @@
-describe('Inbox Controller', function () {
+xdescribe('Inbox Controller', function () {
   // declare variables
   var $controller;
 

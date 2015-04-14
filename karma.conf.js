@@ -22,9 +22,16 @@ module.exports = function(config) {
       'www/lib/angular-ui-router/release/angular-ui-router.min.js',
       'www/lib/ionic/js/ionic.min.js',
       'www/lib/ionic/js/ionic-angular.min.js',
-      'www/lib/moment/moment.js',
-      'www/lib/firebase/firebase.js',
       'node_modules/angular-mocks/angular-mocks.js',
+      'www/lib/rsvp/rsvp.min.js',
+      'www/lib/firebase/firebase.js',
+      'https://cdn.firebase.com/libs/geofire/2.0.0/geofire.min.js',
+      'www/lib/angularfire/dist/angularfire.min.js',
+      'plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js',
+      'http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true',
+      'www/lib/moment/moment.js',
+      'www/lib/angular-moment/angular-moment.min.js',
+      'www/lib/lodash/lodash.min.js',
 
       // app code & spec files
       'www/js/**/*.js'
