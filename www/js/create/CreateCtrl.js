@@ -145,10 +145,10 @@ angular.module('snapcache.create', [])
     self.properties.contributors = {};
     self.properties.contributors[userSession.uid] = true;
     // Set cache location as property to be stored
-    self.properties.coordinates = {
-      latitude: userSession.position.coords.latitude,
-      longitude: userSession.position.coords.longitude
-    };
+    // self.properties.coordinates = {
+    //   latitude: userSession.position.coords.latitude,
+    //   longitude: userSession.position.coords.longitude
+    // };
     // Store human-readable location in database
     self.properties.readable_location = userSession.readable_location;
     // get milliseconds for time range sliders
@@ -248,10 +248,13 @@ angular.module('snapcache.create', [])
 
     // Updating any data that the scope needs to know about due to the
     // fact we are doing this from within an asynchronous call.
-    // $scope.$apply(function() {
-    //   self.markerPosition = latLng.toString();
-    //   console.log('the markers pos is:', self.markerPosition);
-    // });
+    $scope.$apply(function() {
+      self.properties.coordinates = {
+        latitude: latLng.k,
+        longitude: latLng.D
+      };
+      console.log('the markers pos is:', self.properties.coordinates);
+    });
   };
 
   // `placeMarkerCancel()` will remove the function that is scheduled to
