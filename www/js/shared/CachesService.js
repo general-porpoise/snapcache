@@ -158,15 +158,22 @@ angular.module('snapcache.services.caches', [])
     cacheRef.once('value', function(snapshot) {
       var cache = snapshot.val();
       if (cache.discovered === false) {
-        // Set discovered to true if hasn't already been discovered
-        console.log('cache:', cacheID,'has been discovered');
-        cacheRef.child('discovered').set(true);
-
         // Calculate and set the expiresAt property
         var now = Date.now();
         var lifespan = cache.lifespan;
         var expiresAt = now + lifespan;
-        cacheRef.child('expiresAt').set(expiresAt);
+        // We pass in a callback that will only run once the `expiresAt` property
+        // has been set. This ensures that when we mark discovered, the
+        // updated cache will display the remaining cache time in the inbox.
+        cacheRef.child('expiresAt').set(expiresAt, function(error){
+          if (error) {
+            console.log('unable to set expiresAt property');
+          } else {
+            // Set discovered to true
+            console.log('cache:', cacheID,'has been discovered');
+            cacheRef.child('discovered').set(true);
+          }
+        });
       }
     });
   }
