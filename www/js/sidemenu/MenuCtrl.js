@@ -9,6 +9,10 @@ angular.module('snapcache.menu', [])
   // Triggered in the create modal to close it
   self.closeCreate = function() {
     self.createModal.remove();
+    // Broadcast an event to the child scope so that it knows to remove
+    // the mapModal (this fixes a bug where the map would not appear since it
+    // was not properly removed.
+    $scope.$broadcast('closeCreate');
   };
 
   // Open the create modal
