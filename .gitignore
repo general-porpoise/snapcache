@@ -12,3 +12,6 @@ www/css/ionic.app.min.css
 
 # Ignoring files from bower install
 www/lib
+
+.tern-port
+
