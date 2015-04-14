@@ -27,7 +27,7 @@ module.exports = function(config) {
       'www/lib/firebase/firebase.js',
       'https://cdn.firebase.com/libs/geofire/2.0.0/geofire.min.js',
       'www/lib/angularfire/dist/angularfire.min.js',
-      'plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js',
+//      'plugins/com.phonegap.plugins.facebookconnect/facebookConnectPlugin.js',
       'http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true',
       'www/lib/moment/moment.js',
       'www/lib/angular-moment/angular-moment.min.js',
