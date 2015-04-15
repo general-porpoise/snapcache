@@ -55,6 +55,12 @@ angular.module('snapcache.services.geofire', [])
           });
         });
       });
+      // remove geoquery listener when cache removed
+      cachesRef.on('child_removed', function(childSnapshot) {
+        if (childSnapshot.key() === id) {
+          geoQuery.cancel();
+        }
+      });
     }
   };
 
