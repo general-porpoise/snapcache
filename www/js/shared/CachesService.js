@@ -180,7 +180,7 @@ angular.module('snapcache.services.caches', [])
 
   // 'removeCache' removes the cache ref from the contributors and recipients associated with it, and then removes the cache itself from Firebase.
   function removeCache(cacheID, cacheData) {
-    // console.log('in removeCache', cacheData);
+    console.log('Removing cache', cacheData);
     var recipients = cacheData.recipients;
     var contributors = cacheData.contributors;
 

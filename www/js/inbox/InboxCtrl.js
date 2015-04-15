@@ -12,6 +12,7 @@ angular.module('snapcache.inbox', [])
     console.log('displaying caches...');
     Caches.getReceived().then(
       function (receivedCaches) {
+        self.caches = [];
         console.log('receivedCaches', receivedCaches);
         // Set listeners on received caches
         Geofire.setListeners(receivedCaches);
@@ -22,6 +23,9 @@ angular.module('snapcache.inbox', [])
             Caches.getCacheDetailsForDiscovered(cacheID).then(
               function (cache) {
                 self.caches.push(cache);
+
+                // Set up timers to clear out caches on expiry
+                self.setTimerForExpiredRemoval(cache);
               });
 
             // Set up firebase listeners to populate inbox list with newly
@@ -29,6 +33,8 @@ angular.module('snapcache.inbox', [])
             Caches.onCacheDiscovered(cacheID).then(function(cache) {
               console.log('pushing discovered cache to inbox');
               self.caches.push(cache);
+              // set expiry timer for newly discovered cache
+              self.setTimerForExpiredRemoval(cache);
             });
           })(key);
         }
@@ -73,6 +79,20 @@ angular.module('snapcache.inbox', [])
   // Closes the cache detail modal view, and removes it to prevent memory leaks.
   self.closeDetail = function() {
     self.detailModal.remove();
+  };
+
+  // Schedules the given cache to be removed from the db at time of expiry
+  self.setTimerForExpiredRemoval = function (cache) {
+    // calculate offset from now
+    var now = new Date().getTime();
+    var timeUntilExpiry = cache.expiresAt - now;
+    console.log('timeUntilExpiry', timeUntilExpiry);
+
+    // // call removal fn at that offset time
+    setTimeout(function () {
+      console.log('REDISPLAY Caches');
+      self.displayCaches();
+    }, timeUntilExpiry);
   };
 
   self.displayCaches();
