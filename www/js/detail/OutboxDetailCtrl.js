@@ -21,11 +21,18 @@ angular.module('snapcache.detail.outbox', [])
   }
 
   self.addText = function(text) {
-    // Push the added message into the texts array so that the view
-    // dynamically updates.
-    self.texts.push({
+    var text = {
       message: text,
       contributor: userSession.name
-    });
+    };
+    // Push the added message into the texts array so that the view
+    // dynamically updates.
+    self.texts.push(text);
+
+    // Need to also add it to the cache, so that the view will remain consistent
+    // as the user switches in and out of the outbox detail.
+      // NOTE: We just use a random id to replicate the structure that Firebase
+      // uses. This should be fine for the case where the user logs in.
+    self.cache.contents.text[Math.random()] = text;
   };
 });
