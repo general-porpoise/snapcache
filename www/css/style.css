@@ -37,3 +37,7 @@
 .location-text {
   font-size: .9em;
 }
+
+.bold-text {
+  font-weight: bold;
+}

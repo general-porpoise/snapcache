@@ -23,9 +23,11 @@
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/inbox">
           Inbox
+          <span class="badge badge-assertive" ng-show="menuCtrl.unreadIn > 0">{{ menuCtrl.unreadIn }}</span>
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/outbox">
           Outbox
+          <span class="badge badge-positive" ng-show="menuCtrl.unreadOut > 0">{{ menuCtrl.unreadOut }}</span>
         </ion-item>
       </ion-list>
     </ion-content>
