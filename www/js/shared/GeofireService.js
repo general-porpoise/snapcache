@@ -74,27 +74,33 @@ angular.module('snapcache.services.geofire', [])
       });
       geoQuery.on('key_entered', function(key, location, distance) {
         if (key !== userSession.uid) return;
-          console.log('user key:', key);
+        console.log('user key:', key);
 
-          cachesRef.child(cacheID).child('discovered').once('value', function(freshSnapshot) {
-            var isDiscovered = freshSnapshot.val();
+        cachesRef.child(cacheID).child('discovered').once('value', function(freshSnapshot) {
+          var isDiscovered = freshSnapshot.val();
 
-            var now = Date.now();
-            var droptime = cacheObj.droptime;
-            var lifespan = cacheObj.lifespan;
-            console.log('now:', now);
-            console.log('droptime:', droptime);
-            console.log('droptime+lifespan:', droptime+lifespan);
-            console.log('discovered:', isDiscovered);
-            // check if cache is available to be discovered
-            if ((now > droptime) &&
-               (now < (droptime + lifespan)) &&
-               (!isDiscovered)) {
-              // set cache state to discovered
-              Caches.discoverCache(cacheID);
-              console.log('new cache discovered!');
-            }
-          });
+          var now = Date.now();
+          var droptime = cacheObj.droptime;
+          var lifespan = cacheObj.lifespan;
+          console.log('now:', now);
+          console.log('droptime:', droptime);
+          console.log('droptime+lifespan:', droptime+lifespan);
+          console.log('discovered:', isDiscovered);
+          // check if cache is available to be discovered
+          if ((now > droptime) &&
+             (now < (droptime + lifespan)) &&
+             (!isDiscovered)) {
+            // set cache state to discovered
+            Caches.discoverCache(cacheID);
+            console.log('new cache discovered!');
+          }
+        });
+      });
+      // remove geoquery listener when cache removed
+      cachesRef.on('child_removed', function(childSnapshot) {
+        if (childSnapshot.key() === cacheID) {
+          geoQuery.cancel();
+        }
       });
     })
   };
