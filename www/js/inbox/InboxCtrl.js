@@ -68,14 +68,13 @@ angular.module('snapcache.inbox', [])
         .child('read_inbox').set(true);
     }
     userSession.currentCache = cache;
-    userSession.currentCache.controller = 'inctrl';
     self.showDetail();
   };
 
   // Shows the cache detail modal view
   self.showDetail = function() {
     // Creates the detail modal based on the specified template
-    $ionicModal.fromTemplateUrl('js/detail/detail.html', {
+    $ionicModal.fromTemplateUrl('js/detail/inboxDetail.html', {
       scope: $scope
     }).then(function(modal) {
       self.detailModal = modal;
