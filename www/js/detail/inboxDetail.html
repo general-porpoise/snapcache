@@ -1,0 +1,16 @@
+<ion-modal-view ng-controller="InboxDetailCtrl as dctrl">
+  <ion-header-bar>
+    <h1 class="title">Cache Details {{ dctrl.cache.title }}</h1>
+    <div class="bar bar-header">
+      <h1 class="title">{{ dctrl.cache.title }}</h1>
+      <button class="button button-clear" ng-click="inctrl.closeDetail()">Close</button>
+    </div>
+
+  </ion-header-bar>
+  <ion-content>
+    <div class="detail-message">{{ dctrl.cache.message }}</div>
+    <div class="detail-countdown" am-time-ago="{{ dctrl.cache.expiresAt }}"></div>
+    <div class="detail-location">{{ dctrl.cache.readable_location }}</div>
+
+  </ion-content>
+</ion-modal-view>
