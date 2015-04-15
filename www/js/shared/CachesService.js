@@ -14,6 +14,7 @@ angular.module('snapcache.services.caches', [])
     getCacheDetailsForDiscovered: getCacheDetailsForDiscovered,
     onCacheDiscovered: onCacheDiscovered,
     create: create,
+    addContribution: addContribution,
     discoverCache: discoverCache,
     removeCache: removeCache
   };
@@ -146,6 +147,18 @@ angular.module('snapcache.services.caches', [])
       cache[cacheID] = true;
       usersRef.child(userID).child('receivedCaches').update(cache);
     }
+  }
+  // `addContribution()` is used to add additional data to a cache based
+  // on the `type` property.
+  function addContribution(cacheID, type, contents) {
+    var contentsRef = cachesRef.child(cacheID).child('contents');
+    contentsRef.child(type).push(contents);
+    //  NOTE: The object structure is the following:
+    //  - CacheID
+    //    - contents
+    //      - type
+    //        - ContributionID
+    //          - contents
   }
 
   // Toggles the discover flag on the indicated cache (in Firebase) and will

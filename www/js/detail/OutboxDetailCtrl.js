@@ -2,7 +2,7 @@
 angular.module('snapcache.detail.outbox', [])
 
 // Detail controller
-.controller('OutboxDetailCtrl', function (userSession) {
+.controller('OutboxDetailCtrl', function (userSession, Caches) {
   var self = this;
   self.cache = userSession.currentCache;
   self.texts = [];
@@ -20,6 +20,8 @@ angular.module('snapcache.detail.outbox', [])
     self.texts.push(texts[id]);
   }
 
+  // `addText()` will take the text of an additional message that the user
+  // wants to contribute to the cache, add it, and save it to Firebase.
   self.addText = function(text) {
     var text = {
       message: text,
@@ -34,5 +36,9 @@ angular.module('snapcache.detail.outbox', [])
       // NOTE: We just use a random id to replicate the structure that Firebase
       // uses. This should be fine for the case where the user logs in.
     self.cache.contents.text[Math.random()] = text;
+
+    // Send the additional cache contribution to Firebase.
+    Caches.addContribution(self.cache._id, "text", text);
+
   };
 });
