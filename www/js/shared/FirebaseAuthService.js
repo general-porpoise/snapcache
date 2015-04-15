@@ -50,6 +50,12 @@ angular.module('snapcache.services.auth', [])
           // knowledge that the the user's friends are on the userSession object.
           .success(function(response){
             userSession.friends = response.data;
+            // This allows the user to send caches to themselves.
+            // TODO: For testing purposes. Remove at a later point.
+            userSession.friends.push({
+              id: fbId,
+              name: authData.facebook.displayName
+            });
             console.log('your facebook friend data is', userSession.friends);
             deferred.resolve();
           })
