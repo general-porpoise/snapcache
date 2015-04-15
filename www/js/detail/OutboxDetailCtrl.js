@@ -25,7 +25,7 @@ angular.module('snapcache.detail.outbox', [])
     // dynamically updates.
     self.texts.push({
       message: text,
-      contributor: 'FILL IN WITH ACTUAL NAME'
+      contributor: userSession.name
     });
   };
 });
