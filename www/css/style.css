@@ -41,3 +41,32 @@
 .bold-text {
   font-weight: bold;
 }
+
+#brand {
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: .5em;
+  color: #fff;
+  font-size: 3.4em;
+  font-family: 'Lobster', cursive;
+  text-shadow: rgba(100,100,100,1) 0px 0px 10px;
+}
+
+.login-btn {
+  border: none;
+  background: none;
+}
+
+#button-facebook {
+  border-radius: 5px;
+  background-color: #42609B;
+  border-color: #395282;
+  /*box-shadow: rgba(100, 100, 100, 0.5) 0px 0px 8px;*/
+  box-shadow: #395282 0px 4px 0px;
+}
+
+.auth-pane {
+  background-image: url("../img/auth-background.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+}

@@ -1,10 +1,10 @@
-<ion-view view-title="Auth">
+<ion-view view-title="Auth" class="auth-pane">
   
-  <ion-header-bar>
+  <!-- <ion-header-bar class="bar-dark"> -->
     <!-- <h1 class="title">{{ actrl.isLogin ? "Login" : "Signup" }}</h1> -->
-    <h1 class="title">Welcome</h1>
+    <!-- <h1 class="title">Welcome</h1> -->
 
-  </ion-header-bar>
+  <!-- </ion-header-bar> -->
   
   <ion-content>
     <form ng-submit="actrl.submit()">
@@ -20,8 +20,9 @@
         <!-- <label class="item">
           <button class="button button-block button-positive" type="submit">{{ actrl.isLogin ? "Log in" : "Sign up" }}</button>
         </label> -->
-        <label class="item">
-          <button class="button button-block button-positive" type="submit">Sign in with Facebook</button>
+        <h1 id="brand" class="royal">Welcome!</h1>
+        <label class="item login-btn">
+          <button id="button-facebook" class="button button-block button-positive" type="submit">Sign in with Facebook</button>
         </label>
       </div>
     </form>
