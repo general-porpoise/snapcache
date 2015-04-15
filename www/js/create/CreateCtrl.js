@@ -193,23 +193,21 @@ angular.module('snapcache.create', [])
 
   // Main function that sets up the map and adds in event handling
   self.initializeMap = function() {
+    // Get the user's location (or default to San Francisco).
     var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
-
+    if (userSession.position) {
+      var coords = userSession.position.coords;
+      myLatlng = new google.maps.LatLng(coords.latitude, coords.longitude);
+    }
+    // Set default values for the map.
     var mapOptions = {
       center: myLatlng,
       zoom: 16,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-
+    // Create the map object and center it.
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-    navigator.geolocation.getCurrentPosition(function(pos) {
-      console.log(pos);
-      var latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-      map.setCenter(latLng);
-      self.placeMarker(latLng);
-    });
-
+    map.setCenter(myLatlng);
     self.map = map;
 
     // Add event listener for mousedown event
@@ -239,12 +237,19 @@ angular.module('snapcache.create', [])
       console.log('detected a drag event');
       self.placeMarkerCancel();
     });
+
+    // Finally, place the marker at the user's location. Have to use
+    // $timeout due to Angular constraint that only one $apply can run
+    // at a time.
+    $timeout(function() {
+      self.placeMarker(myLatlng);
+    }, 100);
+
   };
 
   // `placeMarker()` will remove the current marker and create a new one
   // at the user provided latLng.
   self.placeMarker = function(latLng) {
-    console.log('latLng is', latLng);
     self.removeMarker();
     self.marker = new google.maps.Marker({
       animation: google.maps.Animation.DROP,
