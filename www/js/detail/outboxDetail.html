@@ -18,9 +18,9 @@
     <!-- <button class="button icon ion-paperclip"></button> -->
     <label class="item-input-wrapper">
       <i class="icon ion-ios7-search placeholder-icon"></i>
-      <input type="text" placeholder="Message">
+      <input type="text" placeholder="Message" ng-model="text">
     </label>
-    <button class="button icon ion-paper-airplane"></button>
+    <button class="button icon ion-paper-airplane" ng-click="dctrl.addText(text)"></button>
   </div>
 
 </ion-modal-view>

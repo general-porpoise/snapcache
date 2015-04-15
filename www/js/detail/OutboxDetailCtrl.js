@@ -20,4 +20,12 @@ angular.module('snapcache.detail.outbox', [])
     self.texts.push(texts[id]);
   }
 
+  self.addText = function(text) {
+    // Push the added message into the texts array so that the view
+    // dynamically updates.
+    self.texts.push({
+      message: text,
+      contributor: 'FILL IN WITH ACTUAL NAME'
+    });
+  };
 });
