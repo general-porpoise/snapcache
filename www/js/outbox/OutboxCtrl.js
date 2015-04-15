@@ -8,6 +8,7 @@ angular.module('snapcache.outbox', [])
   self.displayCaches = function () {
     Caches.getContributable().then(
       function (contributableCaches) {
+        self.caches = [];
         for (var key in contributableCaches) {
           // The following async function call has to be wrapped in an anonymous function to localize "key" to another name ("cacheID"). See [this page](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript) for more information.
           (function (cacheID) {
@@ -15,6 +16,11 @@ angular.module('snapcache.outbox', [])
               function (cache) {
                 cache._id = cacheID;
                 self.caches.push(cache);
+
+                // Set up timers to clear out caches on expiry, for those caches that have an expiry (have been discovered).
+                if (cache.expiresAt) {
+                  self.setTimerForExpiredRemoval(cache);
+                }
               });
           })(key);
         }
@@ -55,6 +61,17 @@ angular.module('snapcache.outbox', [])
     self.detailModal.remove();
   };
 
+  // Schedules the given cache to be removed from the db at time of expiry
+  self.setTimerForExpiredRemoval = function (cache) {
+    // calculate offset from now
+    var now = new Date().getTime();
+    var timeUntilExpiry = cache.expiresAt - now;
+
+    // // call removal fn at that offset time
+    setTimeout(function () {
+      self.displayCaches();
+    }, timeUntilExpiry);
+  };
 
   self.displayCaches();
 });

@@ -24,7 +24,8 @@
   "cordovaPlugins": [
     "org.apache.cordova.inappbrowser",
     "org.apache.cordova.geolocation",
-    "com.phonegap.plugins.facebookconnect"
+    "com.phonegap.plugins.facebookconnect",
+    "org.apache.cordova.device"
   ],
   "cordovaPlatforms": []
 }
