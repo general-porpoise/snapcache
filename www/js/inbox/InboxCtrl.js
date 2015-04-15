@@ -22,6 +22,7 @@ angular.module('snapcache.inbox', [])
           (function (cacheID) {
             Caches.getCacheDetailsForDiscovered(cacheID).then(
               function (cache) {
+                cache._id = cacheID;
                 self.caches.push(cache);
 
                 // Set up timers to clear out caches on expiry
@@ -32,6 +33,7 @@ angular.module('snapcache.inbox', [])
             // discovered caches
             Caches.onCacheDiscovered(cacheID).then(function(cache) {
               console.log('pushing discovered cache to inbox');
+              cache._id = cacheID;
               self.caches.push(cache);
               // set expiry timer for newly discovered cache
               self.setTimerForExpiredRemoval(cache);
@@ -52,12 +54,19 @@ angular.module('snapcache.inbox', [])
     Geofire.setListener(childSnapshot.key());
     Caches.onCacheDiscovered(childSnapshot.key()).then(function(cache) {
       console.log('pushing discovered cache to inbox');
+      cache._id = childSnapshot.key();
       self.caches.push(cache);
     });
   });
 
   // Displays detail view once the cache information has been stored.
   self.displayDetails = function (cache) {
+    if (!cache.hasOwnProperty('read_inbox')) {
+      // set caches to 'read' when first opened in detail view
+      cache.read_inbox = true;
+      new Firebase(FIREBASE_REF).child('caches').child(cache._id)
+        .child('read_inbox').set(true);
+    }
     userSession.currentCache = cache;
     userSession.currentCache.controller = 'inctrl';
     self.showDetail();

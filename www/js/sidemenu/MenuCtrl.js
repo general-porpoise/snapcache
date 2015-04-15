@@ -1,10 +1,66 @@
 // Menu Controller
 angular.module('snapcache.menu', [])
 
-.controller('MenuCtrl', function($scope, $ionicModal, $ionicPlatform, userSession, Geofire) {
+.controller('MenuCtrl', function(FIREBASE_REF, Caches, $scope, $ionicModal, $ionicPlatform, userSession, Geofire) {
 
   var self = this;
   self.position;
+  self.unreadIn = 0;
+  self.unreadOut = 0;
+
+  var cachesRef = new Firebase(FIREBASE_REF).child('caches');
+
+  // Read vs Unread logic for received caches
+  var receivedRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('receivedCaches');
+  receivedRef.on('child_added', function(addedSnapshot) {
+    var id = addedSnapshot.key();
+    cachesRef.child(id).once('value', function(cacheSnapshot) {
+      var staleCache = cacheSnapshot.val();
+      // if incoming caches have not already been read...
+      if (!staleCache.hasOwnProperty('read_inbox')) {
+        // increment inbox count when new caches are discovered
+        if (!staleCache.discovered) {
+          Caches.onCacheDiscovered(id).then(function(cache) {
+            var cacheRef = cachesRef.child(id);
+            self.unreadIn++;
+          });
+        } else {
+          // ... increment inbox count
+          self.unreadIn++;
+        }
+        // set read listener
+        console.log('Adding READ listener to new cache');
+        cachesRef.child(id).on('child_added', function(childSnapshot) {
+          // decrement inbox count when inbox cache read
+          if (childSnapshot.key() === 'read_inbox') {
+            console.log('Marking inbound cache as read...');
+            self.unreadIn--;
+          }
+        });
+      }
+    });
+  });
+
+  // Read vs Unread logic for contributable caches
+  var contributableRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('contributableCaches');
+  contributableRef.on('child_added', function(addedSnapshot) {
+    var id = addedSnapshot.key();
+    cachesRef.child(id).once('value', function(cacheSnapshot) {
+      var staleCache = cacheSnapshot.val();
+      // if outgoing caches have not already been read...
+      if (!staleCache.hasOwnProperty('read_outbox')) {
+        self.unreadOut++;
+        // set read listener
+        cachesRef.child(id).on('child_added', function(childSnapshot) {
+          // decrement outbox count when inbox cache read
+          if (childSnapshot.key() === 'read_outbox') {
+            console.log('Marking outbound cache as read...');
+            self.unreadOut--;
+          }
+        });
+      }
+    });
+  });
 
   // Triggered in the create modal to close it
   self.closeCreate = function() {

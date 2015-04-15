@@ -1,7 +1,7 @@
 // Outbox module
 angular.module('snapcache.outbox', [])
 
-.controller('OutboxCtrl', function (Caches, userSession, $scope, $ionicModal) {
+.controller('OutboxCtrl', function (Caches, FIREBASE_REF, userSession, $scope, $ionicModal) {
   var self = this;
   self.caches = [];
 
@@ -13,6 +13,7 @@ angular.module('snapcache.outbox', [])
           (function (cacheID) {
             Caches.getCacheDetails(cacheID).then(
               function (cache) {
+                cache._id = cacheID;
                 self.caches.push(cache);
               });
           })(key);
@@ -25,6 +26,12 @@ angular.module('snapcache.outbox', [])
 
   // Displays detail view once the cache information has been stored.
   self.displayDetails = function (cache) {
+    if (!cache.hasOwnProperty('read_outbox')) {
+      // set caches to 'read' when first opened in detail view
+      cache.read_outbox = true;
+      new Firebase(FIREBASE_REF).child('caches').child(cache._id)
+        .child('read_outbox').set(true);
+    }
     userSession.currentCache = cache;
     userSession.currentCache.controller = 'outctrl';
     self.showDetail();
