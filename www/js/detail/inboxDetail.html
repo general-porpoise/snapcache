@@ -8,9 +8,10 @@
 
   </ion-header-bar>
   <ion-content>
-    <div class="detail-message">{{ dctrl.cache.message }}</div>
-    <div class="detail-countdown" am-time-ago="{{ dctrl.cache.expiresAt }}"></div>
-    <div class="detail-location">{{ dctrl.cache.readable_location }}</div>
-
+    <ion-list type="card">
+      <ion-item ng-repeat="text in dctrl.texts">
+        <span class="bold-text">{{ text.contributor }}</span> said "{{ text.message }}"
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-modal-view>
