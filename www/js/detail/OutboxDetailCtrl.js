@@ -40,5 +40,8 @@ angular.module('snapcache.detail.outbox', [])
 
     // Send the additional cache contribution to Firebase.
     Caches.addContribution(self.cache._id, "text", text);
+
+    // Remove the user input
+    self.text = '';
   };
 });
