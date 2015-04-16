@@ -14,6 +14,7 @@ angular.module('snapcache.services.caches', [])
     getCacheDetailsForDiscovered: getCacheDetailsForDiscovered,
     onCacheDiscovered: onCacheDiscovered,
     create: create,
+    addContribution: addContribution,
     discoverCache: discoverCache,
     removeCache: removeCache
   };
@@ -128,8 +129,18 @@ angular.module('snapcache.services.caches', [])
   // (contributors and recipients).
   function create(cacheParams) {
     var newCacheRef = cachesRef.push(cacheParams);
-    // Get the ID that Firebase will safe the cache at.
+    // Get the ID that Firebase will save the cache at.
     var cacheID = newCacheRef.key();
+
+    // Get the message and add it is the first contribution
+    var text = {
+      contributor: userSession.name,
+      content: {
+        type: "text",
+        message: cacheParams.message
+      }
+    };
+    addContribution(cacheID, text);
 
     // Add the new cache's id to the contributing users inboxes.
     var contributors = cacheParams.contributors;
@@ -146,6 +157,20 @@ angular.module('snapcache.services.caches', [])
       cache[cacheID] = true;
       usersRef.child(userID).child('receivedCaches').update(cache);
     }
+  }
+  // `addContribution()` is used to add additional data to a cache based
+  // on the `type` property.
+  function addContribution(cacheID, contribution) {
+    var contentsRef = cachesRef.child(cacheID).child('contents');
+    contentsRef.push(contribution);
+    //  NOTE: The object structure is the following:
+    //  - CacheID
+    //    - contents
+    //        - ContributionID
+    //          - contributor
+    //          - content
+    //            - type
+    //            - value specific to type
   }
 
   // Toggles the discover flag on the indicated cache (in Firebase) and will
