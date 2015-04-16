@@ -16,11 +16,20 @@
 
   <div class="bar bar-footer item-input-inset">
     <!-- <button class="button icon ion-paperclip"></button> -->
-    <label class="item-input-wrapper">
-      <i class="icon ion-ios7-search placeholder-icon"></i>
-      <input type="text" placeholder="Message" ng-model="text">
-    </label>
-    <button class="button icon ion-paper-airplane" ng-click="dctrl.addText(text)"></button>
+      <label class="item-input-wrapper" ng-show="dctrl.isContributable">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input type="text" placeholder="Message" ng-model="text">
+      </label>
+      <button class="button icon ion-paper-airplane" ng-click="dctrl.addText(text)" ng-show="dctrl.isContributable"></button>
+
+    <div ng-show="!dctrl.isContributable">
+      <div ng-show="dctrl.cache.discovered">
+        The cache has been discovered!
+      </div>
+      <div ng-show="!dctrl.cache.discovered">
+        The cache is available, but has not been discovered.
+      </div>
+    </div>
   </div>
 
 </ion-modal-view>

@@ -6,6 +6,7 @@ angular.module('snapcache.detail.outbox', [])
   var self = this;
   self.cache = userSession.currentCache;
   self.texts = [];
+  self.isContributable = (Date.now() < self.cache.droptime);
 
   // Load the cache's text objects into an array
   // NOTE: Currently, the assumed object structure is the following:
@@ -39,6 +40,5 @@ angular.module('snapcache.detail.outbox', [])
 
     // Send the additional cache contribution to Firebase.
     Caches.addContribution(self.cache._id, "text", text);
-
   };
 });
