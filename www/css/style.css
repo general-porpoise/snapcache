@@ -61,12 +61,11 @@
   border-radius: 5px;
   background-color: #42609B;
   border-color: #395282;
-  /*box-shadow: rgba(100, 100, 100, 0.5) 0px 0px 8px;*/
   box-shadow: #395282 0px 4px 0px;
 }
 
 .auth-pane {
-  background-image: url("../img/auth-background.jpeg");
+  background-image: url("../img/auth-background.png");
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -124,12 +123,12 @@
 
 .cache-title {
   font-family: 'Lato', sans-serif;
+  font-size: 2.2em;
+  margin-bottom: .6em;
 }
 
 .cache-countdown {
   font-family: 'Lato', sans-serif;
-  font-size: 2.2em;
-  margin-bottom: .6em;
 }
 
 .cache-availIn {
