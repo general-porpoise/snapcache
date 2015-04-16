@@ -5,14 +5,14 @@
     <ion-list type="card">
       <ion-item class="cache-item" ng-repeat="cache in outctrl.caches | orderBy: 'expiresAt'" ng-click="outctrl.displayDetails(cache)">
         <div class="cache-availIn" ng-if="!cache.discovered">
-          Available: <span am-time-ago="{{ cache.droptime }}"></span>
+          dropping <span am-time-ago="{{ cache.droptime }}"></span>
         </div>
         <div class="cache-countdown" ng-if="cache.discovered">
-          Expires: <span am-time-ago="{{ cache.expiresAt }}"></span>
+          gone <span am-time-ago="{{ cache.expiresAt }}"></span>
         </div>
-        <div class="cache-title {{cache.hasOwnProperty('read_outbox')? '': 'bold-text'}}">
+        <span class="cache-title {{cache.hasOwnProperty('read_outbox')? '': 'bold-text'}}">
           {{ cache.title }}
-        </div>
+        </span>
 
         <div class="cache-location">{{ cache.readable_location }}</div>
         <div class="fade-from-right">
