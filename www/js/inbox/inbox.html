@@ -1,4 +1,4 @@
-<ion-view view-title="Inbox">
+<ion-view view-title="Inbox" class="inbox-pane">
 
   <ion-content>
   
@@ -8,6 +8,8 @@
         <span class="cache-title {{cache.hasOwnProperty('read_inbox')? '': 'bold-text'}}">{{ cache.title }}</span>
         <div class="cache-location">{{ cache.readable_location }}</div>
         <div class="fade-from-right">
+        </div>
+        <div class="top-bar">
         </div>
       </ion-item>
     </ion-list>

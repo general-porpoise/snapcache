@@ -78,9 +78,8 @@
 }
 
 .cache-item {
-  padding: 1.6em 1em .8em 1em;
-  border: 1px solid #dddddd;
-  background-color: white;
+  padding: 1.8em 1em .8em 1em;
+  border: 1px solid #cccccc;
 }
 
 .fade-from-right {
@@ -98,6 +97,25 @@
   background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 94%, rgba(255,255,255,1) 100%);
   background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 94%, rgba(255,255,255,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=1 );
+}
+
+.top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  z-index: 100;
+  background-color: #e0e0e0;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .title {
@@ -118,4 +136,26 @@
   font-family: 'Lato', sans-serif;
   font-size: 1em;
   color: #cccccc;
+}
+
+/* Color pallette */
+
+.purple-snap {
+  background-color: #7b53df;
+}
+
+.green-snap {
+  background-color: #008f5a;
+}
+
+.orange-snap {
+  background-color: #f08a1a;
+}
+
+.yellow-snap {
+  background-color: #fdd016;
+}
+
+.blue-snap {
+  background-color: #0065a4;
 }
