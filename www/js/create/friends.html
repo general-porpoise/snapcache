@@ -1,0 +1,16 @@
+<ion-popover-view>
+  <ion-header-bar>
+    <h1 class="title">Select Recipient</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="createCtrl.closePopover()">Done</button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <input type="text" ng-change="createCtrl.search()" ng-model="createCtrl.recipient" placeholder='Jane Doe'>
+    <ion-list>
+      <ion-item ng-repeat="friend in createCtrl.potentialRecipients" ng-click="createCtrl.addRecipient(friend)">
+        {{ friend.name }}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-popover-view>
