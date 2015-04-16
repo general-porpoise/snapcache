@@ -82,6 +82,11 @@ angular.module('snapcache.menu', [])
     });
   };
 
+  //Cleanup the modal if we close the app on it!
+  $scope.$on('$destroy', function() {
+    self.createModal.remove();
+  });
+
   // ID for our user tracker
   var watchID;
 

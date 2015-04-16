@@ -55,6 +55,11 @@ angular.module('snapcache.outbox', [])
     });
   };
 
+  //Cleanup the modal if we close the app on it!
+  $scope.$on('$destroy', function() {
+    self.detailModal.remove();
+  });
+
   // Closes the cache detail modal view, and removes it to prevent memory leaks.
   self.closeDetail = function() {
     self.detailModal.remove();
