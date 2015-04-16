@@ -314,6 +314,6 @@ angular.module('snapcache.create', [])
 
   //Cleanup the popover when we're done with it!
   $scope.$on('$destroy', function() {
-    $scope.popover.remove();
+    self.popover.remove();
   });
 });
