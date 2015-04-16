@@ -5,6 +5,13 @@ angular.module('snapcache.inbox', [])
 .controller('InboxCtrl', function (FIREBASE_REF, Caches, userSession, $scope, $ionicModal, Geofire) {
   var self = this;
   self.caches = [];
+  self.colors = ["purple-snap", "green-snap", "yellow-snap", "blue-snap"];
+
+  self.getColorClass = function() {
+    var color = self.colors.shift();
+    self.colors.push(color);
+    return color;
+  };
 
   // Retrieves list of incoming caches for logged-in user and stores them for
   // use by ng-repeat in view.

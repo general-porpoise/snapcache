@@ -1,15 +1,16 @@
-<ion-view view-title="Inbox">
-  <ion-header-bar>
-    <h1 class="title">Inbox</h1>
-  </ion-header-bar>
+<ion-view view-title="Inbox" class="inbox-pane">
 
   <ion-content>
   
-    <ion-list type="card">
-      <ion-item ng-repeat="cache in inctrl.caches | orderBy: 'expiresAt'" ng-click="inctrl.displayDetails(cache)">
-        <span class="cache-title {{cache.hasOwnProperty('read_inbox')? '': 'bold-text'}}">{{ cache.title }}</span>
+    <ion-list class="cache-card" type="card">
+      <ion-item class="cache-item" ng-repeat="cache in inctrl.caches | orderBy: 'expiresAt'" ng-click="inctrl.displayDetails(cache)">
         <div class="cache-countdown" am-time-ago="{{ cache.expiresAt }}"></div>
+        <span class="cache-title {{cache.hasOwnProperty('read_inbox')? '': 'bold-text'}}">{{ cache.title }}</span>
         <div class="cache-location">{{ cache.readable_location }}</div>
+        <div class="fade-from-right">
+        </div>
+        <div class="top-bar">
+        </div>
       </ion-item>
     </ion-list>
 
