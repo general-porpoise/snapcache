@@ -129,8 +129,15 @@ angular.module('snapcache.services.caches', [])
   // (contributors and recipients).
   function create(cacheParams) {
     var newCacheRef = cachesRef.push(cacheParams);
-    // Get the ID that Firebase will safe the cache at.
+    // Get the ID that Firebase will save the cache at.
     var cacheID = newCacheRef.key();
+
+    // Get the message and add it is the first contribution
+    var text = {
+      message: cacheParams.message,
+      contributor: userSession.name
+    };
+    addContribution(cacheID, "text", text);
 
     // Add the new cache's id to the contributing users inboxes.
     var contributors = cacheParams.contributors;
