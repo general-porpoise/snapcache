@@ -76,7 +76,7 @@ angular.module('snapcache.create', [])
   };
 })
 
-.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover, Location) {
+.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover, Location, Camera) {
 
   var self = this;
   self.properties = {};
@@ -378,4 +378,16 @@ angular.module('snapcache.create', [])
   $scope.$on('$destroy', function() {
     self.popover.remove();
   });
+
+  // 'getPhoto()' opens the camera for picture taking and ...
+  self.getPhoto = function () {
+    console.log('GET PHOTO');
+    Camera.getPicture().then(
+      function (imageURI) {
+        console.log('PHOTO GOTTEN', imageURI);
+      },
+      function (error) {
+        console.error('getPhoto error', error);
+      });
+  };
 });
