@@ -76,7 +76,7 @@ angular.module('snapcache.create', [])
   };
 })
 
-.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession) {
+.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover) {
 
   var self = this;
   self.properties = {};
@@ -291,4 +291,29 @@ angular.module('snapcache.create', [])
       delete self.marker;
     }
   };
+
+  self.popover;
+
+  // Create popover to display friends
+  $ionicPopover.fromTemplateUrl('js/create/friends.html', {
+    scope: $scope,
+    focusFirstInput: true
+  }).then(function(popover) {
+    self.popover = popover;
+  });
+
+
+  self.openPopover = function($event) {
+    console.log('showing popover');
+    self.popover.show($event);
+  };
+  
+  self.closePopover = function() {
+    self.popover.hide();
+  };
+
+  //Cleanup the popover when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.popover.remove();
+  });
 });
