@@ -134,10 +134,13 @@ angular.module('snapcache.services.caches', [])
 
     // Get the message and add it is the first contribution
     var text = {
-      message: cacheParams.message,
-      contributor: userSession.name
+      contributor: userSession.name,
+      content: {
+        type: "text",
+        message: cacheParams.message
+      }
     };
-    addContribution(cacheID, "text", text);
+    addContribution(cacheID, text);
 
     // Add the new cache's id to the contributing users inboxes.
     var contributors = cacheParams.contributors;
@@ -157,15 +160,17 @@ angular.module('snapcache.services.caches', [])
   }
   // `addContribution()` is used to add additional data to a cache based
   // on the `type` property.
-  function addContribution(cacheID, type, contents) {
+  function addContribution(cacheID, contribution) {
     var contentsRef = cachesRef.child(cacheID).child('contents');
-    contentsRef.child(type).push(contents);
+    contentsRef.push(contribution);
     //  NOTE: The object structure is the following:
     //  - CacheID
     //    - contents
-    //      - type
     //        - ContributionID
-    //          - contents
+    //          - contributor
+    //          - content
+    //            - type
+    //            - value specific to type
   }
 
   // Toggles the discover flag on the indicated cache (in Firebase) and will

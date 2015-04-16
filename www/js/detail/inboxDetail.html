@@ -9,9 +9,10 @@
   </ion-header-bar>
   <ion-content>
     <ion-list type="card">
-      <ion-item ng-repeat="text in dctrl.texts">
-        <span class="bold-text">{{ text.contributor }}</span> said "{{ text.message }}"
+      <ion-item ng-repeat="item in dctrl.items">
+        <span class="bold-text">{{ item.contributor }}</span> said "{{ item.content.message }}"
       </ion-item>
+    </ion-list>
     </ion-list>
   </ion-content>
 </ion-modal-view>
