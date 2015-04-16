@@ -176,6 +176,11 @@ angular.module('snapcache.create', [])
     self.mapModal.remove();
   });
 
+  //Cleanup the modal if we close the app on it!
+  $scope.$on('$destroy', function() {
+    self.mapModal.remove();
+  });
+
   // Triggered in the map modal to close it
   self.closeMap = function() {
     self.render = false;
