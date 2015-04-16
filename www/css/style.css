@@ -131,6 +131,13 @@
   font-size: 3em;
   margin-bottom: .4em;
 }
+
+.cache-availIn {
+  font-family: 'Lato', sans-serif;
+  font-size: 3em;
+  margin-bottom: .4em;
+}
+
 .cache-location {
   display: inline-block;
   font-family: 'Lato', sans-serif;
