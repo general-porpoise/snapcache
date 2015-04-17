@@ -201,3 +201,24 @@ ion-content {
   border-radius: 5px;
   box-shadow: #0c63ee 0px 4px 0px;
 }
+
+.popover {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-shadow: #cccccc 0px 4px 0px;
+}
+
+.popover .bar-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.popover-list>div {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.popover-list>div:last-child {
+  border-top: 1px solid #dddddd;
+  border-bottom: 0px solid #dddddd;
+}
