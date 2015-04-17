@@ -172,7 +172,7 @@ angular.module('snapcache.menu', [])
 
   // Listen for `pinPlaced` events so that we know we can set the
   // new address in order to update the view.
-  $scope.$on('pinPlaced', function(event, addr){=
+  $scope.$on('pinPlaced', function(event, addr){
     self.readable_location = addr;
     userSession.readable_location = addr;
   });

@@ -102,6 +102,12 @@ angular.module('snapcache.create', [])
   // Cache will have the `discovered` property set to false
   self.properties.discovered = false;
 
+  // Want to use the user's current location as the default location
+  self.properties.coordinates = {
+    latitude: userSession.position.coords.latitude,
+    longitude: userSession.position.coords.longitude
+  };
+
   // `convertDateTime()` will take the user provided input and convert it to
   // milliseconds. To do this, it also has to know what date the user selected.
   // Only once the user has selected a date does the time box open up.
