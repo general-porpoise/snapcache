@@ -7,6 +7,7 @@ angular.module('snapcache.detail.outbox', [])
   self.cache = userSession.currentCache;
   self.items = [];
   self.isContributable = (Date.now() < self.cache.droptime);
+  self.contentToAdd = {};
 
   // Load the cache's objects into an array
   // NOTE: Currently, the assumed object structure is the following:
@@ -22,16 +23,32 @@ angular.module('snapcache.detail.outbox', [])
     self.items.push(items[id]);
   }
 
-  // `addText()` will take the text of an additional message that the user
+  // `addContent()` will take the content of an additional message that the user
   // wants to contribute to the cache, add it, and save it to Firebase.
-  self.addText = function(text) {
+  self.addContent = function() {
+    var type = '';
+    var message = '';
     var contribution = {
       contributor: userSession.name,
-      content: {
-        type: "text",
-        message: text
-      }
+      content: {}
     };
+
+    // Set contribution's type based on user-submitted content
+    if (self.contentToAdd.imgURL) {
+      contribution.content.type = 'image';
+      contribution.content.imgURL = self.contentToAdd.imgURL;
+    } else {
+      contribution.content.type = 'text';
+    }
+
+    // Set message on content only if user has added text
+    if (self.contentToAdd.text) {
+      contribution.content.message = self.contentToAdd.text;
+    }
+
+    console.log('CONTRIBUTION');
+    console.dir(contribution);
+
     // Push the added message into the texts array so that the view
     // dynamically updates.
     self.items.push(contribution);
@@ -46,12 +63,7 @@ angular.module('snapcache.detail.outbox', [])
     Caches.addContribution(self.cache._id, contribution);
 
     // Remove the user input
-    self.text = '';
-  };
-
-  // 
-  self.addPhoto = function (imageURL) {
-    console.log('imageURL', imageURL);
+    self.contentToAdd = {};
   };
 
   // 'getPhoto()' opens the camera for picture taking and ...
@@ -70,7 +82,7 @@ angular.module('snapcache.detail.outbox', [])
           .success(function (response) {
             console.log('SUCCESSFUL POST TO CLOUDINARY');
             self.hideLoading();            
-            self.addPhoto(response.url); // could be secure_url if we need https
+            self.contentToAdd.imgURL = response.url; // could be secure_url if we need https
 
           }).error(function(error) {
             console.log('ERROR POSTING TO CLOUDINARY');
