@@ -1,7 +1,7 @@
 // Outbox Forward Module
 angular.module('snapcache.outbox.forward', [])
 
-.controller('OutboxForwardCtrl', function($scope, UserFriends){
+.controller('OutboxForwardCtrl', function($scope, UserFriends, Caches, userSession){
 
   // Set default values
   $scope.person = {};
@@ -24,6 +24,15 @@ angular.module('snapcache.outbox.forward', [])
       $scope.contributors[id] = friend;
     }
     console.log('contributors are', $scope.contributors);
+  };
+
+  $scope.submit = function() {
+    // Iterate through the contributors, updating Firebase
+    for (var id in $scope.contributors) {
+      var cacheID = userSession.currentCache._id;
+      var fbID = 'facebook:' + id;
+      Caches.addContributor(cacheID, fbID);
+    }
   };
 
   // Initialize search results to display all friends.

@@ -15,6 +15,7 @@ angular.module('snapcache.services.caches', [])
     onCacheDiscovered: onCacheDiscovered,
     create: create,
     addContribution: addContribution,
+    addContributor: addContributor,
     discoverCache: discoverCache,
     removeCache: removeCache
   };
@@ -171,6 +172,22 @@ angular.module('snapcache.services.caches', [])
     //          - content
     //            - type
     //            - value specific to type
+  }
+
+  // `addContributor() is used to add additional contributors to a cache,
+  // thereby giving them the ability to read and write to that cache.
+  function addContributor(cacheID, contributorID) {
+    // First, add the contributor to the correct cache
+    var cacheRef = cachesRef.child(cacheID);
+    var contributor = {};
+    contributor[contributorID] = true;
+    cacheRef.child('contributors').update(contributor);
+
+    // Next, add the cacheID to that contributor's contributableCaches
+    var userRef = usersRef.child(contributorID);
+    var cache = {};
+    cache[cacheID] = true;
+    userRef.child('contributableCaches').update(cache);
   }
 
   // Toggles the discover flag on the indicated cache (in Firebase) and will

@@ -1,8 +1,8 @@
 <ion-modal-view ng-controller="OutboxForwardCtrl">
   <ion-header-bar>
-    <h1 class="title">Forward to Friends</h1>
+    <h1 class="title">Invite Cache Contributors</h1>
     <div class="bar bar-header">
-      <h1 class="title">Forward to Friends</h1>
+      <h1 class="title">Invite Cache Contributors</h1>
       <button class="button button-clear" ng-click="dctrl.closeForward()">Close</button>
     </div>
   </ion-header-bar>
@@ -23,7 +23,7 @@
         <i class="icon ion-ios7-search placeholder-icon"></i>
         <input type="text" placeholder="Name" ng-change="search()" ng-model="person.name">
       </label>
-      <button class="button icon ion-paper-airplane"></button>
+      <button class="button icon ion-paper-airplane" ng-click="submit()"></button>
 
   </div>
 
