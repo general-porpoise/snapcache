@@ -269,6 +269,25 @@ angular.module('snapcache.create', [])
       position: latLng
     });
 
+    self.circle = new google.maps.Circle({
+      strokeColor: '#CCCCCC',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FFFFFF',
+      fillOpacity: 0.45,
+      map: self.map,
+      center: latLng,
+      radius: 100,
+      geodesic: true
+    });
+
+    self.circle.bindTo('center', self.marker, 'position');
+
+    google.maps.event.addListener(self.marker, 'drag', function(event) {
+      // console.log(event.latLng.toString());
+      self.circle.setCenter(event.latLng);
+    });
+
     delete self.placeMarkerPromise;
 
     // Updating any data that the scope needs to know about due to the
@@ -306,7 +325,13 @@ angular.module('snapcache.create', [])
     if (angular.isDefined(self.marker)) {
       self.marker.setMap(null);
       delete self.marker;
+      self.removeCircle();
     }
+  };
+
+  self.removeCircle = function() {
+    self.circle.setMap(null);
+    delete self.circle;
   };
 
   self.popover;
