@@ -384,13 +384,21 @@ angular.module('snapcache.create', [])
     console.log('GET PHOTO');
     Camera.getPicture({
       destinationType: navigator.camera.DestinationType.DATA_URL,
-      quality: 10 // set below 50 to avoid iOS memory errors
+      targetHeight: 1500,
+      targetWidth: 1500,
+      quality: 25 // set below 50 to avoid iOS memory errors
     })
     .then(
       function (imageURI) {
         console.log('PHOTO GOTTEN');
         self.showLoading('Uploading...');
-        Cloudinary.uploadImage(imageURI);
+        Cloudinary.uploadImage(imageURI).then(
+          function () {
+            console.log('uploadImage success');
+          },
+          function () {
+            console.log('uploadImage error');
+          });
       },
       function (error) {
         self.hideLoading();
