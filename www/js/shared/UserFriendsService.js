@@ -15,7 +15,6 @@ angular.module('snapcache.services.userFriends', [])
     // In the future, we will want to only look at the subset of a
     // user's Facebook friends that are registered in the app.
     var friends = userSession.friends;
-    console.log('searching friends for', searchFilter);
 
     // Find the matches based on the user's inputed searchFilter.
     var matches = friends.filter(function(friend){

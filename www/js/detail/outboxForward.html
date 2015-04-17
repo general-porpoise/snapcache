@@ -1,4 +1,4 @@
-<ion-modal-view ng-controller="OutboxForwardCtrl as fctrl">>
+<ion-modal-view ng-controller="OutboxForwardCtrl">
   <ion-header-bar>
     <h1 class="title">Forward to Friends</h1>
     <div class="bar bar-header">
@@ -8,12 +8,23 @@
   </ion-header-bar>
   <ion-content>
     <ul class="list">
-      <li class="item item-checkbox">
+      <li ng-repeat="friend in potentialContributors" class="item item-checkbox">
         <label class="checkbox">
           <input type="checkbox">
         </label>
-        Flux Capacitor
+        {{ friend.name }}
       </li>
     </ul>
   </ion-content>
+
+  <div class="bar bar-footer item-input-inset">
+    <!-- <button class="button icon ion-paperclip"></button> -->
+      <label class="item-input-wrapper">
+        <i class="icon ion-ios7-search placeholder-icon"></i>
+        <input type="text" placeholder="Name" ng-change="search()" ng-model="person.name">
+      </label>
+      <button class="button icon ion-paper-airplane"></button>
+
+  </div>
+
 </ion-modal-view>
