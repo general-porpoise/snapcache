@@ -20,7 +20,9 @@ angular.module('snapcache', [
   'snapcache.services.userFriends',
   'snapcache.services.location',
   'snapcache.services.camera',
-  'angularMoment',
+  'snapcache.services.cloudinary',
+  'snapcache.config',
+  'angularMoment'
 ])
 
 .value('FIREBASE_REF', 'https://brilliant-heat-4193.firebaseio.com/')

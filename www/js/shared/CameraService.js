@@ -2,9 +2,10 @@ angular.module('snapcache.services.camera', [])
 
 .factory('Camera', ['$q', function($q) {
 
-  return {
-    getPicture: function(options) {
+  var getPicture = function(options) {
       var deferred = $q.defer();
+
+      console.log('CAMERA GETPICTURE');
 
       navigator.camera.getPicture(function(result) {
         // Do any magic you need
@@ -14,6 +15,9 @@ angular.module('snapcache.services.camera', [])
       }, options);
 
       return deferred.promise;
-    }
+    };
+
+  return {
+    getPicture: getPicture
   };
 }]);
