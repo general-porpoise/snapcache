@@ -2,7 +2,7 @@
 angular.module('snapcache.detail.outbox', [])
 
 // Detail controller
-.controller('OutboxDetailCtrl', function (userSession, Caches) {
+.controller('OutboxDetailCtrl', function (userSession, Caches, Camera, Cloudinary, $ionicLoading) {
   var self = this;
   self.cache = userSession.currentCache;
   self.items = [];
@@ -48,4 +48,51 @@ angular.module('snapcache.detail.outbox', [])
     // Remove the user input
     self.text = '';
   };
+
+  // 
+  self.addPhoto = function (imageURL) {
+    console.log('imageURL', imageURL);
+  };
+
+  // 'getPhoto()' opens the camera for picture taking and ...
+  self.getPhoto = function () {
+    console.log('GET PHOTO');
+    Camera.getPicture({
+      destinationType: navigator.camera.DestinationType.DATA_URL,
+      targetHeight: 1500,
+      targetWidth: 1500,
+      quality: 25 // set below 50 to avoid iOS memory errors
+    })
+    .then(
+      function (image) {
+        self.showLoading('Uploading...');
+        Cloudinary.uploadImage(image)
+          .success(function (response) {
+            console.log('SUCCESSFUL POST TO CLOUDINARY');
+            self.hideLoading();            
+            self.addPhoto(response.url); // could be secure_url if we need https
+
+          }).error(function(error) {
+            console.log('ERROR POSTING TO CLOUDINARY');
+            console.error('getPhoto error', error);
+
+            self.hideLoading();
+          });
+      },
+      function (error) {
+        self.hideLoading();
+        console.error('getPhoto error', error);
+      });
+  };
+
+  self.showLoading = function(message) {
+    $ionicLoading.show({
+      template: '<ion-spinner></ion-spinner><div style="margin-top:5px">'+message+'</div>'
+    });
+  };
+  
+  self.hideLoading = function(){
+    $ionicLoading.hide();
+  };
+
 });

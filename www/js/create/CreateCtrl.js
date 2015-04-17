@@ -76,7 +76,7 @@ angular.module('snapcache.create', [])
   };
 })
 
-.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover, Location, Camera, Cloudinary, $ionicLoading) {
+.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover, Location) {
 
   var self = this;
   self.properties = {};
@@ -378,43 +378,4 @@ angular.module('snapcache.create', [])
   $scope.$on('$destroy', function() {
     self.popover.remove();
   });
-
-  // 'getPhoto()' opens the camera for picture taking and ...
-  self.getPhoto = function () {
-    console.log('GET PHOTO');
-    Camera.getPicture({
-      destinationType: navigator.camera.DestinationType.DATA_URL,
-      targetHeight: 1500,
-      targetWidth: 1500,
-      quality: 25 // set below 50 to avoid iOS memory errors
-    })
-    .then(
-      function (imageURI) {
-        console.log('PHOTO GOTTEN');
-        self.showLoading('Uploading...');
-        Cloudinary.uploadImage(imageURI).then(
-          function () {
-            self.hideLoading();
-            console.log('uploadImage success');
-          },
-          function () {
-            self.hideLoading();
-            console.log('uploadImage error');
-          });
-      },
-      function (error) {
-        self.hideLoading();
-        console.error('getPhoto error', error);
-      });
-  };
-
-  self.showLoading = function(message) {
-    $ionicLoading.show({
-      template: '<ion-spinner></ion-spinner><div style="margin-top:5px">'+message+'</div>'
-    });
-  };
-  
-  self.hideLoading = function(){
-    $ionicLoading.hide();
-  };
 });

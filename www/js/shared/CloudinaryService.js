@@ -17,13 +17,6 @@ angular.module('snapcache.services.cloudinary', [])
       api_key: CloudinaryConfig.apiKey,
       timestamp: timestamp,
       signature: CloudinaryConfig.getSignature(timestamp)
-    })
-    .success(function (response) {
-      console.log('SUCCESSFUL POST TO CLOUDINARY');
-      console.log(response);
-    }).error(function(error) {
-      console.log('ERROR POSTING TO CLOUDINARY');
-      console.log(error);
     });
   };
 
