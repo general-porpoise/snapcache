@@ -2,7 +2,11 @@
 angular.module('snapcache.detail.outbox', [])
 
 // Detail controller
+<<<<<<< HEAD
 .controller('OutboxDetailCtrl', function (userSession, Caches, Camera, Cloudinary, $ionicLoading) {
+=======
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, userSession, Caches) {
+>>>>>>> (feat) Add bare bones modal for selecting additional contributors
   var self = this;
   self.cache = userSession.currentCache;
   self.items = [];
@@ -81,7 +85,7 @@ angular.module('snapcache.detail.outbox', [])
         Cloudinary.uploadImage(image)
           .success(function (response) {
             console.log('SUCCESSFUL POST TO CLOUDINARY');
-            self.hideLoading();            
+            self.hideLoading();
             self.contentToAdd.imgURL = response.url; // could be secure_url if we need https
 
           }).error(function(error) {
@@ -102,9 +106,29 @@ angular.module('snapcache.detail.outbox', [])
       template: '<ion-spinner></ion-spinner><div style="margin-top:5px">'+message+'</div>'
     });
   };
-  
+
   self.hideLoading = function(){
     $ionicLoading.hide();
   };
 
+  // Creating the modal associated with forwarding the cache to other
+  // contributors.
+  $ionicModal.fromTemplateUrl('js/detail/outboxForward.html', {
+    scope: $scope,
+    animation: 'slide-in-up',
+  }).then(function(modal){
+    self.forwardModal = modal;
+  });
+
+  self.openForward = function() {
+    self.forwardModal.show();
+  };
+
+  self.closeForward = function() {
+    self.forwardModal.hide();
+  };
+
+  $scope.$on('$destroy', function(){
+    self.forwardModal.remove();
+  });
 });
