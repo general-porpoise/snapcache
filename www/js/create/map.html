@@ -7,5 +7,15 @@
   </ion-header-bar>
   <ion-content>
     <div id="map" data-tap-disabled="true"></div>
+    <label class="item item-input radius-slider">
+      <span class="slider-label padding">Radius</span>
+      <span class="slider-value positive padding">{{ createCtrl.radius_slider | radiusRange }}</span>
+
+      <div class="range range-positive">
+        <i class="icon ion-ios-minus-empty"></i>
+        <input type="range" name="volume" min="25" max="15840" value="5280" ng-change="createCtrl.slideRadius()" ng-model="createCtrl.radius_slider">
+        <i class="icon ion-ios-plus-empty"></i>
+      </div>
+    </label>
   </ion-content>
 </ion-modal-view>

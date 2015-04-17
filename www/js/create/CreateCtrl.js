@@ -96,8 +96,8 @@ angular.module('snapcache.create', [])
   self.window_slider = 40710;
   self.lifespan_slider = 40710;
 
-  // Default value for cache radius will be 1 mile
-  self.radius_slider = 5280;
+  // Default value for cache radius will be 225 ft
+  self.radius_slider = 225;
 
   // Cache will have the `discovered` property set to false
   self.properties.discovered = false;
@@ -269,6 +269,24 @@ angular.module('snapcache.create', [])
       position: latLng
     });
 
+    self.circle = new google.maps.Circle({
+      strokeColor: '#CCCCCC',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FFFFFF',
+      fillOpacity: 0.45,
+      map: self.map,
+      center: latLng,
+      radius: self.getRadiusMeters(),
+      geodesic: true
+    });
+
+    self.circle.bindTo('center', self.marker, 'position');
+
+    google.maps.event.addListener(self.marker, 'drag', function(event) {
+      self.circle.setCenter(event.latLng);
+    });
+
     delete self.placeMarkerPromise;
 
     // Updating any data that the scope needs to know about due to the
@@ -306,7 +324,33 @@ angular.module('snapcache.create', [])
     if (angular.isDefined(self.marker)) {
       self.marker.setMap(null);
       delete self.marker;
+      self.removeCircle();
     }
+  };
+
+  self.removeCircle = function() {
+    self.circle.setMap(null);
+    delete self.circle;
+  };
+
+  // Gets current radius in meters
+  self.getRadiusMeters = function() {
+    var radiusString = $filter('radiusRange')(self.radius_slider);
+    var value = parseInt(radiusString);
+    var meters = 0;
+    if (radiusString.indexOf('feet')) {
+      // convert feet to meters
+      meters = value * 0.3048;
+    } else { // miles
+      // convert miles to meters
+      meters = value * 1609.34;
+    }
+    return meters;
+  };
+
+  // Updates map circle radius with current setting
+  self.slideRadius = function() {
+    self.circle.setRadius(self.getRadiusMeters());
   };
 
   self.popover;

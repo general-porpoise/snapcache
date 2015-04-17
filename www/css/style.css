@@ -23,6 +23,30 @@
   height: 100%;
 }
 
+.radius-slider {
+  position: absolute;
+  bottom: 0px;
+  width: 101%;
+}
+
+.range {
+  width: 100%;
+  padding-left: 5em;
+  padding-right: 1em;
+}
+
+.slider-label {
+  position: absolute;
+  left: 6px;
+  padding-top: 7px;
+}
+
+.slider-value {
+  position: absolute;
+  left: 6px;
+  bottom: 2px;
+}
+
 .item-title {
   font-size: 0.75em;
   position: relative;
