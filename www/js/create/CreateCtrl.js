@@ -338,7 +338,7 @@ angular.module('snapcache.create', [])
     var radiusString = $filter('radiusRange')(self.radius_slider);
     var value = parseInt(radiusString);
     var meters = 0;
-    if (radiusString.indexOf('feet')) {
+    if (radiusString.indexOf('feet') > -1) {
       // convert feet to meters
       meters = value * 0.3048;
     } else { // miles
