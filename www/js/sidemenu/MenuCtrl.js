@@ -127,9 +127,8 @@ angular.module('snapcache.menu', [])
     watchID = navigator.geolocation.watchPosition(function(pos) {
       console.log('current position:', pos);
       userSession.position = pos;
-      self.position = pos;
 
-      // remove key in order to satisfy the 'key entered' event
+      // Remove key in order to satisfy the 'key entered' event
       // (when key already inside radius)
       Geofire.geofire.remove(userSession.uid);
       Geofire.geofire.set(userSession.uid, [
@@ -152,4 +151,23 @@ angular.module('snapcache.menu', [])
     // remove user from geofire
     Geofire.geofire.remove(userSession.uid);
   };
+
+  // Set the user's initial position so that it is in line with what
+  // is displayed when they open up the map view.
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var lat = pos.coords.latitude;
+    var lon = pos.coords.longitude;
+
+    // Get the address
+    Location.getAddress(lat, lon).then(function(addr){
+      self.readable_location = addr;
+      userSession.readable_location = addr;
+      console.log('your addr is', addr);
+    });
+
+    // Store the user's location
+    self.position = pos;
+    userSession.position = pos;
+  });
+
 });
