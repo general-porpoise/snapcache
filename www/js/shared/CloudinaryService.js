@@ -31,27 +31,3 @@ angular.module('snapcache.services.cloudinary', [])
     uploadImage: uploadImage
   };
 }]);
-
-/*
-{
-  "data":null,
-  "status":0,
-  "config":{
-    "method":"POST",
-    "transformRequest":[null],
-    "transformResponse":[null],
-    "url":"https://api.cloudinary.com/v1_1/dladwkrpp/image/upload",
-    "data":{
-      "file":"data:image/jpeg;base64Z.........",
-      "api_key":687729749567152,
-      "timestamp":1429227545025,
-      "signature":"cc6f44fe7cff7e3870a0f1361b82f1495cb6736e"
-    },
-    "headers":{
-      "Accept":"application/json, text/plain, *//*",
-      "Content-Type":"application/json;charset=utf-8"
-    }
-  },
-  "statusText":""
-}
-*/

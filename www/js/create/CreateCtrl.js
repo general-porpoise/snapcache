@@ -394,9 +394,11 @@ angular.module('snapcache.create', [])
         self.showLoading('Uploading...');
         Cloudinary.uploadImage(imageURI).then(
           function () {
+            self.hideLoading();
             console.log('uploadImage success');
           },
           function () {
+            self.hideLoading();
             console.log('uploadImage error');
           });
       },
@@ -404,13 +406,6 @@ angular.module('snapcache.create', [])
         self.hideLoading();
         console.error('getPhoto error', error);
       });
-    // .then(
-    //   function (response) {
-    //     console.log('GETPHOTO SUCCESS', response);
-    //   },
-    //   function (error) {
-    //     console.log('GETPHOTO ERROR');
-    //   });
   };
 
   self.showLoading = function(message) {
