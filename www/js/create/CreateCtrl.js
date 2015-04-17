@@ -366,6 +366,7 @@ angular.module('snapcache.create', [])
 
   self.openPopover = function($event) {
     console.log('showing popover');
+    self.potentialRecipients = UserFriends.search('');
     self.popover.show($event);
   };
 

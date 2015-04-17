@@ -5,9 +5,13 @@
       <button class="button button-clear" ng-click="createCtrl.closePopover()">Done</button>
     </div>
   </ion-header-bar>
-  <ion-content class="padding">
-    <input type="text" ng-change="createCtrl.search()" ng-model="createCtrl.recipient" placeholder='Jane Doe'>
-    <ion-list>
+  <ion-content>
+    <div class="item item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" ng-change="createCtrl.search()" ng-model="createCtrl.recipient" placeholder='Jane Doe'>
+      </label>
+    </div>
+    <ion-list class="popover-list">
       <ion-item ng-repeat="friend in createCtrl.potentialRecipients" ng-click="createCtrl.addRecipient(friend)">
         {{ friend.name }}
       </ion-item>

@@ -1,5 +1,9 @@
 /* Empty. Add your own CSS if you like */
 
+ion-content {
+  font-family: 'Lato', sans-serif;
+}
+
 .btn-auth {
   font-size: 1.1em;
   position: relative;
@@ -29,7 +33,7 @@
   width: 101%;
 }
 
-.range {
+.radius-range {
   width: 100%;
   padding-left: 5em;
   padding-right: 1em;
@@ -188,4 +192,33 @@
 
 .blue-snap {
   background-color: #0065a4;
+}
+
+/* Create view styling */
+
+.btn-create {
+  border: 1px solid #0c63ee;
+  border-radius: 5px;
+  box-shadow: #0c63ee 0px 4px 0px;
+}
+
+.popover {
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  box-shadow: #cccccc 0px 4px 0px;
+}
+
+.popover .bar-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.popover-list>div {
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
+}
+
+.popover-list>div:last-child {
+  border-top: 1px solid #dddddd;
+  border-bottom: 0px solid #dddddd;
 }
