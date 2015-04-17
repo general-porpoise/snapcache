@@ -10,7 +10,7 @@
     <ul class="list">
       <li ng-repeat="friend in potentialContributors" class="item item-checkbox">
         <label class="checkbox">
-          <input type="checkbox">
+          <input type="checkbox" ng-click="toggleContributor(friend)">
         </label>
         {{ friend.name }}
       </li>
