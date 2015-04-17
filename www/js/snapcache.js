@@ -18,6 +18,7 @@ angular.module('snapcache', [
   'snapcache.services.auth',
   'snapcache.services.geofire',
   'snapcache.services.userFriends',
+  'snapcache.services.location',
   'angularMoment'
 ])
 

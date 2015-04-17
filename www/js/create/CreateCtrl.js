@@ -76,7 +76,7 @@ angular.module('snapcache.create', [])
   };
 })
 
-.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover) {
+.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover, Location) {
 
   var self = this;
   self.properties = {};
@@ -101,6 +101,12 @@ angular.module('snapcache.create', [])
 
   // Cache will have the `discovered` property set to false
   self.properties.discovered = false;
+
+  // Want to use the user's current location as the default location
+  self.properties.coordinates = {
+    latitude: userSession.position.coords.latitude,
+    longitude: userSession.position.coords.longitude
+  };
 
   // `convertDateTime()` will take the user provided input and convert it to
   // milliseconds. To do this, it also has to know what date the user selected.
@@ -274,6 +280,12 @@ angular.module('snapcache.create', [])
       };
       console.log('the markers pos is:', self.properties.coordinates);
     });
+
+    // Emitting an event so that the parent controller (menuCtrl) can
+    // change the `readable_location` and position `parameters`.
+    Location.getAddress(latLng.k, latLng.D).then(function(addr){
+      $scope.$emit('pinPlaced', addr);
+    });
   };
 
   // `placeMarkerCancel()` will remove the function that is scheduled to
@@ -312,7 +324,7 @@ angular.module('snapcache.create', [])
     console.log('showing popover');
     self.popover.show($event);
   };
-  
+
   self.closePopover = function() {
     self.popover.hide();
   };
