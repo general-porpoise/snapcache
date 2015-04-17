@@ -88,6 +88,7 @@ angular.module('snapcache.services.auth', [])
             usersRef.child(authData.uid).once('value', function(snapshot){
               // Storing certain information on userSession for access anywhere in app.
               userSession.uid = authData.uid;
+              userSession.name = authData.facebook.displayName;
 
               // No matter if the user is new or existing, we just need to update
               // their data property (if they are new, their entire tree will be created).
