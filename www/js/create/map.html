@@ -13,7 +13,7 @@
 
       <div class="range range-positive">
         <i class="icon ion-ios-minus-empty"></i>
-        <input type="range" name="volume" min="25" max="15840" value="5280" ng-model="createCtrl.radius_slider">
+        <input type="range" name="volume" min="25" max="15840" value="5280" ng-change="createCtrl.slideRadius()" ng-model="createCtrl.radius_slider">
         <i class="icon ion-ios-plus-empty"></i>
       </div>
     </label>
