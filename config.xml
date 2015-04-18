@@ -77,4 +77,7 @@
         <param name="APP_ID" value="800556536702390" />
         <param name="APP_NAME" value="Snapcache" />
     </feature>
+    <feature name="Camera">
+        <param name="id" value="org.apache.cordova.camera" />
+    </feature>
 </widget>
