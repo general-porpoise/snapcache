@@ -214,7 +214,13 @@ angular.module('snapcache.create', [])
     var mapOptions = {
       center: myLatlng,
       zoom: 16,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      panControl: false,
+      zoomControl: true,
+      zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.LARGE,
+        position: google.maps.ControlPosition.TOP_LEFT
+      }
     };
     // Create the map object and center it.
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
