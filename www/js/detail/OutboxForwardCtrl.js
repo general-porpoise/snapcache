@@ -1,18 +1,13 @@
 // Outbox Forward Module
 angular.module('snapcache.outbox.forward', [])
 
-.controller('OutboxForwardCtrl', function($scope, UserFriends, Caches, userSession){
+.controller('OutboxForwardCtrl', function($scope, Caches, userSession){
 
   // Set default values
   $scope.person = {};
   $scope.person.name = '';
   $scope.contributors = {};
-
-  // `search()` is used to display/filter potential people the user
-  // can invite to contribute.
-  $scope.search = function() {
-    $scope.potentialContributors = UserFriends.search($scope.person.name);
-  };
+  $scope.friends = userSession.friends;
 
   // `toggleContributor()` will add/remove a friend from the list of contributors
   // based on if the friend is in the contributors obj or not.
@@ -26,6 +21,16 @@ angular.module('snapcache.outbox.forward', [])
     console.log('contributors are', $scope.contributors);
   };
 
+  // `isChecked()` is a helper function to ensure that the checkbox remains
+  // whatever value it was, even after the user performs a search.
+  $scope.isChecked = function(friend) {
+    if (friend.id in $scope.contributors) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   $scope.submit = function() {
     // Iterate through the contributors, updating Firebase
     for (var id in $scope.contributors) {
@@ -34,7 +39,4 @@ angular.module('snapcache.outbox.forward', [])
       Caches.addContributor(cacheID, fbID);
     }
   };
-
-  // Initialize search results to display all friends.
-  $scope.search();
 });

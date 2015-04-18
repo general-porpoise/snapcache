@@ -8,9 +8,9 @@
   </ion-header-bar>
   <ion-content>
     <ul class="list">
-      <li ng-repeat="friend in potentialContributors" class="item item-checkbox">
+      <li ng-repeat="friend in friends | filter:person.name" class="item item-checkbox">
         <label class="checkbox">
-          <input type="checkbox" ng-click="toggleContributor(friend)">
+          <input type="checkbox" ng-checked="isChecked(friend)" ng-click="toggleContributor(friend)">
         </label>
         {{ friend.name }}
       </li>
@@ -21,9 +21,9 @@
     <!-- <button class="button icon ion-paperclip"></button> -->
       <label class="item-input-wrapper">
         <i class="icon ion-ios7-search placeholder-icon"></i>
-        <input type="text" placeholder="Name" ng-change="search()" ng-model="person.name">
+        <input type="text" placeholder="Name" ng-model="person.name">
       </label>
-      <button class="button icon ion-paper-airplane" ng-click="submit()"></button>
+      <button class="button icon ion-paper-airplane"></button>
 
   </div>
 
