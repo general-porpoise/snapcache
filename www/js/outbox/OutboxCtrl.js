@@ -5,29 +5,26 @@ angular.module('snapcache.outbox', [])
   var self = this;
   self.caches = [];
 
-  self.displayCaches = function () {
-    Caches.getContributable().then(
-      function (contributableCaches) {
-        self.caches = [];
-        for (var key in contributableCaches) {
-          // The following async function call has to be wrapped in an anonymous function to localize "key" to another name ("cacheID"). See [this page](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript) for more information.
-          (function (cacheID) {
-            Caches.getCacheDetails(cacheID).then(
-              function (cache) {
-                cache._id = cacheID;
-                self.caches.push(cache);
+  self.displayCaches = function() {
+    var userRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid);
 
-                // Set up timers to clear out caches on expiry, for those caches that have an expiry (have been discovered).
-                if (cache.expiresAt) {
-                  self.setTimerForExpiredRemoval(cache);
-                }
-              });
-          })(key);
+    // Set Firebase listeners so that the outbox will be dynamically updated
+    // whenever the user receives a new cache to contribute to.
+    //
+    // NOTE: 'child_added' is triggered once for each existing child, and then
+    // for any new children that are added.
+    userRef.child('contributableCaches').on('child_added', function(snapshot){
+      var cacheID = snapshot.key();
+      Caches.getCacheDetails(cacheID).then(function(cache) {
+        cache._id = cacheID;
+        self.caches.push(cache);
+
+        // Set up timers to clear out caches on expiry, for those caches that have an expiry (have been discovered).
+        if (cache.expiresAt) {
+          self.setTimerForExpiredRemoval(cache);
         }
-      },
-      function (error) {
-        console.error('Outbox displayCaches error', error);
       });
+    });
   };
 
   // Displays detail view once the cache information has been stored.

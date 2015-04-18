@@ -6,6 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('snapcache', [
   'ionic',
+  'firebase',
   'snapcache.auth',
   'snapcache.menu',
   'snapcache.inbox',
