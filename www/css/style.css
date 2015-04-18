@@ -105,7 +105,7 @@ ion-content {
 }
 
 .cache-item {
-  padding: 1.6em 1em 1em 1em;
+  padding: 1.6em 1em .956em 1em;
   border: 1px solid #cccccc;
 }
 
@@ -152,7 +152,7 @@ ion-content {
 .cache-title {
   font-family: 'Lato', sans-serif;
   font-size: 2.2em;
-  margin-bottom: .6em;
+  margin-bottom: .53em;
 }
 
 .cache-countdown {
@@ -161,8 +161,6 @@ ion-content {
 
 .cache-availIn {
   font-family: 'Lato', sans-serif;
-  font-size: 2.2em;
-  margin-bottom: .6em;
 }
 
 .cache-location {
