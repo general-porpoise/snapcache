@@ -168,6 +168,11 @@ angular.module('snapcache.menu', [])
     // Store the user's location
     self.position = pos;
     userSession.position = pos;
+
+    // Broadcast an event so that the child scope can update its
+    // self.properties.coordinates in case the user has quickly navigated
+    // to that view.
+    $scope.$broadcast('locationAcquired', pos);
   });
 
   // Listen for `pinPlaced` events so that we know we can set the
