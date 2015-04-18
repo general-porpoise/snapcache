@@ -15,26 +15,15 @@ angular.module('snapcache.detail.outbox', [])
 })
 
 // Detail controller
-.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, userSession, Caches, Camera, Cloudinary, $ionicActionSheet) {
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, FIREBASE_REF, $ionicActionSheet) {
   var self = this;
   self.cache = userSession.currentCache;
-  self.items = [];
+
+  // Setting up AngularFire
+  var cacheRef = new Firebase(FIREBASE_REF).child('caches').child(self.cache._id);
+  self.items = $firebaseArray(cacheRef.child('contents'));
   self.isContributable = (Date.now() < self.cache.droptime);
   self.contentToAdd = {};
-
-  // Load the cache's objects into an array
-  // NOTE: Currently, the assumed object structure is the following:
-  //  - CacheID
-  //    - contents
-  //        - ContributionID
-  //          - contributor
-  //          - content
-  //            - type
-  //            - value specific to type
-  var items = self.cache.contents;
-  for (var id in items) {
-    self.items.push(items[id]);
-  }
 
   // `addContent()` will take the content of an additional message that the user
   // wants to contribute to the cache, add it, and save it to Firebase.
@@ -62,18 +51,8 @@ angular.module('snapcache.detail.outbox', [])
     console.log('CONTRIBUTION');
     console.dir(contribution);
 
-    // Push the added message into the texts array so that the view
-    // dynamically updates.
-    self.items.push(contribution);
-
-    // Need to also add it to the cache, so that the view will remain consistent
-    // as the user switches in and out of the outbox detail.
-      // NOTE: We just use a random id to replicate the structure that Firebase
-      // uses. This should be fine for the case where the user logs in.
-    self.cache.contents[Math.random()] = contribution;
-
-    // Send the additional cache contribution to Firebase.
-    Caches.addContribution(self.cache._id, contribution);
+    // Using Angular Fire for 3 way data binding
+    self.items.$add(contribution);
 
     // Remove the user input
     self.contentToAdd = {};
