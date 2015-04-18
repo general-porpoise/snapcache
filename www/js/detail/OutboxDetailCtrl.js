@@ -2,7 +2,7 @@
 angular.module('snapcache.detail.outbox', [])
 
 // Detail controller
-.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, userSession, Caches, Camera, Cloudinary) {
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, userSession, Caches, Camera, Cloudinary, $ionicActionSheet) {
   var self = this;
   self.cache = userSession.currentCache;
   self.items = [];
@@ -67,9 +67,10 @@ angular.module('snapcache.detail.outbox', [])
   };
 
   // 'getPhoto()' opens the camera for picture taking and ...
-  self.getPhoto = function () {
+  self.getPhoto = function (sourceType) {
     console.log('GET PHOTO');
     Camera.getPicture({
+      sourceType: sourceType,
       destinationType: navigator.camera.DestinationType.DATA_URL,
       targetHeight: 1500,
       targetWidth: 1500,
@@ -97,6 +98,7 @@ angular.module('snapcache.detail.outbox', [])
       });
   };
 
+  // Show & hide loading spinner
   self.showLoading = function(message) {
     $ionicLoading.show({
       template: '<ion-spinner></ion-spinner><div style="margin-top:5px">'+message+'</div>'
@@ -105,6 +107,30 @@ angular.module('snapcache.detail.outbox', [])
 
   self.hideLoading = function(){
     $ionicLoading.hide();
+  };
+
+  // Action sheet for selecting content to add
+  self.showContentActionSheet = function () {
+    var hideSheet = $ionicActionSheet.show({
+      buttons: [
+        { text: 'Take Photo' },
+        { text: 'Choose from Libary' }
+      ],
+      cancelText: 'Cancel',
+      cancel: function () {
+        hideSheet();
+      },
+      buttonClicked: function(index) {
+        if (index === 0) {
+          console.log('Take Photo clicked');
+          self.getPhoto(navigator.camera.PictureSourceType.CAMERA);
+        } else if (index === 1) {
+          console.log('Choose from Library clicked');
+          self.getPhoto(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+        }
+        return true;
+      }
+    });
   };
 
   // Creating the modal associated with inviting the other
