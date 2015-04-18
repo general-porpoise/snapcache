@@ -102,11 +102,16 @@ angular.module('snapcache.create', [])
   // Cache will have the `discovered` property set to false
   self.properties.discovered = false;
 
-  // Want to use the user's current location as the default location
-  self.properties.coordinates = {
-    latitude: userSession.position.coords.latitude,
-    longitude: userSession.position.coords.longitude
-  };
+  // Want to use the user's current location as the default location. However,
+  // it is possible that the GPS location has not been acquired, so we need
+  // to listen for when that event has happened.
+  $scope.$on('locationAcquired', function(event, pos){
+    console.log('position has been acquired');
+    self.properties.coordinates = {
+      latitude: pos.coords.latitude,
+      longitude: pos.coords.longitude
+    };
+  });
 
   // `convertDateTime()` will take the user provided input and convert it to
   // milliseconds. To do this, it also has to know what date the user selected.
