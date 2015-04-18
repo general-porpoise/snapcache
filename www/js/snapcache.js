@@ -13,6 +13,7 @@ angular.module('snapcache', [
   'snapcache.create',
   'snapcache.detail.inbox',
   'snapcache.detail.outbox',
+  'snapcache.outbox.invite',
   'snapcache.map',
   'snapcache.services.caches',
   'snapcache.services.auth',

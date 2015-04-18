@@ -2,7 +2,7 @@
 angular.module('snapcache.detail.outbox', [])
 
 // Detail controller
-.controller('OutboxDetailCtrl', function (userSession, Caches, Camera, Cloudinary, $ionicLoading) {
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, userSession, Caches, Camera, Cloudinary) {
   var self = this;
   self.cache = userSession.currentCache;
   self.items = [];
@@ -81,7 +81,7 @@ angular.module('snapcache.detail.outbox', [])
         Cloudinary.uploadImage(image)
           .success(function (response) {
             console.log('SUCCESSFUL POST TO CLOUDINARY');
-            self.hideLoading();            
+            self.hideLoading();
             self.contentToAdd.imgURL = response.url; // could be secure_url if we need https
 
           }).error(function(error) {
@@ -102,9 +102,29 @@ angular.module('snapcache.detail.outbox', [])
       template: '<ion-spinner></ion-spinner><div style="margin-top:5px">'+message+'</div>'
     });
   };
-  
+
   self.hideLoading = function(){
     $ionicLoading.hide();
   };
 
+  // Creating the modal associated with inviting the other
+  // contributors.
+  $ionicModal.fromTemplateUrl('js/detail/outboxInvite.html', {
+    scope: $scope,
+    animation: 'slide-in-up',
+  }).then(function(modal){
+    self.inviteModal = modal;
+  });
+
+  self.openInvite = function() {
+    self.inviteModal.show();
+  };
+
+  self.closeInvite = function() {
+    self.inviteModal.hide();
+  };
+
+  $scope.$on('$destroy', function(){
+    self.inviteModal.remove();
+  });
 });
