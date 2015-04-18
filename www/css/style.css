@@ -204,6 +204,8 @@ ion-content {
   border: 1px solid #cccccc;
   border-radius: 5px;
   box-shadow: #cccccc 0px 4px 0px;
+  width: 80%;
+  margin-left: -7.5px !important;
 }
 
 .popover .bar-header {
