@@ -2,7 +2,7 @@
 
   <ion-content>
   
-    <ion-list class="cache-card" type="card">
+    <ion-list ng-if="inctrl.caches.length > 0" class="cache-card" type="card">
       <ion-item class="cache-item" ng-repeat="cache in inctrl.caches | orderBy: 'expiresAt'" ng-click="inctrl.displayDetails(cache)">
 
           <div class="cache-title {{cache.hasOwnProperty('read_inbox')? '': 'bold-text'}}">{{ cache.title }}</div>
