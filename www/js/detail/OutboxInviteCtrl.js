@@ -1,7 +1,7 @@
-// Outbox Forward Module
-angular.module('snapcache.outbox.forward', [])
+// Outbox Invite Module
+angular.module('snapcache.outbox.invite', [])
 
-.controller('OutboxForwardCtrl', function($scope, Caches, userSession){
+.controller('OutboxInviteCtrl', function($scope, Caches, userSession){
 
   // Set default values
   $scope.person = {};

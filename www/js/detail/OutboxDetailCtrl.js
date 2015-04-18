@@ -107,24 +107,24 @@ angular.module('snapcache.detail.outbox', [])
     $ionicLoading.hide();
   };
 
-  // Creating the modal associated with forwarding the cache to other
+  // Creating the modal associated with inviting the other
   // contributors.
-  $ionicModal.fromTemplateUrl('js/detail/outboxForward.html', {
+  $ionicModal.fromTemplateUrl('js/detail/outboxInvite.html', {
     scope: $scope,
     animation: 'slide-in-up',
   }).then(function(modal){
-    self.forwardModal = modal;
+    self.inviteModal = modal;
   });
 
-  self.openForward = function() {
-    self.forwardModal.show();
+  self.openInvite = function() {
+    self.inviteModal.show();
   };
 
-  self.closeForward = function() {
-    self.forwardModal.hide();
+  self.closeInvite = function() {
+    self.inviteModal.hide();
   };
 
   $scope.$on('$destroy', function(){
-    self.forwardModal.remove();
+    self.inviteModal.remove();
   });
 });
