@@ -13,58 +13,36 @@ angular.module('snapcache.inbox', [])
     return color;
   };
 
-  // Retrieves list of incoming caches for logged-in user and stores them for
-  // use by ng-repeat in view.
-  self.displayCaches = function () {
-    console.log('displaying caches...');
-    Caches.getReceived().then(
-      function (receivedCaches) {
-        self.caches = [];
-        console.log('receivedCaches', receivedCaches);
-        // Set listeners on received caches
-        Geofire.setListeners(receivedCaches);
-        // For each cache in receivedCaches, get the details
-        for (var key in receivedCaches) {
-          // The following async function call has to be wrapped in an anonymous function to localize "key" to another name ("cacheID"). See [this page](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript) for more information.
-          (function (cacheID) {
-            Caches.getCacheDetailsForDiscovered(cacheID).then(
-              function (cache) {
-                cache._id = cacheID;
-                self.caches.push(cache);
-
-                // Set up timers to clear out caches on expiry
-                self.setTimerForExpiredRemoval(cache);
-              });
-
-            // Set up firebase listeners to populate inbox list with newly
-            // discovered caches
-            Caches.onCacheDiscovered(cacheID).then(function(cache) {
-              console.log('pushing discovered cache to inbox');
-              cache._id = cacheID;
-              self.caches.push(cache);
-              // set expiry timer for newly discovered cache
-              self.setTimerForExpiredRemoval(cache);
-            });
-          })(key);
-        }
-      },
-      function (error) {
-        console.error('displayCaches error', error);
-      });
-  };
-
   // listen for new received caches
   var receivedRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('receivedCaches');
-  receivedRef.on('child_added', function(childSnapshot) {
-    console.log('Setting new geofire listener');
-    console.log('key is', childSnapshot.key());
-    Geofire.setListener(childSnapshot.key());
-    Caches.onCacheDiscovered(childSnapshot.key()).then(function(cache) {
-      console.log('pushing discovered cache to inbox');
-      cache._id = childSnapshot.key();
-      self.caches.push(cache);
+  self.displayCaches = function() {
+    console.log('Displaying caches');
+    self.caches = [];
+    receivedRef.on('child_added', function(childSnapshot) {
+      var cacheID = childSnapshot.key();
+      console.log('Setting new geofire listener');
+      console.log('key is', cacheID);
+      Geofire.setListener(cacheID);
+
+      Caches.getCacheDetailsForDiscovered(cacheID).then(
+        function (cache) {
+          cache._id = cacheID;
+          self.caches.push(cache);
+
+          // Set up timers to clear out caches on expiry
+          self.setTimerForExpiredRemoval(cache);
+        });
+
+      Caches.onCacheDiscovered(cacheID).then(function(cache) {
+        console.log('pushing discovered cache to inbox');
+        cache._id = cacheID;
+        self.caches.push(cache);
+
+        // Set up timers to clear out caches on expiry
+        self.setTimerForExpiredRemoval(cache);
+      });
     });
-  });
+  };
 
   // Displays detail view once the cache information has been stored.
   self.displayDetails = function (cache) {
