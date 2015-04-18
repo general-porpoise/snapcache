@@ -17,4 +17,4 @@ www/lib
 .tern-port
 
 # Ignoring files with API keys
-www/shared/config.js
+www/js/shared/config.js

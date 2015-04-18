@@ -1,11 +1,15 @@
+// Our super secret API keys will live here...
+// Uncomment and replace relevant fields with your credentials,
+// then save as config.js in this directory
+
 angular.module('snapcache.config', [])
 
 .factory('CloudinaryConfig', function() {
 
-  var cloudName = 'dladwkrpp';
+  var cloudName = 'CLOUD_NAME';
   var url = 'https://api.cloudinary.com/v1_1/'+ cloudName +'/image/upload';
-  var apiKey = 687729749567152;
-  var secret = '6m9XMmAsU7lBx7E6i3gcaTrpm0I';
+  var apiKey = API_KEY;
+  var secret = SECRET;
 
   // Cloudinary needs a SHA1-hashed signature to authenticate uploads
   var getSignature = function(timestamp) {
