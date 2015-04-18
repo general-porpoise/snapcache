@@ -2,11 +2,7 @@
 angular.module('snapcache.detail.outbox', [])
 
 // Detail controller
-<<<<<<< HEAD
-.controller('OutboxDetailCtrl', function (userSession, Caches, Camera, Cloudinary, $ionicLoading) {
-=======
-.controller('OutboxDetailCtrl', function ($scope, $ionicModal, userSession, Caches) {
->>>>>>> (feat) Add bare bones modal for selecting additional contributors
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, userSession, Caches, Camera, Cloudinary) {
   var self = this;
   self.cache = userSession.currentCache;
   self.items = [];
