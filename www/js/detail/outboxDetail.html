@@ -10,17 +10,19 @@
     <ion-list type="card">
       <ion-item class="item-text-wrap" ng-repeat="item in dctrl.items">
         <span class="bold-text">{{ item.contributor }}</span> said "{{ item.content.message }}"
+        <img src="{{ item.content.imgURL }}">
       </ion-item>
     </ion-list>
   </ion-content>
 
   <div class="bar bar-footer item-input-inset">
     <!-- <button class="button icon ion-paperclip"></button> -->
+      <button class="button button-clear icon ion-camera" ng-click="dctrl.getPhoto()" ng-show="dctrl.isContributable"></button>
       <label class="item-input-wrapper" ng-show="dctrl.isContributable">
         <i class="icon ion-ios7-search placeholder-icon"></i>
-        <input type="text" placeholder="Message" ng-model="dctrl.text">
+        <input type="text" placeholder="Message" ng-model="dctrl.contentToAdd.text">
       </label>
-      <button class="button icon ion-paper-airplane" ng-click="dctrl.addText(dctrl.text)" ng-show="dctrl.isContributable"></button>
+      <button class="button icon ion-paper-airplane" ng-click="dctrl.addContent()" ng-show="dctrl.isContributable"></button>
 
     <div ng-show="!dctrl.isContributable">
       <div ng-show="dctrl.cache.discovered">

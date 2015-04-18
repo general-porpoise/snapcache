@@ -24,8 +24,12 @@
   "cordovaPlugins": [
     "org.apache.cordova.inappbrowser",
     "org.apache.cordova.geolocation",
-    "com.phonegap.plugins.facebookconnect",
-    "org.apache.cordova.device"
+    "org.apache.cordova.device",
+    "org.apache.cordova.camera",
+    {
+      "id": "com.phonegap.plugins.facebookconnect",
+      "locator": "../phonegap-facebook-plugin"
+    }
   ],
   "cordovaPlatforms": []
 }

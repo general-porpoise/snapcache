@@ -2,11 +2,12 @@
 angular.module('snapcache.detail.outbox', [])
 
 // Detail controller
-.controller('OutboxDetailCtrl', function (userSession, Caches) {
+.controller('OutboxDetailCtrl', function (userSession, Caches, Camera, Cloudinary, $ionicLoading) {
   var self = this;
   self.cache = userSession.currentCache;
   self.items = [];
   self.isContributable = (Date.now() < self.cache.droptime);
+  self.contentToAdd = {};
 
   // Load the cache's objects into an array
   // NOTE: Currently, the assumed object structure is the following:
@@ -22,16 +23,32 @@ angular.module('snapcache.detail.outbox', [])
     self.items.push(items[id]);
   }
 
-  // `addText()` will take the text of an additional message that the user
+  // `addContent()` will take the content of an additional message that the user
   // wants to contribute to the cache, add it, and save it to Firebase.
-  self.addText = function(text) {
+  self.addContent = function() {
+    var type = '';
+    var message = '';
     var contribution = {
       contributor: userSession.name,
-      content: {
-        type: "text",
-        message: text
-      }
+      content: {}
     };
+
+    // Set contribution's type based on user-submitted content
+    if (self.contentToAdd.imgURL) {
+      contribution.content.type = 'image';
+      contribution.content.imgURL = self.contentToAdd.imgURL;
+    } else {
+      contribution.content.type = 'text';
+    }
+
+    // Set message on content only if user has added text
+    if (self.contentToAdd.text) {
+      contribution.content.message = self.contentToAdd.text;
+    }
+
+    console.log('CONTRIBUTION');
+    console.dir(contribution);
+
     // Push the added message into the texts array so that the view
     // dynamically updates.
     self.items.push(contribution);
@@ -46,6 +63,48 @@ angular.module('snapcache.detail.outbox', [])
     Caches.addContribution(self.cache._id, contribution);
 
     // Remove the user input
-    self.text = '';
+    self.contentToAdd = {};
   };
+
+  // 'getPhoto()' opens the camera for picture taking and ...
+  self.getPhoto = function () {
+    console.log('GET PHOTO');
+    Camera.getPicture({
+      destinationType: navigator.camera.DestinationType.DATA_URL,
+      targetHeight: 1500,
+      targetWidth: 1500,
+      quality: 25 // set below 50 to avoid iOS memory errors
+    })
+    .then(
+      function (image) {
+        self.showLoading('Uploading...');
+        Cloudinary.uploadImage(image)
+          .success(function (response) {
+            console.log('SUCCESSFUL POST TO CLOUDINARY');
+            self.hideLoading();            
+            self.contentToAdd.imgURL = response.url; // could be secure_url if we need https
+
+          }).error(function(error) {
+            console.log('ERROR POSTING TO CLOUDINARY');
+            console.error('getPhoto error', error);
+
+            self.hideLoading();
+          });
+      },
+      function (error) {
+        self.hideLoading();
+        console.error('getPhoto error', error);
+      });
+  };
+
+  self.showLoading = function(message) {
+    $ionicLoading.show({
+      template: '<ion-spinner></ion-spinner><div style="margin-top:5px">'+message+'</div>'
+    });
+  };
+  
+  self.hideLoading = function(){
+    $ionicLoading.hide();
+  };
+
 });

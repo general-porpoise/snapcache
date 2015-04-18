@@ -15,3 +15,6 @@ www/lib
 
 # Ignoring files from emacs tern plugin
 .tern-port
+
+# Ignoring files with API keys
+www/js/shared/config.js
