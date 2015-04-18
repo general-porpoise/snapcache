@@ -222,3 +222,10 @@ ion-content {
   border-top: 1px solid #dddddd;
   border-bottom: 0px solid #dddddd;
 }
+
+/* Detail view styling */
+
+.item>img {
+  width: 100%;
+}
+
