@@ -8,7 +8,6 @@ angular.module('snapcache.services.caches', [])
   var usersRef = new Firebase(FIREBASE_REF).child('users');
 
   return {
-    getContributable: getContributable,
     getReceived: getReceived,
     getCacheDetails: getCacheDetails,
     getCacheDetailsForDiscovered: getCacheDetailsForDiscovered,
@@ -19,25 +18,6 @@ angular.module('snapcache.services.caches', [])
     discoverCache: discoverCache,
     removeCache: removeCache
   };
-
-  // `getContributable()` will get the current user's caches that they can
-  // contribute to from Firebase.
-  function getContributable() {
-    var id = userSession.uid;
-    var deferred = $q.defer();
-    usersRef.child(id).once('value', function(snapshot){
-      var userData = snapshot.val();
-      var contributableCaches = userData.contributableCaches;
-      if (contributableCaches) {
-        deferred.resolve(contributableCaches);
-      } else {
-        // If the user has no contributable caches, the promise will return
-        // an empty object.
-        deferred.reject({});
-      }
-    });
-    return deferred.promise;
-  }
 
   // `getReceived()` will simply get the current user's received caches from Firebase.
   // This current version does not do any type of geographic or temporal filtering,
