@@ -229,3 +229,23 @@ ion-content {
   width: 100%;
 }
 
+.empty-inbox {
+  text-align: center;
+}
+
+.empty-inbox>h1 {
+  font-family: 'Lobster', cursive;
+  color: #444444;
+  padding-top: 1em;
+  padding-bottom: 0.9em;
+}
+
+.empty-inbox>img {
+  width: 60%;
+}
+
+.empty-inbox>button {
+  margin-top: 2em;
+  border-radius: 5px;
+  box-shadow: #28a54c 0px 4px 0px;
+}
