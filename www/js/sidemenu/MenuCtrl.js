@@ -82,6 +82,11 @@ angular.module('snapcache.menu', [])
     });
   };
 
+  // Open the create modal when we get a message from inbox or outbox
+  $scope.$on('openCreate', function() {
+    self.create();
+  });
+
   //Cleanup the modal if we close the app on it!
   $scope.$on('$destroy', function() {
     self.createModal.remove();
