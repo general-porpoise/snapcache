@@ -76,7 +76,7 @@ angular.module('snapcache.detail.outbox', [])
             console.log('SUCCESSFUL POST TO CLOUDINARY');
             self.hideLoading();
             self.contentToAdd.imgURL = response.url; // could be secure_url if we need https
-
+            self.addContent();
           }).error(function(error) {
             console.log('ERROR POSTING TO CLOUDINARY');
             console.error('getPhoto error', error);
@@ -105,8 +105,8 @@ angular.module('snapcache.detail.outbox', [])
   self.showContentActionSheet = function () {
     var hideSheet = $ionicActionSheet.show({
       buttons: [
-        { text: 'Take Photo' },
-        { text: 'Choose from Libary' }
+        { text: 'Post a Photo' },
+        { text: 'Post Existing Photo' }
       ],
       cancelText: 'Cancel',
       cancel: function () {
