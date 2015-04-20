@@ -17,11 +17,21 @@ angular.module('snapcache.outbox', [])
       var cacheID = snapshot.key();
       Caches.getCacheDetails(cacheID).then(function(cache) {
         cache._id = cacheID;
-        self.caches.push(cache);
 
         // Set up timers to clear out caches on expiry, for those caches that have an expiry (have been discovered).
         if (cache.expiresAt) {
           self.setTimerForExpiredRemoval(cache);
+        }
+
+        // If an owner's cache is not expired, display it. Otherwise, remove
+        // it from Firebase.
+        //
+        // NOTE: This only happens when the outbox controller is opened
+        // for the first time.
+        if (cache.droptime + cache.window + cache.lifespan > Date.now()) {
+          self.caches.push(cache);
+        } else {
+          Caches.removeCache(cacheID, cache);
         }
       });
     });
