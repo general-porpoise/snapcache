@@ -18,17 +18,19 @@ angular.module('snapcache.outbox', [])
       Caches.getCacheDetails(cacheID).then(function(cache) {
         cache._id = cacheID;
 
-        // If an owner's cache is not expired, display it and set a removal timer. Otherwise, remove
-        // it from Firebase.
+        // If an owner's cache is not expired, display it and set a removal timer.
+        // Otherwise, remove it from Firebase.
         //
         // NOTE: This only happens when the outbox controller is opened
         // for the first time.
         if (cache.droptime + cache.window + cache.lifespan > Date.now()) {
           self.caches.push(cache);
 
-          // Set a timer to remove from user's outbox while they still have
-          // it open.
-          self.setTimerForExpiredRemoval(cache);
+          // Setup a different timer if the cache is discovered while the user
+          // is logged in.
+          Caches.onCacheDiscovered(cacheID).then(function(cache){
+            self.setTimerForExpiredRemoval(cache);
+          });
         } else {
           Caches.removeCache(cacheID, cache);
         }
@@ -72,18 +74,11 @@ angular.module('snapcache.outbox', [])
   };
 
   // Schedules the given cache to be removed from the db at time of expiry
-  self.setTimerForExpiredRemoval = function (cache) {
+  self.setTimerForExpiredRemoval = function (cache, removeFromFirebase) {
     // calculate offset from now
     var timeUntilExpiry;
     var now = new Date().getTime();
-    // If the cache as an `expiresAt` property, use that to schedule for
-    // removal. Otherwise, use the maximum time that the cache could be around.
-    if (cache.expiresAt) {
-      timeUntilExpiry = cache.expiresAt - now;
-    } else {
-      var expiresAt = cache.droptime + cache.window + cache.lifespan
-      timeUntilExpiry = expiresAt - now;
-    }
+    timeUntilExpiry = cache.expiresAt - now;
 
     // Call removal function at the offset time
     $timeout(function () {
@@ -98,14 +93,14 @@ angular.module('snapcache.outbox', [])
   };
 
   self.removeCache = function(cacheToRemove) {
-    console.log('caches are', self.caches);
-    // Remove the cache from Firebase
-    Caches.removeCache(cacheToRemove._id, cacheToRemove);
-
     // Remove the cache from scope
-    self.caches = self.caches.filter(function(cache){
-      return cache._id !== cacheToRemove._id;
+    var idx;
+    self.caches.forEach(function(cache, i){
+      if (cache._id === cacheToRemove._id) {
+        idx = i;
+      }
     });
+    self.caches.splice(idx, 1);
   };
 
   self.displayCaches();
