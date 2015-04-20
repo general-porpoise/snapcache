@@ -261,3 +261,8 @@ ion-content {
   border-radius: 5px;
   box-shadow: #28a54c 0px 4px 0px;
 }
+
+.camera-button {
+  margin-right: 0.58em;
+}
+
