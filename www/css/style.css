@@ -225,8 +225,18 @@ ion-content {
 
 /* Detail view styling */
 
-.item>img {
+.cache-image {
   width: 100%;
+  margin-top: 1em;
+  border-radius: 5px;
+  box-shadow: #444444 0px 4px 0px;
+}
+
+.cache-message {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
 }
 
 .empty-box {
