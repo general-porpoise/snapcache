@@ -74,6 +74,12 @@ angular.module('snapcache.outbox', [])
     }, timeUntilExpiry);
   };
 
+  self.create = function() {
+    // Tell menuctrl to open the create modal
+    // Must do this in order for create modal to behave correctly
+    $scope.$emit('openCreate');
+  };
+
   self.displayCaches();
 });
 

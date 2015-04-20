@@ -2,7 +2,7 @@
 
   <ion-content>
   
-    <ion-list type="card">
+    <ion-list type="card" ng-if="outctrl.caches.length > 0">
       <ion-item class="cache-item" ng-repeat="cache in outctrl.caches | orderBy: 'expiresAt'" ng-click="outctrl.displayDetails(cache)">
         <div class="cache-title {{cache.hasOwnProperty('read_outbox')? '': 'bold-text'}}">
           {{ cache.title }}
@@ -22,6 +22,12 @@
 
       </ion-item>
     </ion-list>
+
+    <div class="padding empty-box" ng-if="outctrl.caches.length === 0">
+      <h1>Outbox Empty...</h1>
+      <img src="img/globe_with_marker.png">
+      <button class="button button-large button-balanced" ng-click="outctrl.create()">Create a new cache!</button>
+    </div>
 
   </ion-content>
 </ion-view>
