@@ -232,6 +232,13 @@ ion-content {
   box-shadow: #444444 0px 4px 0px;
 }
 
+.cache-message {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
 .empty-box {
   text-align: center;
 }
