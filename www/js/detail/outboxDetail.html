@@ -20,12 +20,11 @@
 
   <div class="bar bar-footer item-input-inset">
     <!-- <button class="button icon ion-paperclip"></button> -->
-      <button class="button button-clear icon ion-camera" ng-click="dctrl.showContentActionSheet()" ng-show="dctrl.isContributable"></button>
+      <button class="camera-button button button-clear icon ion-camera" ng-click="dctrl.showContentActionSheet()" ng-show="dctrl.isContributable"></button>
       <label class="item-input-wrapper" ng-show="dctrl.isContributable">
-        <i class="icon ion-ios7-search placeholder-icon"></i>
         <input type="text" placeholder="Message" ng-model="dctrl.contentToAdd.text">
       </label>
-      <button class="button icon ion-paper-airplane" ng-click="dctrl.addContent()" ng-show="dctrl.isContributable"></button>
+      <button class="button button-clear" ng-click="dctrl.addContent()" ng-show="dctrl.isContributable">Submit</button>
 
     <div ng-show="!dctrl.isContributable">
       <div ng-show="dctrl.cache.discovered">
