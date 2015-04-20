@@ -1,7 +1,7 @@
 // Outbox module
 angular.module('snapcache.outbox', [])
 
-.controller('OutboxCtrl', function (Caches, FIREBASE_REF, userSession, $scope, $ionicModal) {
+.controller('OutboxCtrl', function (Caches, FIREBASE_REF, userSession, $scope, $ionicModal, $timeout) {
   var self = this;
   self.caches = [];
 
@@ -17,11 +17,22 @@ angular.module('snapcache.outbox', [])
       var cacheID = snapshot.key();
       Caches.getCacheDetails(cacheID).then(function(cache) {
         cache._id = cacheID;
-        self.caches.push(cache);
 
-        // Set up timers to clear out caches on expiry, for those caches that have an expiry (have been discovered).
-        if (cache.expiresAt) {
-          self.setTimerForExpiredRemoval(cache);
+        // If an owner's cache is not expired, display it and set a removal timer.
+        // Otherwise, remove it from Firebase.
+        //
+        // NOTE: This only happens when the outbox controller is opened
+        // for the first time.
+        if (cache.droptime + cache.window + cache.lifespan > Date.now()) {
+          self.caches.push(cache);
+
+          // Setup a different timer if the cache is discovered while the user
+          // is logged in.
+          Caches.onCacheDiscovered(cacheID).then(function(cache){
+            self.setTimerForExpiredRemoval(cache);
+          });
+        } else {
+          Caches.removeCache(cacheID, cache);
         }
       });
     });
@@ -63,14 +74,15 @@ angular.module('snapcache.outbox', [])
   };
 
   // Schedules the given cache to be removed from the db at time of expiry
-  self.setTimerForExpiredRemoval = function (cache) {
+  self.setTimerForExpiredRemoval = function (cache, removeFromFirebase) {
     // calculate offset from now
+    var timeUntilExpiry;
     var now = new Date().getTime();
-    var timeUntilExpiry = cache.expiresAt - now;
+    timeUntilExpiry = cache.expiresAt - now;
 
-    // // call removal fn at that offset time
-    setTimeout(function () {
-      self.displayCaches();
+    // Call removal function at the offset time
+    $timeout(function () {
+      self.removeCache(cache);
     }, timeUntilExpiry);
   };
 
@@ -78,6 +90,17 @@ angular.module('snapcache.outbox', [])
     // Tell menuctrl to open the create modal
     // Must do this in order for create modal to behave correctly
     $scope.$emit('openCreate');
+  };
+
+  self.removeCache = function(cacheToRemove) {
+    // Remove the cache from scope
+    var idx;
+    self.caches.forEach(function(cache, i){
+      if (cache._id === cacheToRemove._id) {
+        idx = i;
+      }
+    });
+    self.caches.splice(idx, 1);
   };
 
   self.displayCaches();
