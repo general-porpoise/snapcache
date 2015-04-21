@@ -162,6 +162,11 @@ angular.module('snapcache.create', [])
     // };
     // Store human-readable location in database
     self.properties.readable_location = userSession.readable_location;
+    // Store the createdBy object on the cache
+    self.properties.createdBy = {
+      name: userSession.name,
+      imgUrl: userSession.imgUrl
+    };
     // get milliseconds for time range sliders
     self.properties.window = $filter('toMilliseconds')($filter('defaultRange')(self.window_slider));
     self.properties.lifespan = $filter('toMilliseconds')($filter('defaultRange')(self.lifespan_slider));

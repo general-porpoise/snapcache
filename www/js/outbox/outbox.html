@@ -1,12 +1,13 @@
 <ion-view view-title="Outbox">
 
   <ion-content>
-  
+
     <ion-list type="card" ng-if="outctrl.caches.length > 0">
-      <ion-item class="cache-item" ng-repeat="cache in outctrl.caches | orderBy: 'expiresAt'" ng-click="outctrl.displayDetails(cache)">
+      <ion-item class="cache-item relative-pos" ng-repeat="cache in outctrl.caches | orderBy: 'expiresAt'" ng-click="outctrl.displayDetails(cache)">
         <div class="cache-title {{cache.hasOwnProperty('read_outbox')? '': 'bold-text'}}">
           {{ cache.title }}
         </div>
+        <img class="profilePhoto" src="{{ cache.createdBy.imgUrl }}">
         <span class="cache-availIn" ng-if="!cache.discovered">
           dropping <span am-time-ago="{{ cache.droptime }}"></span>
         </span>
