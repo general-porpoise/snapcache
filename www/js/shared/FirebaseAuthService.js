@@ -90,6 +90,7 @@ angular.module('snapcache.services.auth', [])
               // Storing certain information on userSession for access anywhere in app.
               userSession.uid = authData.uid;
               userSession.name = authData.facebook.displayName;
+              userSession.profileUrl = authData.facebook.cachedUserProfile.picture.data.url;
 
               // No matter if the user is new or existing, we just need to update
               // their data property (if they are new, their entire tree will be created).
