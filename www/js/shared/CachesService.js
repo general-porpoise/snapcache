@@ -113,16 +113,6 @@ angular.module('snapcache.services.caches', [])
     // Get the ID that Firebase will save the cache at.
     var cacheID = newCacheRef.key();
 
-    // Get the message and add it is the first contribution
-    var text = {
-      contributor: userSession.name,
-      content: {
-        type: "text",
-        message: cacheParams.message
-      }
-    };
-    addContribution(cacheID, text);
-
     // Add the new cache's id to the contributing users inboxes.
     var contributors = cacheParams.contributors;
     for (var userID in contributors) {

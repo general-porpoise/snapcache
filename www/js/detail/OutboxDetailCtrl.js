@@ -32,6 +32,7 @@ angular.module('snapcache.detail.outbox', [])
     var message = '';
     var contribution = {
       contributor: userSession.name,
+      profileUrl: userSession.profileUrl,
       content: {}
     };
 
