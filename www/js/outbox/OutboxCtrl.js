@@ -24,6 +24,11 @@ angular.module('snapcache.outbox', [])
         // NOTE: This only happens when the outbox controller is opened
         // for the first time.
         if (cache.droptime + cache.window + cache.lifespan > Date.now()) {
+          // set cache as read or unread
+          if (snapshot.val() === true) { // cache is read
+            cache.read_outbox = true;
+          }
+
           self.caches.push(cache);
 
           // Setup a different timer if the cache is discovered while the user
@@ -40,11 +45,11 @@ angular.module('snapcache.outbox', [])
 
   // Displays detail view once the cache information has been stored.
   self.displayDetails = function (cache) {
-    if (!cache.hasOwnProperty('read_outbox')) {
-      // set caches to 'read' when first opened in detail view
+    var contributableRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('contributableCaches');
+    if (!cache.hasOwnProperty('read_outbox')) {// if the cache is unread
+      // flag it as "read" on firebase and locally
+      contributableRef.child(cache._id).set(true);
       cache.read_outbox = true;
-      new Firebase(FIREBASE_REF).child('caches').child(cache._id)
-        .child('read_outbox').set(true);
     }
     userSession.currentCache = cache;
     self.showDetail();
