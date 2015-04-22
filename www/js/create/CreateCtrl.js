@@ -320,6 +320,18 @@ angular.module('snapcache.create', [])
       };
     });
 
+    // After the user finishes dragging the marker, we want to update the
+    // human-readable location on the Create Cache view.
+    google.maps.event.addListener(self.marker, 'dragend', function(event) {
+      var lat = self.properties.coordinates.latitude;
+      var lon = self.properties.coordinates.longitude;
+      // Emit the `pinPlaced` event after the address has been
+      // successfully found from Google API.
+      Location.getAddress(lat, lon).then(function(addr){
+        $scope.$emit('pinPlaced', addr);
+      });
+    });
+
     delete self.placeMarkerPromise;
 
     // Updating any data that the scope needs to know about due to the
