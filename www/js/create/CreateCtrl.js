@@ -314,6 +314,22 @@ angular.module('snapcache.create', [])
 
     google.maps.event.addListener(self.marker, 'drag', function(event) {
       self.circle.setCenter(event.latLng);
+      self.properties.coordinates = {
+        latitude: event.latLng.k,
+        longitude: event.latLng.D
+      };
+    });
+
+    // After the user finishes dragging the marker, we want to update the
+    // human-readable location on the Create Cache view.
+    google.maps.event.addListener(self.marker, 'dragend', function(event) {
+      var lat = self.properties.coordinates.latitude;
+      var lon = self.properties.coordinates.longitude;
+      // Emit the `pinPlaced` event after the address has been
+      // successfully found from Google API.
+      Location.getAddress(lat, lon).then(function(addr){
+        $scope.$emit('pinPlaced', addr);
+      });
     });
 
     delete self.placeMarkerPromise;
