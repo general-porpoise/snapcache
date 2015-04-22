@@ -1,0 +1,143 @@
+
+body {
+  font-family: 'Lato', sans-serif !important;
+}
+
+h1.title {
+  font-family: 'Lobster', serif;
+}
+
+h3.glint-name {
+  font-weight: bold !important;
+}
+
+.row {
+  text-align: center;
+}
+
+.nav-bar-custom {
+  background-color: rgba(0,0,0,0);
+  color: #046380;
+}
+
+.nav-bar-custom a{
+  color: #046380;
+}
+
+.nav-bar-custom a:hover{
+  color: #046380;
+}
+
+.navbar-nav {
+  float: none;
+  display: inline-block;
+}
+
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.jumbotron {
+	text-align: center;
+  background-color: #046380 !important;
+  color: white !important;
+  background-image: url('assets/teal-background.jpg');
+  background-size: cover;
+  width: 100%;
+}
+
+
+.visit-button {
+  margin-top: 10px;
+  color: white;
+  border: 1px solid white !important;
+}
+
+
+.visit-button:hover {
+  color: #046380 !important;
+  border: 1px solid white !important;
+  background-color: white !important;
+}
+
+.half-rule {
+  width: 100px;
+  margin: 40px auto;
+  border-top: 1px solid #cacaca;
+}
+
+.team-row {
+  text-align: center;
+  padding-bottom: 50px;
+}
+
+.glint-team {
+  width: 90%;
+  margin: 0 auto;
+}
+
+img.team-members {
+  width: 70%;
+}
+
+.icons-wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.icons-row {
+  text-align: center;
+}
+
+i {
+  padding-bottom: 15px;
+}
+
+.fa-5x {
+  font-size: 10em !important;
+}
+
+.navbar-bottom {
+  margin: 0 !important;
+  background-color: #046380 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.footer-bottom {
+  padding-top: 20px;
+  color: white;
+}
+
+i.fa.fa-github.fa-4x {
+  color: white;
+}
+
+i.fa.fa-github.fa-4x:hover {
+  color: #cacaca;
+}
+
+.github-buttons {
+  padding-left: 44px;
+}
+
+h1.basic-summary-bold {
+  font-weight: bold !important;
+}
+
+i.social-icons {
+  color: #333;
+}
+
+i.social-icons:hover {
+  color: #046380;
+}
+
+.top-nav-bar {
+  height: 0;
+}
+
+a.btn.btn-outline-inverse.btn-lg.visit-button:visited {
+  color: white;
+}
