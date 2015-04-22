@@ -7,8 +7,12 @@
         <div class="cache-title {{cache.hasOwnProperty('read_outbox')? '': 'bold-text'}}">
           {{ cache.title }}
         </div>
-        <span class="cache-availIn" ng-if="!cache.discovered">
+        <!-- show "dropping in" message if available but not discovered -->
+        <span class="cache-availIn" ng-if="!cache.isAvailable && !cache.discovered">
           dropping <span am-time-ago="{{ cache.droptime }}"></span>
+        </span>
+        <span class="cache-availIn" ng-if="cache.isAvailable && !cache.discovered">
+          dropped <span am-time-ago="{{ cache.droptime }}"></span>
         </span>
         <span class="cache-countdown" ng-if="cache.discovered">
           gone <span am-time-ago="{{ cache.expiresAt }}"></span>

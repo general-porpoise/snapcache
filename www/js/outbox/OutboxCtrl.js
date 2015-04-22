@@ -1,7 +1,7 @@
 // Outbox module
 angular.module('snapcache.outbox', [])
 
-.controller('OutboxCtrl', function (Caches, FIREBASE_REF, userSession, $scope, $ionicModal, $timeout) {
+.controller('OutboxCtrl', function (Caches, FIREBASE_REF, userSession, $scope, $ionicModal, $timeout, $interval) {
   var self = this;
   self.caches = [];
 
@@ -29,12 +29,20 @@ angular.module('snapcache.outbox', [])
             cache.read_outbox = true;
           }
 
+          // set interval to indicate when cache becomes available (but not discovered)
+          $interval(function() {
+            cache.isAvailable = Date.now() >= cache.droptime;
+          }, 1000);
+
           self.caches.push(cache);
 
           // Setup a different timer if the cache is discovered while the user
           // is logged in.
-          Caches.onCacheDiscovered(cacheID).then(function(cache){
-            self.setTimerForExpiredRemoval(cache);
+          Caches.onCacheDiscovered(cacheID).then(function(freshCache){
+            $timeout(function() {
+              cache.discovered = true;
+            }, 100);
+            self.setTimerForExpiredRemoval(freshCache);
           });
         } else {
           Caches.removeCache(cacheID, cache);
