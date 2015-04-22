@@ -290,4 +290,10 @@ ion-content {
   height: 60%;
 }
 
+.menu-profilePhoto {
+  border-radius: 10%;
+  vertical-align: middle;
+  height: 80%;
+}
+
 

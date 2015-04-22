@@ -7,6 +7,10 @@ angular.module('snapcache.menu', [])
   self.position;
   self.unreadIn = 0;
   self.unreadOut = 0;
+  self.user = {
+    name: userSession.name,
+    profileUrl: userSession.profileUrl
+  };
 
   var cachesRef = new Firebase(FIREBASE_REF).child('caches');
 
