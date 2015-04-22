@@ -8,6 +8,7 @@
 
   </ion-header-bar>
   <ion-content>
+    <div class="description">{{ dctrl.cache.description }}</div>
     <ion-list type="card">
       <ion-item class="item-text-wrap" ng-repeat="item in dctrl.items">
         <span ng-if="item.content.message"><span class="bold-text">{{ item.contributor }}</span><br>{{ item.content.message }}</span>

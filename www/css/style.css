@@ -266,6 +266,12 @@ ion-content {
   margin-right: 0.58em;
 }
 
+.description {
+  background-color: #eee;
+  padding: 15px;
+  text-align: center;
+}
+
 /*
  ***********************
  * Facebook Profile Photos
@@ -283,4 +289,5 @@ ion-content {
   right: 20px;
   height: 60%;
 }
+
 

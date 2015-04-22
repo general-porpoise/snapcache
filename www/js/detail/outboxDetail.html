@@ -8,6 +8,7 @@
     </div>
   </ion-header-bar>
   <ion-content>
+  <div class="description">{{ dctrl.cache.description }}</div>
     <ion-list type="card">
       <ion-item class="cache-item relative-pos" ng-repeat="item in dctrl.items">
         <img class="profilePhoto" src="{{ item.profileUrl }}">
