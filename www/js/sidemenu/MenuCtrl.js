@@ -49,21 +49,19 @@ angular.module('snapcache.menu', [])
   var contributableRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('contributableCaches');
   contributableRef.on('child_added', function(addedSnapshot) {
     var id = addedSnapshot.key();
-    cachesRef.child(id).once('value', function(cacheSnapshot) {
-      var staleCache = cacheSnapshot.val();
-      // if outgoing caches have not already been read...
-      if (!staleCache.hasOwnProperty('read_outbox')) {
-        self.unreadOut++;
-        // set read listener
-        cachesRef.child(id).on('child_added', function(childSnapshot) {
-          // decrement outbox count when inbox cache read
-          if (childSnapshot.key() === 'read_outbox') {
-            console.log('Marking outbound cache as read...');
-            self.unreadOut--;
-          }
-        });
-      }
-    });
+    var read = addedSnapshot.val();
+    console.log('New contributable cache in outbox:', addedSnapshot.val());
+    if (!read) {
+      self.unreadOut++;
+      // set read listener
+      contributableRef.child(id).on('value', function(contSnapshot) {
+        // if value is true, outbound cache is read and we can decrement the unread count
+        if (contSnapshot.val()) {
+          console.log('Marking outbound cache as read...');
+          self.unreadOut--;
+        }
+      });
+    }
   });
 
   // Triggered in the create modal to close it

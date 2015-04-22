@@ -117,7 +117,7 @@ angular.module('snapcache.services.caches', [])
     var contributors = cacheParams.contributors;
     for (var userID in contributors) {
       var cache = {};
-      cache[cacheID] = true;
+      cache[cacheID] = false;
       usersRef.child(userID).child('contributableCaches').update(cache);
     }
 
@@ -156,7 +156,7 @@ angular.module('snapcache.services.caches', [])
     // Next, add the cacheID to that contributor's contributableCaches
     var userRef = usersRef.child(contributorID);
     var cache = {};
-    cache[cacheID] = true;
+    cache[cacheID] = false;
     userRef.child('contributableCaches').update(cache);
   }
 
