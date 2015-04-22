@@ -314,6 +314,10 @@ angular.module('snapcache.create', [])
 
     google.maps.event.addListener(self.marker, 'drag', function(event) {
       self.circle.setCenter(event.latLng);
+      self.properties.coordinates = {
+        latitude: event.latLng.k,
+        longitude: event.latLng.D
+      };
     });
 
     delete self.placeMarkerPromise;
