@@ -11,6 +11,7 @@
     <ion-list type="card">
       <ion-item class="item-text-wrap" ng-repeat="item in dctrl.items">
         <span ng-if="item.content.message"><span class="bold-text">{{ item.contributor }}</span><br>{{ item.content.message }}</span>
+        <img class="profilePhoto" src="{{ item.profileUrl }}">
         <span ng-if="!item.content.message && item.content.imgURL" class="bold-text">{{ item.contributor }}</span><br>
         <img ng-if="item.content.imgURL" ng-src="{{ item.content.imgURL | cropImgUrl }}">
       </ion-item>

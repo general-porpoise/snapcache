@@ -7,7 +7,7 @@
         <div class="cache-title {{cache.hasOwnProperty('read_outbox')? '': 'bold-text'}}">
           {{ cache.title }}
         </div>
-        <img class="profilePhoto" src="{{ cache.createdBy.imgUrl }}">
+        <img class="profilePhoto" src="{{ cache.createdBy.profileUrl }}">
         <span class="cache-availIn" ng-if="!cache.discovered">
           dropping <span am-time-ago="{{ cache.droptime }}"></span>
         </span>

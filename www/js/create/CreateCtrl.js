@@ -165,7 +165,7 @@ angular.module('snapcache.create', [])
     // Store the createdBy object on the cache
     self.properties.createdBy = {
       name: userSession.name,
-      imgUrl: userSession.imgUrl
+      profileUrl: userSession.profileUrl
     };
     // get milliseconds for time range sliders
     self.properties.window = $filter('toMilliseconds')($filter('defaultRange')(self.window_slider));

@@ -9,7 +9,8 @@
   </ion-header-bar>
   <ion-content>
     <ion-list type="card">
-      <ion-item class="item-text-wrap" ng-repeat="item in dctrl.items">
+      <ion-item class="cache-item relative-pos" ng-repeat="item in dctrl.items">
+        <img class="profilePhoto" src="{{ item.profileUrl }}">
         <span ng-if="item.content.message"><span class="bold-text">{{ item.contributor }}</span><span class="cache-message">{{ item.content.message }}</span></span>
         <span ng-if="!item.content.message && item.content.imgURL" class="bold-text">{{ item.contributor }}</span>
 
