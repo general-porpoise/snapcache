@@ -102,9 +102,22 @@ angular.module('snapcache.create', [])
   // Cache will have the `discovered` property set to false
   self.properties.discovered = false;
 
-  // Want to use the user's current location as the default location. However,
-  // it is possible that the GPS location has not been acquired, so we need
-  // to listen for when that event has happened.
+  // If the position has already been acquired, we want to set it for
+  // our cache. Otherwise, use San Francisco
+  if (userSession.position) {
+    self.properties.coordinates = {
+      latitude: userSession.position.coords.latitude,
+      longitude: userSession.position.coords.longitude
+    };
+  } else {
+    self.properties.coordinates = {
+      latitude: 37.7756,
+      longitude: -122.4193
+    };
+  }
+
+  // Otherwise, we will want to setup a listener for when the `locationAcquired`
+  // event has happened, so that we can set the default cache location.
   $scope.$on('locationAcquired', function(event, pos){
     console.log('position has been acquired');
     self.properties.coordinates = {
