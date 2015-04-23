@@ -272,6 +272,10 @@ ion-content {
   box-shadow: #444444 0px 4px 0px;
 }
 
+.outbox-container {
+  margin-bottom: 25px;
+}
+
 .cache-message {
   display: block;
   margin-top: 0.8em;
