@@ -23,6 +23,7 @@ angular.module('snapcache', [
   'snapcache.services.location',
   'snapcache.services.camera',
   'snapcache.services.cloudinary',
+  'snapcache.services.giphy',
   'snapcache.config',
   'angularMoment'
 ])
