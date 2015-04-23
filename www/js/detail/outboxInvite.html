@@ -1,10 +1,7 @@
 <ion-modal-view ng-controller="OutboxInviteCtrl">
-  <ion-header-bar>
+  <ion-header-bar class="bar-dark">
     <h1 class="title">Invite Cache Contributors</h1>
-    <div class="bar bar-header">
-      <h1 class="title">Invite Cache Contributors</h1>
-      <button class="button button-clear" ng-click="dctrl.closeInvite()">Close</button>
-    </div>
+    <button class="button button-clear" ng-click="dctrl.closeInvite()">Close</button>
   </ion-header-bar>
   <ion-content>
     <ul class="list">
@@ -20,10 +17,9 @@
   <div class="bar bar-footer item-input-inset">
     <!-- <button class="button icon ion-paperclip"></button> -->
       <label class="item-input-wrapper">
-        <i class="icon ion-ios7-search placeholder-icon"></i>
         <input type="text" placeholder="Name" ng-model="person.name">
       </label>
-      <button class="button icon ion-paper-airplane" ng-click="submit(); dctrl.closeInvite()"></button>
+      <button class="button button-clear" ng-click="submit(); dctrl.closeInvite()">Invite</button>
 
   </div>
 

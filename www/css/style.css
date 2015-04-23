@@ -365,3 +365,7 @@ ion-content {
   border-bottom: 1px solid #666666;
 }
 
+.badge-positive {
+  background-color: white;
+}
+

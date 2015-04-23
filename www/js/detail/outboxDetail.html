@@ -1,11 +1,8 @@
 <ion-modal-view ng-controller="OutboxDetailCtrl as dctrl">
-  <ion-header-bar>
-    <h1 class="title">Cache Details {{ dctrl.cache.title }}</h1>
-    <div class="bar bar-header">
-      <button ng-show="dctrl.isContributable" class="button button-clear" ng-click="dctrl.openInvite()">Invite</button>
-      <h1 class="title">{{ dctrl.cache.title }}</h1>
-      <button class="button button-clear" ng-click="outctrl.closeDetail()">Close</button>
-    </div>
+  <ion-header-bar class="bar-dark">
+    <button ng-show="dctrl.isContributable" class="button button-clear" ng-click="dctrl.openInvite()">Invite</button>
+    <h1 class="title">{{ dctrl.cache.title }}</h1>
+    <button class="button button-clear" ng-click="outctrl.closeDetail()">Close</button>
   </ion-header-bar>
   <ion-content>
   <div class="description">{{ dctrl.cache.description }}</div>

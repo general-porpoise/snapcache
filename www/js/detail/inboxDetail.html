@@ -1,10 +1,7 @@
 <ion-modal-view ng-controller="InboxDetailCtrl as dctrl">
-  <ion-header-bar>
-    <h1 class="title">Cache Details {{ dctrl.cache.title }}</h1>
-    <div class="bar bar-header">
-      <h1 class="title">{{ dctrl.cache.title }}</h1>
-      <button class="button button-clear" ng-click="inctrl.closeDetail()">Close</button>
-    </div>
+  <ion-header-bar class="bar-dark">
+    <h1 class="title">{{ dctrl.cache.title }}</h1>
+    <button class="button button-clear" ng-click="inctrl.closeDetail()">Close</button>
 
   </ion-header-bar>
   <ion-content>
