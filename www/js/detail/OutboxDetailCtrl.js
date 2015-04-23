@@ -22,7 +22,7 @@ angular.module('snapcache.detail.outbox', [])
 })
 
 // Detail controller
-.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, FIREBASE_REF, $ionicActionSheet) {
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, Giphy, FIREBASE_REF, $ionicActionSheet) {
   var self = this;
   self.cache = userSession.currentCache;
 
@@ -35,6 +35,23 @@ angular.module('snapcache.detail.outbox', [])
   // `addContent()` will take the content of an additional message that the user
   // wants to contribute to the cache, add it, and save it to Firebase.
   self.addContent = function() {
+
+    // To add Giphy integration, we need to see if the user has submitted
+    // text that starts with /giphy, and if so, search for the term
+    // and set the correct property.
+    var textInput = self.contentToAdd.text;
+    if (textInput && /^\/giphy/.test(textInput)) {
+      var searchTerm = textInput.split("/giphy").join("").slice(1);
+      Giphy.searchGIF(searchTerm).then(function(gifURL){
+        self.contentToAdd.imgURL = gifURL;
+        addTextOrPhoto();
+      });
+    } else {
+      addTextOrPhoto();
+    }
+  };
+
+  function addTextOrPhoto() {
     var type = '';
     var message = '';
     var contribution = {
@@ -44,11 +61,11 @@ angular.module('snapcache.detail.outbox', [])
         createdAt: new Date().toDateString()
       }
     };
-
     // Set contribution's type based on user-submitted content
     if (self.contentToAdd.imgURL) {
       contribution.content.type = 'image';
       contribution.content.imgURL = self.contentToAdd.imgURL;
+      self.contentToAdd.text = '';
     } else {
       contribution.content.type = 'text';
     }
@@ -66,7 +83,7 @@ angular.module('snapcache.detail.outbox', [])
 
     // Remove the user input
     self.contentToAdd = {};
-  };
+  }
 
   // 'getPhoto()' opens the camera for picture taking and ...
   self.getPhoto = function (sourceType) {
@@ -99,6 +116,7 @@ angular.module('snapcache.detail.outbox', [])
         console.error('getPhoto error', error);
       });
   };
+
 
   // Show & hide loading spinner
   self.showLoading = function(message) {
