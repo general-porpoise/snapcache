@@ -76,9 +76,10 @@ angular.module('snapcache.create', [])
   };
 })
 
-.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover, Location) {
+.controller('CreateCtrl', function($filter, $scope, $ionicModal, $timeout, Caches, UserFriends, userSession, $ionicPopover, Location, FIREBASE_REF) {
 
   var self = this;
+  var usersRef = new Firebase(FIREBASE_REF).child('users');
   self.properties = {};
   self.datetime = {};
 
@@ -159,6 +160,21 @@ angular.module('snapcache.create', [])
     // Attach the friend's id to the object that will be sent over to Firebase
     self.properties.recipients = {};
     self.properties.recipients['facebook:' + friend.id] = true;
+
+    var id = 'facebook:' + friend.id;
+
+    usersRef.child(id).once('value', function(snapshot){
+      var userData = snapshot.val();
+
+      // TO DO: refactor to allow for more recipients, later.
+      self.properties.recipient = {
+            // profilePic: 'http://graph.facebook.com/' + friend.id + '/picture',
+            profilePic: userData.data.facebook.cachedUserProfile.picture.data.url,
+            name: userData.data.facebook.displayName
+      };
+    }, function(error) {
+      console.log('get fb friend info error', error);
+    });
   };
 
   self.submitNewCache = function() {
