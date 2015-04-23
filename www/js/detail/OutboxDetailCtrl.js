@@ -65,7 +65,6 @@ angular.module('snapcache.detail.outbox', [])
     if (self.contentToAdd.imgURL) {
       contribution.content.type = 'image';
       contribution.content.imgURL = self.contentToAdd.imgURL;
-      self.contentToAdd.text = '';
     } else {
       contribution.content.type = 'text';
     }
