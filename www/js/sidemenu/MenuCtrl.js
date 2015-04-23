@@ -168,6 +168,8 @@ angular.module('snapcache.menu', [])
     // Get the address
     Location.getAddress(lat, lon).then(function(addrObj){
       var addr = addrObj.formatted_address;
+      console.log('ADDRESS:', addr);
+      self.readable_location = addr;
       addrObj.address_components.forEach(function(comp) {
         if (comp.types[0] === 'locality') {
           self.user.city = comp.long_name;
@@ -176,7 +178,6 @@ angular.module('snapcache.menu', [])
           self.user.state = comp.short_name;
         }
       });
-      self.readable_location = addr;
       userSession.readable_location = addr;
       console.log('your addr is', addr);
     });
