@@ -12,7 +12,7 @@ angular.module('snapcache.services.giphy', [])
     // TODO: Need to encode search term for URL
     queryString = term.split(" ").join("+");
     var url = 'http://api.giphy.com/v1/gifs/search?q=' + queryString +
-              '&api_key=dc6zaTOxFJmzC';
+              '&api_key=dc6zaTOxFJmzC&limit=1';
 
     // Send a call to the [Giphy API](https://github.com/giphy/GiphyAPI)
     $http.get(url)
