@@ -365,7 +365,13 @@ ion-content {
   border-bottom: 1px solid #666666;
 }
 
-.badge-positive {
-  background-color: white;
+.inbox-badge {
+  background-color: #FF5050;
+  color: white;
+}
+
+.outbox-badge {
+  background-color: #FF5050;
+  color: white;
 }
 
