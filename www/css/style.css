@@ -314,6 +314,13 @@ ion-content {
   text-align: left;
 }
 
+.inbox-description {
+  text-align: center;
+  padding: 10px;
+  background-color: #eee;
+  font-size: 0.9em;
+}
+
 .cache-contribution {
   padding-top: 1.1em;
   border: 1px solid #cccccc;
