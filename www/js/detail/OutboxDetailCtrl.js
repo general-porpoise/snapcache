@@ -41,10 +41,14 @@ angular.module('snapcache.detail.outbox', [])
     // and set the correct property.
     var textInput = self.contentToAdd.text;
     if (textInput && /^\/giphy/.test(textInput)) {
+      self.showLoading('Searching Giphy...');
       var searchTerm = textInput.split("/giphy").join("").slice(1);
       Giphy.searchGIF(searchTerm).then(function(gifURL){
         self.contentToAdd.imgURL = gifURL;
         addTextOrPhoto();
+        self.hideLoading();
+      }, function() {
+        self.hideLoading();
       });
     } else {
       addTextOrPhoto();
