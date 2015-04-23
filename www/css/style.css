@@ -337,11 +337,11 @@ ion-content {
 /** Inbox styling **/
 
 .inbox-pane {
-  background-color: #b280b2;
+  background-color: cadetblue;
 }
 
 .outbox-pane {
-  background-color: #DED4B9;
+  background-color: cadetblue;
 }
 
 
