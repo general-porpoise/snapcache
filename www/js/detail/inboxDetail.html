@@ -6,7 +6,7 @@
   </ion-header-bar>
   <ion-content>
     <div class="description">{{ dctrl.cache.description }}</div>
-    <ion-list type="card detail-list">
+    <ion-list type="card detail-list" ng-if="dctrl.items.length">
       <ion-item class="cache-item cache-contribution item-text-wrap" ng-repeat="item in dctrl.items">
         <img class="profilePhoto" src="{{ item.profileUrl }}">
 
