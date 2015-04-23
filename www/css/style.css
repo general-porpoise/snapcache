@@ -334,7 +334,7 @@ ion-content {
   font-size: 0.9em;
 }
 
-/** Inbox styling **/
+/** Main view styling **/
 
 .inbox-pane {
   background-color: cadetblue;
@@ -344,4 +344,24 @@ ion-content {
   background-color: cadetblue;
 }
 
+.menu-pane {
+  background-color: #444444;
+}
+
+
+/** Menu styling **/
+
+.menu-item {
+  background-color: #444444 !important;
+  color: #f0f0f0;
+  border: 1px solid #666666;
+}
+
+.menu-item a {
+  background-color: #444444 !important;
+} 
+
+.menu-container {
+  border-bottom: 1px solid #666666;
+}
 

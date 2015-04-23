@@ -12,27 +12,27 @@
     <ion-nav-view name="menuContent"></ion-nav-view>
   </ion-side-menu-content>
 
-  <ion-side-menu side="left">
-    <ion-header-bar class="bar-stable">
+  <ion-side-menu side="left" class="menu-pane">
+    <ion-header-bar class="bar-dark">
       <h1 class="title">Snapcache</h1>
     </ion-header-bar>
-    <ion-content>
-      <ion-list>
-        <ion-item nav-clear menu-close ng-click="menuCtrl.create()">
+    <ion-content class="menu-container">
+      <ion-list class="menu-items">
+        <ion-item class="menu-item" nav-clear menu-close ng-click="menuCtrl.create()">
           New Snapcache
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/inbox">
+        <ion-item class="menu-item" nav-clear menu-close href="#/app/inbox">
           Inbox
           <span class="badge badge-assertive" ng-show="menuCtrl.unreadIn > 0">{{ menuCtrl.unreadIn }}</span>
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/outbox">
+        <ion-item class="menu-item" nav-clear menu-close href="#/app/outbox">
           Outbox
           <span class="badge badge-positive" ng-show="menuCtrl.unreadOut > 0">{{ menuCtrl.unreadOut }}</span>
         </ion-item>
       </ion-list>
     </ion-content>
 
-    <ion-footer-bar class="bar-stable">
+    <ion-footer-bar class="bar-dark">
       <img class="menu-profilePhoto" src="{{ menuCtrl.user.profileUrl }}">
       <div class="menu-user-name">{{ menuCtrl.user.name }}</div>
       <div ng-if="menuCtrl.user.city" class="menu-user-city">{{ menuCtrl.user.city + ', ' + menuCtrl.user.state }}</div>
