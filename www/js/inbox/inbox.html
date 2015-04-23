@@ -6,7 +6,10 @@
       <ion-item class="cache-item" ng-repeat="cache in inctrl.caches | orderBy: 'expiresAt'" ng-click="inctrl.displayDetails(cache)">
 
           <div class="cache-title {{cache.hasOwnProperty('read_inbox')? '': 'bold-text'}}">{{ cache.title }}</div>
-          <span class="cache-countdown">gone <span am-time-ago="{{ cache.expiresAt }}"></span>&nbsp;&sdot;&nbsp;</span>
+          <span class="cache-countdown">gone <span am-time-ago="{{ cache.expiresAt }}"></span></span>
+
+          &nbsp;&sdot;&nbsp;
+
           <div class="cache-location">{{ cache.readable_location }}</div>
         <div class="fade-from-right">
         </div>
