@@ -328,7 +328,7 @@ angular.module('snapcache.create', [])
       // Emit the `pinPlaced` event after the address has been
       // successfully found from Google API.
       Location.getAddress(lat, lon).then(function(addr){
-        $scope.$emit('pinPlaced', addr);
+        $scope.$emit('pinPlaced', addr.formatted_address);
       });
     });
 
@@ -347,7 +347,7 @@ angular.module('snapcache.create', [])
     // Emitting an event so that the parent controller (menuCtrl) can
     // change the `readable_location` and position `parameters`.
     Location.getAddress(latLng.k, latLng.D).then(function(addr){
-      $scope.$emit('pinPlaced', addr);
+      $scope.$emit('pinPlaced', addr.formatted_address);
     });
   };
 
