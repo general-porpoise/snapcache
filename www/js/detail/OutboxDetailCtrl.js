@@ -5,12 +5,19 @@ angular.module('snapcache.detail.outbox', [])
   // Cloudinary allows you do apply transformations before grabbing
   // them. Here, we are getting a square (size x size) version of our
   // image, retaining the original proportions (cropping the image).
+  //
+  // However, our image might come from an external source, such as
+  // giphy, so we need to check for that.
   return function(url) {
-    var index = url.indexOf('/upload/') + 8;
-    var endIndex = url.indexOf('/', index);
-    var start = url.substr(0, index);
-    var end = url.substr(endIndex);
-    return start + 'w_' + 1000 + ',h_' + 1000 + ',c_fill' + end;
+    if (url.indexOf('cloudinary') !== -1) {
+      var index = url.indexOf('/upload/') + 8;
+      var endIndex = url.indexOf('/', index);
+      var start = url.substr(0, index);
+      var end = url.substr(endIndex);
+      return start + 'w_' + 1000 + ',h_' + 1000 + ',c_fill' + end;
+    } else {
+      return url;
+    }
   };
 })
 
