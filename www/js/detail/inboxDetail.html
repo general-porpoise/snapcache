@@ -6,11 +6,18 @@
   </ion-header-bar>
   <ion-content>
     <div class="description">{{ dctrl.cache.description }}</div>
-    <ion-list type="card">
-      <ion-item class="item-text-wrap" ng-repeat="item in dctrl.items">
-        <span ng-if="item.content.message"><span class="bold-text">{{ item.contributor }}</span><span class="cache-message">{{ item.content.message }}</span></span>
-        <span ng-if="!item.content.message && item.content.imgURL" class="bold-text">{{ item.contributor }}</span>
+    <ion-list type="card detail-list">
+      <ion-item class="cache-item cache-contribution item-text-wrap" ng-repeat="item in dctrl.items">
+        <img class="profilePhoto" src="{{ item.profileUrl }}">
+
+        <span class="display-name">{{ item.contributor }}</span>
+        <span class="created-at">{{ item.content.createdAt }}</span>
+        <span ng-if="item.content.message">
+          <span class="cache-message">{{ item.content.message }}</span>
+        </span>
+
         <img class="cache-image" ng-if="item.content.imgURL" ng-src="{{ item.content.imgURL | cropImgUrl }}">
+
       </ion-item>
     </ion-list>
     </ion-list>
