@@ -5,9 +5,13 @@
     <button class="button button-clear" ng-click="outctrl.closeDetail()">Close</button>
   </ion-header-bar>
   <ion-content>
-  <div class="outbox-detail-recipient">{{ dctrl.cache.recipient.name }}</div>
-  <img src="{{ dctrl.cache.recipient.profilePic }}">
-  <div class="description">{{ dctrl.cache.description }}</div>
+    <div class="description">
+      <div class="cache-recipient-detail">
+        <img src="{{ dctrl.cache.recipient.profilePic }}">
+        Sent to <span class="detail-name">{{ dctrl.cache.recipient.name }}</span>
+      </div>
+      <span class="detail-description">{{ dctrl.cache.description }}</span>
+    </div>
     <ion-list type="card detail-list" ng-if="dctrl.items.length">
       <ion-item class="cache-item cache-contribution" ng-repeat="item in dctrl.items">
         <img class="profilePhoto" src="{{ item.profileUrl }}">
