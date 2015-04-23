@@ -12,7 +12,7 @@
       </label>
     </div>
     <ion-list class="popover-list">
-      <ion-item ng-repeat="friend in createCtrl.potentialRecipients" ng-click="createCtrl.addRecipient(friend)">
+      <ion-item ng-repeat="friend in createCtrl.potentialRecipients" ng-click="createCtrl.addRecipient(friend); createCtrl.closePopover();">
         {{ friend.name }}
       </ion-item>
     </ion-list>
