@@ -5,17 +5,24 @@ angular.module('snapcache.detail.outbox', [])
   // Cloudinary allows you do apply transformations before grabbing
   // them. Here, we are getting a square (size x size) version of our
   // image, retaining the original proportions (cropping the image).
+  //
+  // However, our image might come from an external source, such as
+  // giphy, so we need to check for that.
   return function(url) {
-    var index = url.indexOf('/upload/') + 8;
-    var endIndex = url.indexOf('/', index);
-    var start = url.substr(0, index);
-    var end = url.substr(endIndex);
-    return start + 'w_' + 1000 + ',h_' + 1000 + ',c_fill' + end;
+    if (url.indexOf('cloudinary') !== -1) {
+      var index = url.indexOf('/upload/') + 8;
+      var endIndex = url.indexOf('/', index);
+      var start = url.substr(0, index);
+      var end = url.substr(endIndex);
+      return start + 'w_' + 1000 + ',h_' + 1000 + ',c_fill' + end;
+    } else {
+      return url;
+    }
   };
 })
 
 // Detail controller
-.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, FIREBASE_REF, $ionicActionSheet) {
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, Giphy, FIREBASE_REF, $ionicActionSheet) {
   var self = this;
   self.cache = userSession.currentCache;
 
@@ -28,6 +35,23 @@ angular.module('snapcache.detail.outbox', [])
   // `addContent()` will take the content of an additional message that the user
   // wants to contribute to the cache, add it, and save it to Firebase.
   self.addContent = function() {
+
+    // To add Giphy integration, we need to see if the user has submitted
+    // text that starts with /giphy, and if so, search for the term
+    // and set the correct property.
+    var textInput = self.contentToAdd.text;
+    if (textInput && /^\/giphy/.test(textInput)) {
+      var searchTerm = textInput.split("/giphy").join("").slice(1);
+      Giphy.searchGIF(searchTerm).then(function(gifURL){
+        self.contentToAdd.imgURL = gifURL;
+        addTextOrPhoto();
+      });
+    } else {
+      addTextOrPhoto();
+    }
+  };
+
+  function addTextOrPhoto() {
     var type = '';
     var message = '';
     var contribution = {
@@ -37,11 +61,11 @@ angular.module('snapcache.detail.outbox', [])
         createdAt: new Date().toDateString()
       }
     };
-
     // Set contribution's type based on user-submitted content
     if (self.contentToAdd.imgURL) {
       contribution.content.type = 'image';
       contribution.content.imgURL = self.contentToAdd.imgURL;
+      self.contentToAdd.text = '';
     } else {
       contribution.content.type = 'text';
     }
@@ -59,7 +83,7 @@ angular.module('snapcache.detail.outbox', [])
 
     // Remove the user input
     self.contentToAdd = {};
-  };
+  }
 
   // 'getPhoto()' opens the camera for picture taking and ...
   self.getPhoto = function (sourceType) {
@@ -92,6 +116,7 @@ angular.module('snapcache.detail.outbox', [])
         console.error('getPhoto error', error);
       });
   };
+
 
   // Show & hide loading spinner
   self.showLoading = function(message) {
