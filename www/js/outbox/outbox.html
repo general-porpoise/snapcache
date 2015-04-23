@@ -1,4 +1,4 @@
-<ion-view view-title="Outbox">
+<ion-view view-title="Outbox" class="outbox-pane">
 
   <ion-content>
 
@@ -18,6 +18,8 @@
           gone <span am-time-ago="{{ cache.expiresAt }}"></span>
         </span>
 
+        &nbsp;&sdot;&nbsp;
+
         <div class="cache-location">{{ cache.readable_location }}</div>
         <div class="fade-from-right">
         </div>
@@ -30,7 +32,7 @@
     <div class="padding empty-box" ng-if="outctrl.caches.length === 0">
       <h1>Outbox Empty...</h1>
       <img src="img/globe_with_marker.png">
-      <button class="button button-large button-balanced" ng-click="outctrl.create()">Create a new cache!</button>
+      <button class="button button-large button-dark" ng-click="outctrl.create()">Create a new cache!</button>
     </div>
 
   </ion-content>

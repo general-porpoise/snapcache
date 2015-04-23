@@ -99,14 +99,15 @@ ion-content {
 }
 
 .card {
-  border: 1px solid #cccccc;
+  border: 0px solid #D7D9DB;
   border-radius: 5px;
-  box-shadow: #cccccc 0px 4px 0px;
+  box-shadow: #444444 0px 5px 0px;
 }
 
 .cache-item {
   padding: 1.6em 1em .956em 1em;
-  border: 1px solid #cccccc;
+  border: 1px solid #444444;
+  background-color: #f0f0f0;
 }
 
 .fade-from-right {
@@ -115,14 +116,14 @@ ion-content {
   right: 0;
   width: 100%;
   height: 100%;
-  z-index: 100;
-  background: rgba(255,255,255,0);
-  background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 94%, rgba(255,255,255,1) 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,255,0)), color-stop(94%, rgba(255,255,255,0.1)), color-stop(100%, rgba(255,255,255,1)));
-  background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 94%, rgba(255,255,255,1) 100%);
-  background: -o-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 94%, rgba(255,255,255,1) 100%);
-  background: -ms-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 94%, rgba(255,255,255,1) 100%);
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 94%, rgba(255,255,255,1) 100%);
+  z-index: background;
+  100: rgba(240,240,240,0);
+  background: -moz-linear-gradient(left, rgba(240,240,240,0) 0%, rgba(240,240,240,0.1) 94%, rgba(240,240,240,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(240,240,240,0)), color-stop(94%, rgba(240,240,240,0.1)), color-stop(100%, rgba(240,240,240,1)));
+  background: -webkit-linear-gradient(left, rgba(240,240,240,0) 0%, rgba(240,240,240,0.1) 94%, rgba(240,240,240,1) 100%);
+  background: -o-linear-gradient(left, rgba(240,240,240,0) 0%, rgba(240,240,240,0.1) 94%, rgba(240,240,240,1) 100%);
+  background: -ms-linear-gradient(left, rgba(240,240,240,0) 0%, rgba(240,240,240,0.1) 94%, rgba(240,240,240,1) 100%);
+  background: linear-gradient(to right, rgba(240,240,240,0) 0%, rgba(240,240,240,0.1) 94%, rgba(240,240,240,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff', GradientType=1 );
 }
 
@@ -133,7 +134,7 @@ ion-content {
   width: 100%;
   height: 5px;
   z-index: 100;
-  background-color: #e0e0e0;
+  background-color: #444444;
 }
 
 .background {
@@ -153,6 +154,7 @@ ion-content {
   font-family: 'Lato', sans-serif;
   font-size: 2.2em;
   margin-bottom: .53em;
+  text-shadow: #dddddd 1px 1px 2px;
 }
 
 .cache-countdown {
@@ -167,7 +169,7 @@ ion-content {
   display: inline-block;
   font-family: 'Lato', sans-serif;
   font-size: 1em;
-  color: #cccccc;
+  color: #46433A;
 }
 
 /* Color pallette */
@@ -246,7 +248,7 @@ ion-content {
 
 .empty-box>h1 {
   font-family: 'Lobster', cursive;
-  color: #444444;
+  color: #404040;
   padding-top: 1em;
   padding-bottom: 0.9em;
 }
@@ -260,7 +262,7 @@ ion-content {
 .empty-box>button {
   margin-top: 2.2em;
   border-radius: 5px;
-  box-shadow: #28a54c 0px 4px 0px;
+  box-shadow: #111 0px 4px 0px;
 }
 
 .camera-button {
@@ -332,4 +334,44 @@ ion-content {
   font-size: 0.9em;
 }
 
+/** Main view styling **/
+
+.inbox-pane {
+  background-color: cadetblue;
+}
+
+.outbox-pane {
+  background-color: cadetblue;
+}
+
+.menu-pane {
+  background-color: #444444;
+}
+
+
+/** Menu styling **/
+
+.menu-item {
+  background-color: #444444 !important;
+  color: #f0f0f0;
+  border: 1px solid #666666;
+}
+
+.menu-item a {
+  background-color: #444444 !important;
+} 
+
+.menu-container {
+  border-bottom: 1px solid #666666;
+}
+
+.inbox-badge {
+  background-color: #FF5050;
+  color: white;
+}
+
+.outbox-badge {
+  background-color: #FF5050;
+  color: white;
+}
 
