@@ -8,7 +8,7 @@
   <div class="outbox-detail-recipient">{{ dctrl.cache.recipient.name }}</div>
   <img src="{{ dctrl.cache.recipient.profilePic }}">
   <div class="description">{{ dctrl.cache.description }}</div>
-    <ion-list type="card detail-list">
+    <ion-list type="card detail-list" ng-if="dctrl.items.length">
       <ion-item class="cache-item cache-contribution" ng-repeat="item in dctrl.items">
         <img class="profilePhoto" src="{{ item.profileUrl }}">
 
