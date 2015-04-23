@@ -33,7 +33,9 @@ angular.module('snapcache.detail.outbox', [])
     var contribution = {
       contributor: userSession.name,
       profileUrl: userSession.profileUrl,
-      content: {}
+      content: {
+        createdAt: new Date().toDateString()
+      }
     };
 
     // Set contribution's type based on user-submitted content

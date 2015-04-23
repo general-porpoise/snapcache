@@ -27,6 +27,7 @@ angular.module('snapcache.services.location', [])
         // self.geocodingTimeout = Date.now() + 20000;
         if (results[0]) {
           // store the human-readable
+          console.log('HUMAN READABLE ADDRESS:', results[0]);
           deferred.resolve(results[0].formatted_address);
         } else {
           deferred.resolve("Unknown");
