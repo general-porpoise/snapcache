@@ -231,6 +231,39 @@ ion-content {
 
 /* Detail view styling */
 
+.cache-recipient-detail {
+  text-align: left;
+}
+
+.cache-recipient-detail>img {
+  height: 4.9em;
+  margin-left: 5px;
+  border-radius: 4px;
+  box-shadow: #777777 0px 3px 0px;
+  float: right;
+}
+
+.cache-recipient-detail>span {
+  margin-left: 0em;
+  font-size: 1em;
+}
+
+.detail-for {
+  display: inline;
+  color: #777777;
+}
+
+.detail-name {
+  display: inline;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.detail-description {
+  position: relative;
+  top: 4px;
+}
+
 .cache-image {
   display: block;
   width: 100%;
@@ -274,9 +307,18 @@ ion-content {
 }
 
 .description {
+  height: 6.8em;
+  font-size: 0.9em;
   background-color: #eee;
-  padding: 15px;
+  padding: 10px;
+  text-align: left;
+}
+
+.inbox-description {
   text-align: center;
+  padding: 10px;
+  background-color: #eee;
+  font-size: 0.9em;
 }
 
 .cache-contribution {
