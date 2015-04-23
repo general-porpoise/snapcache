@@ -166,7 +166,16 @@ angular.module('snapcache.menu', [])
     var lon = pos.coords.longitude;
 
     // Get the address
-    Location.getAddress(lat, lon).then(function(addr){
+    Location.getAddress(lat, lon).then(function(addrObj){
+      var addr = addrObj.formatted_address;
+      addrObj.address_components.forEach(function(comp) {
+        if (comp.types[0] === 'locality') {
+          self.user.city = comp.long_name;
+        }
+        if (comp.types[0] === 'administrative_area_level_1') {
+          self.user.state = comp.short_name;
+        }
+      });
       self.readable_location = addr;
       userSession.readable_location = addr;
       console.log('your addr is', addr);

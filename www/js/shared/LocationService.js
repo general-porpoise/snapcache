@@ -28,7 +28,7 @@ angular.module('snapcache.services.location', [])
         if (results[0]) {
           // store the human-readable
           console.log('HUMAN READABLE ADDRESS:', results[0]);
-          deferred.resolve(results[0].formatted_address);
+          deferred.resolve(results[0]);
         } else {
           deferred.resolve("Unknown");
         }

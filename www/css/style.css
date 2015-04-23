@@ -315,4 +315,21 @@ ion-content {
   box-shadow: #777777 0px 2px 0px;
 }
 
+.menu-user-name {
+  display: block;
+  position: absolute;
+  top: 4px;
+  left: 3.2em;
+  font-size: 1em;
+}
+
+.menu-user-city {
+  display: block;
+  position: absolute;
+  bottom: 1px;
+  left: 3.62em;
+  color: #888888;
+  font-size: 0.9em;
+}
+
 

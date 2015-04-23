@@ -33,7 +33,10 @@
     </ion-content>
 
     <ion-footer-bar class="bar-stable">
-      <img class="menu-profilePhoto" src="{{ menuCtrl.user.profileUrl }}">&nbsp; {{ menuCtrl.user.name }}
+      <img class="menu-profilePhoto" src="{{ menuCtrl.user.profileUrl }}">
+      <div class="menu-user-name">{{ menuCtrl.user.name }}</div>
+      <div ng-if="menuCtrl.user.city" class="menu-user-city">{{ menuCtrl.user.city + ', ' + menuCtrl.user.state }}</div>
+      <div ng-if="!menuCtrl.user.city" class="menu-user-city">Retrieving user location...</div>
     </ion-footer-bar>
   </ion-side-menu>
 
