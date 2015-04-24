@@ -1,12 +1,12 @@
-# Project Name
+# Snapcache
 
-> Pithy project description
+Give physical impact to your digital communications.
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Conor Flannigan
+  - __Scrum Master__: Anneke Floor
+  - __Project Manager__: Chris Rinaldi
 
 ## Table of Contents
 
@@ -20,15 +20,46 @@
 
 ## Usage
 
-> Some usage instructions
+In Browser:
+
+`ionic serve` from command line
+
+Android:
+
+Make sure you have Android SDK installed on the host computer.
+Check out [this guide](http://cflann.github.io/2015/03/13/running-ionic-app-on-android.html) for detailed instructions.
+
+    ionic platform add android
+    ionic build android
+    ionic run android
+
+Emulator:
+
+    ionic platform add [PLATFORM]
+    ionic build [PLATFORM]
+    ionic emulate [PLATFORM]
+
+iOS (device):
+
+You'll need an Apple Developer account for this. Once you have an account and have set up XCode
+with your certificates to enable device testing, you'll want to open the XCode project from
+`platform/ios/` and run the build from XCode.
 
 ## Requirements
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- npm
+- Ionic & Cordova
+- Cordova InAppBrowser plugin
+- Cordova GeoLocation plugin
+- Cordova Device plugin
+- Cordova Camera plugin
+- Cordova Facebook Connect plugin
+
+For generating documentation:
+
+- Gulp
+- docco-toc npm module
+- gulp-run npm module
 
 ## Development
 
@@ -37,14 +68,15 @@
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
+npm install -g bower
 npm install
 bower install
+ionic plugin add [PLUGIN.LOCATION]
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/general-porpoise/snapcache/issues)
 
 
 ## Contributing
