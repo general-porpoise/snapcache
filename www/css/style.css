@@ -392,7 +392,6 @@ ion-content {
   background-image: url('../img/map_bw_blurred.jpg');
   background-size: 200%;
   background-position: center;
-  background-color: #7BBF6A;
 }
 
 .inbox-background-filter {
@@ -408,7 +407,6 @@ ion-content {
   background-image: url('../img/map_bw_blurred.jpg');
   background-size: 200%;
   background-position: center;
-  background-color: #7BBF6A;
 }
 
 .outbox-background-filter {
