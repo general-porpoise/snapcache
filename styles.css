@@ -5,6 +5,11 @@ body {
 
 h1.title {
   font-family: 'Lobster', serif;
+  text-shadow: rgba(0,0,0,0.5) 0px 0px 100px;
+}
+
+h2 {
+  text-shadow: rgba(0,0,0,1) 0px 0px 100px;
 }
 
 h3.glint-name {
@@ -42,6 +47,7 @@ h3.glint-name {
 	text-align: center;
   background-color: cadetblue !important;
   color: white !important;
+  background-image: url('assets/colorized_map_blurred_center.jpg');
   background-size: cover;
   width: 100%;
 }
