@@ -17,9 +17,15 @@ angular.module('snapcache.services.giphy', [])
     // Send a call to the [Giphy API](https://github.com/giphy/GiphyAPI)
     $http.get(url)
       .success(function(response) {
-        var topResult = response.data[0];
-        var gifUrl = topResult.images.fixed_height.url;
-        deferred.resolve(gifUrl);
+        // Check to see if any results are returned. Otherwise,
+        // return the empty string for the gif url.
+        if (response.data.length) {
+          var topResult = response.data[0];
+          var gifUrl = topResult.images.fixed_height.url;
+          deferred.resolve(gifUrl);
+        } else {
+          deferred.resolve('');
+        }
       })
       .error(function(data){
         deferred.reject('error in call to giphy API');

@@ -22,7 +22,7 @@ angular.module('snapcache.detail.outbox', [])
 })
 
 // Detail controller
-.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, Giphy, FIREBASE_REF, $ionicActionSheet) {
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicPopup, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, Giphy, FIREBASE_REF, $ionicActionSheet) {
   var self = this;
   self.cache = userSession.currentCache;
 
@@ -44,9 +44,19 @@ angular.module('snapcache.detail.outbox', [])
       self.showLoading('Searching Giphy...');
       var searchTerm = textInput.split("/giphy").join("").slice(1);
       Giphy.searchGIF(searchTerm).then(function(gifURL){
-        self.contentToAdd.imgURL = gifURL;
-        addTextOrPhoto();
-        self.hideLoading();
+        if (gifURL) {
+          self.contentToAdd.imgURL = gifURL;
+          addTextOrPhoto();
+          self.hideLoading();
+        } else {
+          self.hideLoading();
+          $ionicPopup.alert({
+            title: 'Giphy Search Results',
+            template: '<p style="text-align:center;">No results found</p>'
+          }).then(function(res){
+            console.log('do we need this?');
+          });
+        }
       }, function() {
         self.hideLoading();
       });
