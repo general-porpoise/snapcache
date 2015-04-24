@@ -2,6 +2,7 @@
 
   <ion-content>
 
+    <div class="inbox-background-filter"></div>
     <ion-list ng-if="inctrl.caches.length > 0" class="cache-card" type="card">
       <ion-item class="cache-item" ng-repeat="cache in inctrl.caches | orderBy: 'expiresAt'" ng-click="inctrl.displayDetails(cache)">
 
