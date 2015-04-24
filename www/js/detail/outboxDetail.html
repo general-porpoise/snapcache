@@ -13,7 +13,7 @@
       <span class="detail-description">{{ dctrl.cache.description }}</span>
     </div>
     <ion-list type="card detail-list" ng-if="dctrl.items.length">
-      <ion-item class="cache-item cache-contribution" ng-repeat="item in dctrl.items">
+      <ion-item class="cache-item cache-contribution item-text-wrap" ng-repeat="item in dctrl.items">
         <img class="profilePhoto" src="{{ item.profileUrl }}">
 
         <span class="display-name">{{ item.contributor }}</span>
