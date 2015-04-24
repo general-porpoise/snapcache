@@ -24,24 +24,34 @@ angular.module('snapcache.inbox', [])
       console.log('key is', cacheID);
       Geofire.setListener(cacheID);
 
-      Caches.getCacheDetailsForDiscovered(cacheID).then(
-        function (cache) {
-          cache._id = cacheID;
-          self.caches.push(cache);
-
-          // Set up timers to clear out caches on expiry
-          self.setTimerForExpiredRemoval(cache);
+      // Display all the caches that have been discovered by user.
+      Caches.getCacheDetailsForDiscovered(cacheID).then(function(cache) {
+          addToCaches(cache, cacheID);
         });
 
+      // Setup event listener for when the user discovers a cache,
+      // push it to the inbox.
       Caches.onCacheDiscovered(cacheID).then(function(cache) {
-        console.log('pushing discovered cache to inbox');
-        cache._id = cacheID;
-        self.caches.push(cache);
-
-        // Set up timers to clear out caches on expiry
-        self.setTimerForExpiredRemoval(cache);
+        addToCaches(cache, cacheID);
       });
     });
+  };
+
+  // `addToCachces()` checks to see if that cache is not already present
+  // in caches, before adding it. It also sets a timer for that cache
+  // to be removed from the inbox.
+  var addToCaches = function(cacheToAdd, cacheID) {
+    cacheToAdd._id = cacheID;
+    var found = false;
+    self.caches.forEach(function(cache){
+      if (cache._id === cacheToAdd._id) {
+        found = true;
+      }
+    });
+    if (!found) {
+      self.caches.push(cacheToAdd);
+      self.setTimerForExpiredRemoval(cacheToAdd);
+    }
   };
 
   // Displays detail view once the cache information has been stored.
