@@ -40,9 +40,8 @@ h3.glint-name {
 
 .jumbotron {
 	text-align: center;
-  background-color: #046380 !important;
+  background-color: cadetblue !important;
   color: white !important;
-  background-image: url('assets/teal-background.jpg');
   background-size: cover;
   width: 100%;
 }
@@ -100,7 +99,7 @@ i {
 
 .navbar-bottom {
   margin: 0 !important;
-  background-color: #046380 !important;
+  background-color: cadetblue !important;
   border: 0 !important;
   border-radius: 0 !important;
 }
