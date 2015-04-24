@@ -68,7 +68,7 @@ h3.glint-name {
 
 .half-rule {
   width: 100px;
-  margin: 40px auto;
+  margin: 20px auto;
   border-top: 1px solid #cacaca;
 }
 
@@ -161,11 +161,12 @@ a.btn.btn-outline-inverse.btn-lg.visit-button:visited {
 }
 
 .icons-row p {
-  margin-top: 1.5em;
+  margin-top: 0.9em;
   margin-bottom: 1.5em;
   font-size: 1.2em;
 }
 
 .icons-row img {
+  margin-top: 1.5em;
   padding-bottom: 1em;
 }
