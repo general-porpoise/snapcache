@@ -31,7 +31,7 @@
     <!-- <button class="button icon ion-paperclip"></button> -->
       <button class="camera-button button button-clear icon ion-camera" ng-click="dctrl.showContentActionSheet()" ng-show="dctrl.isContributable"></button>
       <label class="item-input-wrapper" ng-show="dctrl.isContributable">
-        <input type="text" placeholder="Message" ng-keypress="dctrl.checkSubmit($event)" ng-model="dctrl.contentToAdd.text">
+        <input type="text" placeholder="Message" ng-model="dctrl.contentToAdd.text">
       </label>
       <button class="button button-clear" ng-click="dctrl.addContent()" ng-show="dctrl.isContributable">Submit</button>
 
