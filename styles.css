@@ -147,3 +147,11 @@ a.btn.btn-outline-inverse.btn-lg.visit-button:visited {
   color: white;
 }
 
+.col-sm-4 .icons-row img {
+  padding: 5em;
+}
+
+.icons-row p {
+  margin: 10px 0 40px 0;
+}
+
