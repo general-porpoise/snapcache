@@ -151,6 +151,21 @@ a.btn.btn-outline-inverse.btn-lg.visit-button:visited {
   padding: 5em;
 }
 
+.basic-summary h3 {
+  line-height: 1.5em;
+}
+
+.icons-row h3 {
+  margin-top: 0.3em;
+  margin-bottom: 0em;
+}
+
+.icons-row p {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  font-size: 1.2em;
+}
+
 .icons-row img {
-  padding-bottom: 20px;
+  padding-bottom: 1em;
 }
