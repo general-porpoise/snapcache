@@ -55,6 +55,12 @@ angular.module('snapcache.detail.outbox', [])
     }
   };
 
+  self.checkSubmit = function(event) {
+    if (event.keyCode === 13) {
+      self.addContent();
+    }
+  };
+
   function addTextOrPhoto() {
     var type = '';
     var message = '';
