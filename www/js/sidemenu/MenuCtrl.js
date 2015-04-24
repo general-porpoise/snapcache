@@ -107,7 +107,7 @@ angular.module('snapcache.menu', [])
   });
 
   // remove user from geofire when we leave the inbox view
-  $scope.$on('$ionicView.beforeLeave', function() {
+  $scope.$on('$destroy', function() {
     if (watchID !== undefined) {
       self.removeWatch();
     }
