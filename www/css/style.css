@@ -298,6 +298,7 @@ ion-content {
   width: 60%;
   display: block;
   margin: auto;
+  z-index: 100;
 }
 
 .empty-box>button {
@@ -388,11 +389,35 @@ ion-content {
 /** Main view styling **/
 
 .inbox-pane {
-  background-color: cadetblue;
+  background-image: url('../img/map_bw_blurred.jpg');
+  background-size: 200%;
+  background-position: center;
+  background-color: #7BBF6A;
+}
+
+.inbox-background-filter {
+  position: absolute;
+  top: -20px;
+  background-color: rgba(243,223,198,0.75);
+  width: 100%;
+  height: 120%;
+  z-index: -1;
 }
 
 .outbox-pane {
-  background-color: cadetblue;
+  background-image: url('../img/map_bw_blurred.jpg');
+  background-size: 200%;
+  background-position: center;
+  background-color: #7BBF6A;
+}
+
+.outbox-background-filter {
+  position: absolute;
+  top: -20px;
+  background-color: rgba(243,223,198,0.75);
+  width: 100%;
+  height: 120%;
+  z-index: -1;
 }
 
 .menu-pane {
