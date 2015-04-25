@@ -17,7 +17,7 @@ www/lib
 .tern-port
 
 # Ignoring files with API keys
-www/js/shared/config.js
+www/config.js
 
 # Ignore release API
 Snapcache.apk
