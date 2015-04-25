@@ -18,3 +18,8 @@ www/lib
 
 # Ignoring files with API keys
 www/config.js
+www/js/shared/config.js
+
+# Ignore release API
+Snapcache.apk
+
