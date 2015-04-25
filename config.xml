@@ -2,9 +2,9 @@
 <widget id="com.ionicframework.snapcache990612" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Snapcache</name>
     <description>
-        An Ionic Framework and Cordova project.
+        Give physical impact to your digital communications.
     </description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">
+    <author email="generalporpoisehr@gmail.com" href="http://ionicframework.com/">
       Ionic Framework Team
     </author>
     <content src="index.html" />
