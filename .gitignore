@@ -20,5 +20,5 @@ www/lib
 www/js/shared/config.js
 
 # Ignore release API
-Snapcache.api
+Snapcache.apk
 
