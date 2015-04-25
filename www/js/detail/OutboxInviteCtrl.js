@@ -3,7 +3,7 @@ angular.module('snapcache.outbox.invite', [])
 
 .controller('OutboxInviteCtrl', function($scope, Caches, userSession){
 
-  // Set default values
+  // Set default values.
   $scope.person = {};
   $scope.person.name = '';
   $scope.contributors = {};
@@ -18,7 +18,6 @@ angular.module('snapcache.outbox.invite', [])
     } else {
       $scope.contributors[id] = friend;
     }
-    console.log('contributors are', $scope.contributors);
   };
 
   // `isChecked()` is a helper function to ensure that the checkbox remains
@@ -32,7 +31,7 @@ angular.module('snapcache.outbox.invite', [])
   };
 
   $scope.submit = function() {
-    // Iterate through the contributors, updating Firebase
+    // Iterate through the contributors, updating Firebase.
     for (var id in $scope.contributors) {
       var cacheID = userSession.currentCache._id;
       var fbID = 'facebook:' + id;
