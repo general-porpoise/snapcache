@@ -1,9 +1,15 @@
 <ion-modal-view ng-controller="OutboxInviteCtrl">
   <ion-header-bar class="bar-dark">
+    <button class="button button-clear" ng-click="dctrl.closeInvite()">Cancel</button>
     <h1 class="title">Invite Cache Contributors</h1>
-    <button class="button button-clear" ng-click="dctrl.closeInvite()">Close</button>
+    <button class="button button-clear" ng-click="submit(); dctrl.closeInvite()">Invite</button>
   </ion-header-bar>
   <ion-content>
+  <div class="bar item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Name" ng-model="person.name">
+      </label>
+  </div>
     <ul class="list">
       <li ng-repeat="friend in friends | filter:person.name" class="item item-checkbox">
         <label class="checkbox">
@@ -14,11 +20,5 @@
     </ul>
   </ion-content>
 
-  <div class="bar bar-footer item-input-inset">
-      <label class="item-input-wrapper">
-        <input type="text" placeholder="Name" ng-model="person.name">
-      </label>
-      <button class="button button-clear" ng-click="submit(); dctrl.closeInvite()">Invite</button>
-  </div>
 
 </ion-modal-view>
