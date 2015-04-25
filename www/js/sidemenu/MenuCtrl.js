@@ -1,8 +1,10 @@
 // Menu Controller
+// The menu controller is the parent of Inbox, Outbox, and Create controllers.
 angular.module('snapcache.menu', [])
 
-.controller('MenuCtrl', function(FIREBASE_REF, Caches, $scope, $ionicModal, $ionicPlatform, userSession, Geofire, Location) {
+.controller('MenuCtrl', function($scope, $ionicModal, $ionicPlatform, FIREBASE_REF, Caches, userSession, Geofire, Location) {
 
+  // Initializing scope default values.
   var self = this;
   self.position;
   self.unreadIn = 0;
@@ -14,30 +16,28 @@ angular.module('snapcache.menu', [])
 
   var cachesRef = new Firebase(FIREBASE_REF).child('caches');
 
-  // Read vs Unread logic for received caches
+  // Read vs Unread logic for received caches. Responsible for menu badges.
   var receivedRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('receivedCaches');
+  // Create Firebase listener when a user gets a new inbound cache.
   receivedRef.on('child_added', function(addedSnapshot) {
     var id = addedSnapshot.key();
     cachesRef.child(id).once('value', function(cacheSnapshot) {
       var staleCache = cacheSnapshot.val();
-      // if incoming caches have not already been read...
+      // If incoming caches have not already been read...
       if (!staleCache.hasOwnProperty('read_inbox')) {
-        // increment inbox count when new caches are discovered
+        // Increment inbox count when new caches are discovered.
         if (!staleCache.discovered) {
           Caches.onCacheDiscovered(id).then(function(cache) {
-            var cacheRef = cachesRef.child(id);
             self.unreadIn++;
           });
         } else {
-          // ... increment inbox count
+          // Increment inbox count.
           self.unreadIn++;
         }
-        // set read listener
-        console.log('Adding READ listener to new cache');
+        // Set read listener.
         cachesRef.child(id).on('child_added', function(childSnapshot) {
-          // decrement inbox count when inbox cache read
+          // Decrement inbox count when inbox cache read.
           if (childSnapshot.key() === 'read_inbox') {
-            console.log('Marking inbound cache as read...');
             self.unreadIn--;
           }
         });
@@ -45,37 +45,32 @@ angular.module('snapcache.menu', [])
     });
   });
 
-  // Read vs Unread logic for contributable caches
+  // Read vs Unread logic for contributable caches.
   var contributableRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('contributableCaches');
   contributableRef.on('child_added', function(addedSnapshot) {
     var id = addedSnapshot.key();
     var read = addedSnapshot.val();
-    console.log('New contributable cache in outbox:', addedSnapshot.val());
     if (!read) {
       self.unreadOut++;
-      // set read listener
       contributableRef.child(id).on('value', function(contSnapshot) {
-        // if value is true, outbound cache is read and we can decrement the unread count
+        // If value is true, outbound cache is read and we can decrement the unread count.
         if (contSnapshot.val()) {
-          console.log('Marking outbound cache as read...');
           self.unreadOut--;
         }
       });
     }
   });
 
-  // Triggered in the create modal to close it
+  // Closes create modal.
   self.closeCreate = function() {
     self.createModal.remove();
     // Broadcast an event to the child scope so that it knows to remove
-    // the mapModal (this fixes a bug where the map would not appear since it
-    // was not properly removed.
+    // the mapModal.
     $scope.$broadcast('closeCreate');
   };
 
-  // Open the create modal
+  // Open the create modal.
   self.create = function() {
-    // Create and then show the create modal
     $ionicModal.fromTemplateUrl('js/create/create.html', {
       scope: $scope
     }).then(function(modal) {
@@ -84,34 +79,20 @@ angular.module('snapcache.menu', [])
     });
   };
 
-  // Open the create modal when we get a message from inbox or outbox
+  // Open the create modal when user clicks button on empty inbox/outbox.
   $scope.$on('openCreate', function() {
     self.create();
   });
 
-  //Cleanup the modal if we close the app on it!
+  // Cleanup the modal if we close the app on it!
   $scope.$on('$destroy', function() {
     self.createModal.remove();
   });
 
-  // ID for our user tracker
+  // ID for our user tracker.
   var watchID;
 
   var inForeground = true;
-
-  // watch user's position, store in userSession and update GeoFire
-  $scope.$on('$ionicView.beforeEnter', function() {
-    if (watchID === undefined) {
-      self.watchPosition();
-    }
-  });
-
-  // remove user from geofire when we leave the inbox view
-  $scope.$on('$destroy', function() {
-    if (watchID !== undefined) {
-      self.removeWatch();
-    }
-  });
 
   // Signal when app brought to foreground
   $ionicPlatform.ready(function() {
@@ -129,33 +110,44 @@ angular.module('snapcache.menu', [])
     }, false);
   });
 
-  // Sets up a listener which responds to changes in the user's position
+  // Watch user's position, store in userSession and update GeoFire.
+  $scope.$on('$ionicView.beforeEnter', function() {
+    if (watchID === undefined) {
+      self.watchPosition();
+    }
+  });
+
+  // Remove user from geofire when user closes app.
+  $scope.$on('$destroy', function() {
+    if (watchID !== undefined) {
+      self.removeWatch();
+    }
+  });
+
+  // Sets up a listener which responds to changes in the user's position.
   self.watchPosition = function() {
     watchID = navigator.geolocation.watchPosition(function(pos) {
-      console.log('current position:', pos);
       userSession.position = pos;
 
       // Remove key in order to satisfy the 'key entered' event
-      // (when key already inside radius)
+      // (when key already inside radius).
       Geofire.geofire.remove(userSession.uid);
       Geofire.geofire.set(userSession.uid, [
         pos.coords.latitude,
         pos.coords.longitude
       ]).then(function() {
-        console.log("Key set in GeoFire");
+        // console.log("Key set in GeoFire");
       }, function(error) {
-        console.log("Error: " + error);
+        console.error("Error: " + error);
       });
     });
   };
 
-  // Removes user position-change event listener
+  // Removes user position-change event listener.
   self.removeWatch = function() {
-    console.log('clearing watch for user position');
-    // stop watching user's position
+    // Stop watching user's position.
     navigator.geolocation.clearWatch(watchID);
-    watchID = undefined;
-    // remove user from geofire
+    // Remove user from Geofire.
     Geofire.geofire.remove(userSession.uid);
   };
 
@@ -165,28 +157,28 @@ angular.module('snapcache.menu', [])
     var lat = pos.coords.latitude;
     var lon = pos.coords.longitude;
 
-    // Get the address
+    // Get the human-readable address from Google Maps Geocoding API.
     Location.getAddress(lat, lon).then(function(addrObj){
       var addr = addrObj.formatted_address;
-      console.log('ADDRESS:', addr);
       self.readable_location = addr;
       addrObj.address_components.forEach(function(comp) {
+        // Get the user's city, if available.
         if (comp.types[0] === 'locality') {
           self.user.city = comp.long_name;
         }
+        // Get the user's state, if available.
         if (comp.types[0] === 'administrative_area_level_1') {
           self.user.state = comp.short_name;
         }
       });
       userSession.readable_location = addr;
-      console.log('your addr is', addr);
     });
 
-    // Store the user's location
+    // Store the user's location.
     self.position = pos;
     userSession.position = pos;
 
-    // Broadcast an event so that the child scope can update its
+    // Broadcast an event so that the child scope (Create) can update its
     // self.properties.coordinates in case the user has quickly navigated
     // to that view.
     $scope.$broadcast('locationAcquired', pos);
