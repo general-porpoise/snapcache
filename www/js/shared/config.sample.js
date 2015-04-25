@@ -1,6 +1,6 @@
 // Our super secret API keys will live here...
 // Uncomment and replace relevant fields with your credentials,
-// then save as config.js in this directory
+// then save as config.js in this directory.
 
 angular.module('snapcache.config', [])
 
@@ -11,10 +11,10 @@ angular.module('snapcache.config', [])
   var apiKey = API_KEY;
   var secret = SECRET;
 
-  // Cloudinary needs a SHA1-hashed signature to authenticate uploads
+  // Cloudinary needs a SHA1-hashed signature to authenticate uploads.
   var getSignature = function(timestamp) {
-    // info on CryptoJS at https://code.google.com/p/crypto-js/#SHA-1
-    // the docs leave out that you need to use toString to get the actual hash
+    // Info on CryptoJS at https://code.google.com/p/crypto-js/#SHA-1
+    // The docs leave out that you need to use toString to get the actual hash.
     return CryptoJS.SHA1('timestamp=' + timestamp + '' + secret).toString();
   };
 

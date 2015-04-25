@@ -24,12 +24,12 @@ angular.module('snapcache.outbox', [])
         // NOTE: This only happens when the outbox controller is opened
         // for the first time.
         if (cache.droptime + cache.window + cache.lifespan > Date.now()) {
-          // set cache as read or unread
-          if (snapshot.val() === true) { // cache is read
+          // Mark cache as read if read in Firebase.
+          if (snapshot.val() === true) {
             cache.read_outbox = true;
           }
 
-          // set interval to indicate when cache becomes available (but not discovered)
+          // Set interval to indicate when cache becomes available (but not discovered).
           $interval(function() {
             cache.isAvailable = Date.now() >= cache.droptime;
           }, 1000);
@@ -51,11 +51,11 @@ angular.module('snapcache.outbox', [])
     });
   };
 
-  // Displays detail view once the cache information has been stored.
+  // Displays detail view.
   self.displayDetails = function (cache) {
     var contributableRef = new Firebase(FIREBASE_REF).child('users').child(userSession.uid).child('contributableCaches');
-    if (!cache.hasOwnProperty('read_outbox')) {// if the cache is unread
-      // flag it as "read" on firebase and locally
+    if (!cache.hasOwnProperty('read_outbox')) {
+      // Flag it as "read" on Firebase and locally.
       contributableRef.child(cache._id).set(true);
       cache.read_outbox = true;
     }
@@ -63,20 +63,20 @@ angular.module('snapcache.outbox', [])
     self.showDetail();
   };
 
-  // Shows the cache detail modal view
+  // Shows the cache detail modal view.
   self.showDetail = function() {
-    // Creates the detail modal based on the specified template
+    // Creates the detail modal based on the specified template.
     $ionicModal.fromTemplateUrl('js/detail/outboxDetail.html', {
       scope: $scope
     }).then(function(modal) {
       self.detailModal = modal;
 
-      // Display the created modal
+      // Display the created modal.
       self.detailModal.show();
     });
   };
 
-  //Cleanup the modal if we close the app on it!
+  // Clean up the modal if we close the app on it!
   $scope.$on('$destroy', function() {
     self.detailModal.remove();
   });
@@ -86,27 +86,27 @@ angular.module('snapcache.outbox', [])
     self.detailModal.remove();
   };
 
-  // Schedules the given cache to be removed from the db at time of expiry
+  // Schedules the given cache to be removed from the db at time of expiry.
   self.setTimerForExpiredRemoval = function (cache, removeFromFirebase) {
-    // calculate offset from now
+    // Calculate offset from now.
     var timeUntilExpiry;
     var now = new Date().getTime();
     timeUntilExpiry = cache.expiresAt - now;
 
-    // Call removal function at the offset time
+    // Call removal function at the offset time.
     $timeout(function () {
       self.removeCache(cache);
     }, timeUntilExpiry);
   };
 
   self.create = function() {
-    // Tell menuctrl to open the create modal
-    // Must do this in order for create modal to behave correctly
+    // Tell MenuCtrl to open the create modal. Must do this in order
+    // for create modal to behave correctly.
     $scope.$emit('openCreate');
   };
 
   self.removeCache = function(cacheToRemove) {
-    // Remove the cache from scope
+    // Remove the cache from scope.
     var idx;
     self.caches.forEach(function(cache, i){
       if (cache._id === cacheToRemove._id) {

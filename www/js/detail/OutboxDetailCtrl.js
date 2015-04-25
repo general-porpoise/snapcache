@@ -1,32 +1,13 @@
 // Cache Detail Module
 angular.module('snapcache.detail.outbox', [])
 
-.filter('cropImgUrl', function() {
-  // Cloudinary allows you do apply transformations before grabbing
-  // them. Here, we are getting a square (size x size) version of our
-  // image, retaining the original proportions (cropping the image).
-  //
-  // However, our image might come from an external source, such as
-  // giphy, so we need to check for that.
-  return function(url) {
-    if (url.indexOf('cloudinary') !== -1) {
-      var index = url.indexOf('/upload/') + 8;
-      var endIndex = url.indexOf('/', index);
-      var start = url.substr(0, index);
-      var end = url.substr(endIndex);
-      return start + 'w_' + 1000 + ',h_' + 1000 + ',c_fill' + end;
-    } else {
-      return url;
-    }
-  };
-})
 
 // Detail controller
-.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicPopup, $ionicLoading, $firebaseArray, userSession, Caches, Camera, Cloudinary, Giphy, FIREBASE_REF, $ionicActionSheet) {
+.controller('OutboxDetailCtrl', function ($scope, $ionicModal, $ionicPopup, $ionicLoading, $ionicActionSheet, $firebaseArray, userSession, Caches, Camera, Cloudinary, Giphy, FIREBASE_REF) {
   var self = this;
   self.cache = userSession.currentCache;
 
-  // Setting up AngularFire
+  // Setting up AngularFire to allow for 3-way data binding.
   var cacheRef = new Firebase(FIREBASE_REF).child('caches').child(self.cache._id);
   self.items = $firebaseArray(cacheRef.child('contents'));
   self.isContributable = (Date.now() < self.cache.droptime);
@@ -53,8 +34,6 @@ angular.module('snapcache.detail.outbox', [])
           $ionicPopup.alert({
             title: 'Giphy Search Results',
             template: '<p style="text-align:center;">No results found</p>'
-          }).then(function(res){
-            console.log('do we need this?');
           });
         }
       }, function() {
@@ -65,6 +44,8 @@ angular.module('snapcache.detail.outbox', [])
     }
   };
 
+  // `addTextOrPhoto()` sends user contribution to Firebase based on what
+  // input fields have been filled out.
   function addTextOrPhoto() {
     var type = '';
     var message = '';
@@ -75,7 +56,7 @@ angular.module('snapcache.detail.outbox', [])
         createdAt: new Date().toDateString()
       }
     };
-    // Set contribution's type based on user-submitted content
+    // Set contribution's type based on user-submitted content.
     if (self.contentToAdd.imgURL) {
       contribution.content.type = 'image';
       contribution.content.imgURL = self.contentToAdd.imgURL;
@@ -83,44 +64,39 @@ angular.module('snapcache.detail.outbox', [])
       contribution.content.type = 'text';
     }
 
-    // Set message on content only if user has added text
+    // Set message on content only if user has added text.
     if (self.contentToAdd.text) {
       contribution.content.message = self.contentToAdd.text;
     }
 
-    console.log('CONTRIBUTION');
-    console.dir(contribution);
-
-    // Using Angular Fire for 3 way data binding
+    // Using Angular Fire for 3 way data binding.
     self.items.$add(contribution);
 
-    // Remove the user input
+    // Remove the user input.
     self.contentToAdd = {};
   }
 
-  // 'getPhoto()' opens the camera for picture taking and ...
+  // 'getPhoto()' opens the camera for picture taking or for the camera roll
+  // (determined by `sourceType` property).
   self.getPhoto = function (sourceType) {
-    console.log('GET PHOTO');
     Camera.getPicture({
       sourceType: sourceType,
       destinationType: navigator.camera.DestinationType.DATA_URL,
       targetHeight: 1500,
       targetWidth: 1500,
-      quality: 25 // set below 50 to avoid iOS memory errors
+      // Set below 50 to avoid iOS memory errors.
+      quality: 25
     })
     .then(
       function (image) {
         self.showLoading('Uploading...');
         Cloudinary.uploadImage(image)
           .success(function (response) {
-            console.log('SUCCESSFUL POST TO CLOUDINARY');
             self.hideLoading();
-            self.contentToAdd.imgURL = response.url; // could be secure_url if we need https
+            self.contentToAdd.imgURL = response.url;
             self.addContent();
           }).error(function(error) {
-            console.log('ERROR POSTING TO CLOUDINARY');
             console.error('getPhoto error', error);
-
             self.hideLoading();
           });
       },
@@ -130,8 +106,7 @@ angular.module('snapcache.detail.outbox', [])
       });
   };
 
-
-  // Show & hide loading spinner
+  // Show & hide loading spinner.
   self.showLoading = function(message) {
     $ionicLoading.show({
       template: '<ion-spinner></ion-spinner><div style="margin-top:5px">'+message+'</div>'
@@ -142,7 +117,7 @@ angular.module('snapcache.detail.outbox', [])
     $ionicLoading.hide();
   };
 
-  // Action sheet for selecting content to add
+  // Action sheet for selecting content to add (take photo or camera roll).
   self.showContentActionSheet = function () {
     var hideSheet = $ionicActionSheet.show({
       buttons: [
@@ -155,10 +130,8 @@ angular.module('snapcache.detail.outbox', [])
       },
       buttonClicked: function(index) {
         if (index === 0) {
-          console.log('Take Photo clicked');
           self.getPhoto(navigator.camera.PictureSourceType.CAMERA);
         } else if (index === 1) {
-          console.log('Choose from Library clicked');
           self.getPhoto(navigator.camera.PictureSourceType.PHOTOLIBRARY);
         }
         return true;
@@ -186,4 +159,24 @@ angular.module('snapcache.detail.outbox', [])
   $scope.$on('$destroy', function(){
     self.inviteModal.remove();
   });
+})
+
+.filter('cropImgUrl', function() {
+  // Cloudinary allows you to apply transformations before grabbing
+  // them. Here, we are getting a square (size x size) version of our
+  // image, retaining the original proportions (cropping the image).
+  //
+  // However, our image might come from an external source, such as
+  // giphy, so we need to check for that.
+  return function(url) {
+    if (url.indexOf('cloudinary') !== -1) {
+      var index = url.indexOf('/upload/') + 8;
+      var endIndex = url.indexOf('/', index);
+      var start = url.substr(0, index);
+      var end = url.substr(endIndex);
+      return start + 'w_' + 1000 + ',h_' + 1000 + ',c_fill' + end;
+    } else {
+      return url;
+    }
+  };
 });
